@@ -1,0 +1,30 @@
+﻿using System;
+
+namespace Shipeng.Util
+{
+    /// <summary>
+    /// Ajax请求结果
+    /// </summary>
+    public class AjaxResult
+    {
+        /// <summary>
+        /// 是否成功
+        /// </summary>
+        public bool Success { get; set; } = true;
+
+        /// <summary>
+        /// 错误代码
+        /// </summary>
+        public int ErrorCode { get; set; }
+
+        /// <summary>
+        /// 返回消息
+        /// </summary>
+        public string Msg { get; set; }
+
+        /// <summary>
+        /// 当前时间
+        /// </summary>
+        public DateTime DateTime { get; } = DateTime.Now;
+    }
+}

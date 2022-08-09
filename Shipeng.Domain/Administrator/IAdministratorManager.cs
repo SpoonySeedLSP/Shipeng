@@ -1,0 +1,26 @@
+﻿namespace Shipeng.Domain.Administrator
+{
+    public interface IAdministratorManager
+    {
+        /// <summary>
+        /// 账号登录
+        /// </summary>
+        /// <param name="adminName">管理员账号名</param>
+        /// <param name="password">登录密码</param>
+        /// <returns></returns>
+        Task<Entities.Administrator> LoginAsync(string adminName, string password);
+        /// <summary>
+        /// 更新管理员账号信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="adminName"></param>
+        /// <returns></returns>
+        Task<Entities.Administrator> UpdateAsync(Guid id, string adminName);
+        /// <summary>
+        /// 创建管理员账号
+        /// </summary>
+        /// <param name="adminName"></param>
+        /// <returns></returns>
+        Task<Entities.Administrator> CreateAsync(string adminName);
+    }
+}
