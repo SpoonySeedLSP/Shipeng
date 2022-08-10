@@ -53,7 +53,7 @@ namespace Shipeng.Hosting
         private void ConfigureCore(ServiceConfigurationContext context)
         {
             //注入网关基础配置
-            context.Services.Configure<ShipengGatewayOption>(context.Services.GetConfiguration().GetSection("KiteGateway"));
+            context.Services.Configure<ShipengGatewayOption>(context.Services.GetConfiguration().GetSection("ShipengGateway"));
             //白名单配置
             context.Services.Configure<List<WhitelistOption>>(opt => { });
             //中间件配置
@@ -173,7 +173,7 @@ namespace Shipeng.Hosting
                 {
                     var httpClientFactory = context.ServiceProvider.GetService<IHttpClientFactory>();
                     var httpClient = httpClientFactory.CreateClient();
-                    var configureResult =  httpClient.GetFromJsonAsync<ShipengResult<RefreshConfigureDto>>($"{options.Value.AdminServer}/api/kite/refresh/configure").Result;
+                    var configureResult =  httpClient.GetFromJsonAsync<ShipengResult<RefreshConfigureDto>>($"{options.Value.AdminServer}/api/Shipeng/refresh/configure").Result;
                     if (configureResult != null && configureResult.Code == 0)
                     {
                         var refreshAppService = context.ServiceProvider.GetService<IRefreshAppService>();

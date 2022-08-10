@@ -17,7 +17,7 @@ namespace Shipeng.Hosting.Controllers
         {
             _refreshAppService = refreshAppService;
         }
-        [HttpPost("/api/kite/refresh/configure")]
+        [HttpPost("/api/shipeng/refresh/configure")]
         public async Task<ShipengResult> ReloadConfigureAsync(RefreshConfigureDto refreshConfigure)
         {
             return await _refreshAppService.RefreshConfigureAsync(refreshConfigure);
