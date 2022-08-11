@@ -1,17 +1,26 @@
 ### .NET 6 基于Abp Vnext
 
- **介绍** 
+###  介绍
+
 基于ABP vNext开源框架的WebApi开发框架
- **软件架构** 
+ 
+
+### 软件架构
+ 
 .NET6
- **安装教程** 
+ 
+
+### 安装教程 
+
 1.建议使用VS2019启动
 2.配置.NET5.0 运行时
- **具备的基础设施** 
+###  具备的基础设施 
+
 1.多数据库支持 MySQL、SQLServer、Oracle、Sqlite、PostgreSql
 2.swagger分组
 3.日志面板地址：导航到 /logdashboard
- **CodeFisrt数据迁移** 
+###  CodeFisrt数据迁移
+ 
 1.找到项目中的 Shipeng.EntityFrameworkCore 层
 2.在程序包管理控制台执行 Add-Migration Init 生成迁移
 3.执行 Update-Database Init 还原数据库
