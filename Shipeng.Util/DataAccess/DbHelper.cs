@@ -1,15 +1,12 @@
 ﻿using EFCore.Sharding;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.IO;
 using System.Text;
 
 namespace Shipeng.Util
 {
     /// <summary>
-    /// 描述：数据库操作抽象帮助类 作者：Coldairarrow
+    /// 描述：数据库操作抽象帮助类 作者：lishipeng
     /// </summary>
     public abstract class DbHelper
     {

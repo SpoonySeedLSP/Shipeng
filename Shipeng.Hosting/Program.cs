@@ -11,6 +11,8 @@ builder.Host
           .WriteTo.Console()// 日志输出到控制台
           .MinimumLevel.Information()
           .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+          .WriteTo.Async(c => c.File("Logs/logs.log", rollingInterval: RollingInterval.Day, outputTemplate: "{Timestamp:HH:mm} ||{Level} || {SourceContext:l} || {Message} || {Exception} |end {NewLine}"))
+          .WriteTo.Async(c => c.Console())
           .CreateLogger();
          logBuilder.ClearProviders();
          logBuilder.AddSerilog(dispose: true);
@@ -29,8 +31,14 @@ builder.Services.Configure<FormOptions>(options =>
 });
 builder.Services.ReplaceConfiguration(builder.Configuration);//修正配置错误
 
-builder.Services.AddApplication<HostingModule>();
-var app = builder.Build();
-app.InitializeApplication();
-app.MapGet("/", context => context.Response.WriteAsync("hello world!!!"));
+Startup startup = new Startup(builder.Configuration);
+startup.ConfigureServices(builder.Services);
+WebApplication app = builder.Build();
+startup.Configure(app, app.Environment);
 app.Run();
+
+//builder.Services.AddApplication<HostingModule>();
+//var app = builder.Build();
+//app.InitializeApplication();
+//app.MapGet("/", context => context.Response.WriteAsync("hello world!!!"));
+//app.Run();

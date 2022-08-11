@@ -40,7 +40,7 @@ namespace Shipeng.EntityFrameworkCore
         private static IConfigurationRoot BuildConfiguration()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../Cloud.Code.DbMigrator/"))
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../Shipeng.DbMigrator/"))
                 .AddJsonFile("appsettings.json", optional: false);
 
             return builder.Build();

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Shipeng.Hosting</name>
+    </assembly>
+    <members>
+        <member name="M:Shipeng.Hosting.HostingModule.ConfigureCore(Volo.Abp.Modularity.ServiceConfigurationContext)">
+            <summary>
+            网关核心配置项
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Shipeng.Hosting.HostingModule.ConfigureMvc(Volo.Abp.Modularity.ServiceConfigurationContext)">
+            <summary>
+            MVC中间件注入配置
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Shipeng.Hosting.HostingModule.ConfigureReverseProxy(Volo.Abp.Modularity.ServiceConfigurationContext)">
+            <summary>
+            配置反向代理
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Shipeng.Hosting.HostingModule.ConfigureCors(Volo.Abp.Modularity.ServiceConfigurationContext)">
+            <summary>
+            跨域注入
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Shipeng.Hosting.HostingModule.LoadMainConfigureAsync(Volo.Abp.ApplicationInitializationContext)">
+            <summary>
+            加载基础配置项
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="F:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.version">
+            <summary>
+            当前API版本，从appsettings.json获取
+            </summary>
+        </member>
+        <member name="F:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.description">
+            <summary>
+            Swagger描述信息
+            </summary>
+        </member>
+        <member name="F:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.ApiInfos">
+            <summary>
+            Swagger分组信息，将进行遍历使用
+            </summary>
+        </member>
+        <member name="M:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.AddSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            AddSwagger
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.UseSwaggerUI(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            UseSwaggerUI
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="P:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.SwaggerApiInfo.UrlPrefix">
+            <summary>
+            URL前缀
+            </summary>
+        </member>
+        <member name="P:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.SwaggerApiInfo.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.SwaggerApiInfo.OpenApiInfo">
+            <summary>
+            <see cref="T:Microsoft.OpenApi.Models.OpenApiInfo"/>
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -19,14 +19,24 @@ using Shipeng.Application.Contracts;
 using Serilog;
 using Microsoft.AspNetCore.HttpOverrides;
 using Shipeng.Application;
+using Shipeng.HttpApi;
+using Volo.Abp.AspNetCore.MultiTenancy;
+using Shipeng.EntityFrameworkCore;
+using Volo.Abp.AspNetCore.Authentication.JwtBearer;
+using Volo.Abp.AspNetCore.Serilog;
 
 namespace Shipeng.Hosting
 {
     [DependsOn(
-         typeof(AbpAutofacModule),
-         typeof(ApplicationModule),
-         typeof(AbpSwashbuckleModule)
-     )]
+       typeof(HttpApiModule),
+       typeof(AbpAutofacModule),
+       typeof(AbpAspNetCoreMultiTenancyModule),
+       typeof(ApplicationModule),
+       //typeof(EntityFrameworkCoreModule),
+       typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
+       typeof(AbpAspNetCoreSerilogModule),
+       typeof(AbpSwashbuckleModule)
+   )]
     public class HostingModule:AbpModule
     {
         #region 中间件注入
@@ -46,6 +56,7 @@ namespace Shipeng.Hosting
             ConfigureMvc(context);
             ConfigureReverseProxy(context);
         }
+
         /// <summary>
         /// 网关核心配置项
         /// </summary>
@@ -70,6 +81,7 @@ namespace Shipeng.Hosting
                 opt.Routes = new List<RouteOption>();
             });
         }
+
         /// <summary>
         /// MVC中间件注入配置
         /// </summary>
@@ -93,6 +105,7 @@ namespace Shipeng.Hosting
             .AddJsonOptions(opt => { });
             Configure<AbpJsonOptions>(options => options.DefaultDateTimeFormat = "yyyy-MM-dd HH:mm:ss");
         }
+
         /// <summary>
         /// 配置反向代理
         /// </summary>
@@ -103,6 +116,7 @@ namespace Shipeng.Hosting
             context.Services.AddSingleton<IProxyConfigProvider, InDatabaseStoreConfigProvider>();
             context.Services.AddReverseProxy();
         }
+
         /// <summary>
         /// 跨域注入
         /// </summary>
