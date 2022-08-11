@@ -12,8 +12,10 @@
 
 ### 安装教程 
 
-1.建议使用VS2022启动
-2.配置.NET6.0 运行时
+
+1. 建议使用VS2022启动
+2. 配置.NET6.0 运行时
+
 ###  具备的基础设施 
 
 1.多数据库支持 MySQL、SQLServer、Oracle、Sqlite、PostgreSql
