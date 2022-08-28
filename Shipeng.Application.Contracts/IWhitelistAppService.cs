@@ -20,7 +20,7 @@ namespace Shipeng.Application.Contracts
         /// <param name="id">白名单ID</param>
         /// <param name="useState">状态</param>
         /// <returns></returns>
-        Task<ShipengResult> UpdateUseStateAsync(Guid id,bool useState);
+        Task<ShipengResult> UpdateUseStateAsync(Guid id, bool useState);
         /// <summary>
         /// 更新白名单数据
         /// </summary>

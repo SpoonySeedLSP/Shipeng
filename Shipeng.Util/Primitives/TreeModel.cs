@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// 树模型（可以作为父类）

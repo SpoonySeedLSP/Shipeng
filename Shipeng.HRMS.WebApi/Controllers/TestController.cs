@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 // 有关为空项目启用Web API的更多信息，请访问 https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,7 +9,7 @@ namespace Shipeng.HRMS.WebApi.Controllers
     /// 测试文件
     /// </summary>
     [Route("api/[controller]/[action]")]
-    [ApiExplorerSettings(GroupName ="V2")]
+    [ApiExplorerSettings(GroupName = "V2")]
     [ApiController]
     [LoginFilter]
     public class TestController : ControllerBase

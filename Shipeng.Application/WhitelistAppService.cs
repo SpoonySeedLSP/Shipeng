@@ -1,16 +1,16 @@
 ﻿using Mapster;
-using Volo.Abp.Domain.Repositories;
 using Shipeng.Application.Contracts;
+using Shipeng.Application.Contracts.Dtos.Whitelist;
 using Shipeng.Domain.Entities;
 using Shipeng.Domain.Whitelist;
-using Shipeng.Application.Contracts.Dtos.Whitelist;
+using Volo.Abp.Domain.Repositories;
 
 namespace Shipeng.Application
 {
     /// <summary>
     /// 
     /// </summary>
-    public class WhitelistAppService: BaseApplicationService, IWhitelistAppService
+    public class WhitelistAppService : BaseApplicationService, IWhitelistAppService
     {
         private readonly IWhiteListManager _whiteListManager;
         private readonly IRepository<Whitelist> _whiteListRepository;
@@ -66,8 +66,8 @@ namespace Shipeng.Application
 
         public async Task<ShipengResult> UpdateAsync(UpdateWhitelistDto updateWhiteList)
         {
-            var model =await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == updateWhiteList.Id);
-            if (model==null)
+            var model = await _whiteListRepository.FirstOrDefaultAsync(x => x.Id == updateWhiteList.Id);
+            if (model == null)
             {
                 ThrownFailed("白名单信息不存在");
             }

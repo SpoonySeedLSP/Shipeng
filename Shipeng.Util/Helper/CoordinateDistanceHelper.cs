@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shipeng.Util.Helper
+﻿namespace Shipeng.Util.Helper
 {
     public class CoordinateDistanceHelper
     {

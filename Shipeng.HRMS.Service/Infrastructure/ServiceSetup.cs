@@ -4,14 +4,14 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.AdoJobStore.Common;
 using Quartz.Spi;
+using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.HRMS.Service.AutoJob;
+using Shipeng.Util;
+using Shipeng.Util.DataBase;
 using SqlSugar;
 using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemOrganize;
-using Shipeng.HRMS.Service.AutoJob;
-using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service
 {
@@ -25,7 +25,7 @@ namespace Shipeng.HRMS.Service
         /// </summary>
         /// <param name="services"></param>
 		public static IServiceCollection AddSqlSugar(this IServiceCollection services)
-		{
+        {
             DBInitialize.GetConnectionConfigs(true);
             //注入数据库连接
             // 注册 SqlSugar
@@ -33,7 +33,8 @@ namespace Shipeng.HRMS.Service
             {
                 var configList = DBInitialize.GetConnectionConfigs();
                 var db = new SqlSugarClient(configList);
-                configList.ForEach(config => {
+                configList.ForEach(config =>
+                {
                     string temp = config.ConfigId;
                     db.GetConnection(temp).DefaultConfig();
                 });
@@ -147,7 +148,7 @@ namespace Shipeng.HRMS.Service
                         ["quartz.jobStore.dataSource"] = "myDS", // 配置数据源名称
                         ["quartz.jobStore.tablePrefix"] = "QRTZ_", // quartz所使用的表，在当前数据库中的表前缀
                         ["quartz.jobStore.driverDelegateType"] = "Quartz.Impl.AdoJobStore.MySQLDelegate, Quartz",  // 配置AdoJobStore使用的DriverDelegate
-                        ["quartz.dataSource.myDS.connectionString"] = GlobalContext. SystemConfig.DBConnectionString, // 配置数据库连接字符串，自己处理好连接字符串，我这里就直接这么写了
+                        ["quartz.dataSource.myDS.connectionString"] = GlobalContext.SystemConfig.DBConnectionString, // 配置数据库连接字符串，自己处理好连接字符串，我这里就直接这么写了
                         ["quartz.dataSource.myDS.provider"] = "mysql-custom", // 配置数据库提供程序（这里是自定义的，定义的代码在上面）
                         ["quartz.jobStore.lockHandler.type"] = "Quartz.Impl.AdoJobStore.UpdateLockRowSemaphore, Quartz",
                         ["quartz.serializer.type"] = "json",

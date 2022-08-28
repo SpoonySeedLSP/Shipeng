@@ -1,7 +1,7 @@
-﻿using Shipeng.Util;
-using Shipeng.HRMS.Domain.ContentManage;
-using SqlSugar;
+﻿using Shipeng.HRMS.Domain.ContentManage;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.ContentManage
 {
@@ -14,7 +14,7 @@ namespace Shipeng.HRMS.Service.ContentManage
     {
         public ArticleCategoryService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-        }   
+        }
         #region 获取数据
         public async Task<List<ArticleCategoryEntity>> GetList(string keyword = "")
         {
@@ -24,7 +24,7 @@ namespace Shipeng.HRMS.Service.ContentManage
                 //此处需修改
                 query = query.Where(a => a.F_FullName.Contains(keyword) || a.F_Description.Contains(keyword));
             }
-            return await query.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id,OrderByType.Desc).ToListAsync();
+            return await query.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
         public async Task<List<ArticleCategoryEntity>> GetLookList(string keyword = "")
@@ -32,13 +32,13 @@ namespace Shipeng.HRMS.Service.ContentManage
             var query = repository.IQueryable().Where(a => a.F_DeleteMark == false);
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(a =>a.F_FullName.Contains(keyword) || a.F_Description.Contains(keyword));
+                query = query.Where(a => a.F_FullName.Contains(keyword) || a.F_Description.Contains(keyword));
             }
-            query = GetDataPrivilege("a","", query);
+            query = GetDataPrivilege("a", "", query);
             return await query.OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
-        public async Task<List<ArticleCategoryEntity>> GetLookList(Pagination pagination,string keyword = "")
+        public async Task<List<ArticleCategoryEntity>> GetLookList(Pagination pagination, string keyword = "")
         {
             var query = repository.IQueryable().Where(a => a.F_DeleteMark == false);
             if (!string.IsNullOrEmpty(keyword))
@@ -46,7 +46,7 @@ namespace Shipeng.HRMS.Service.ContentManage
                 query = query.Where(a => a.F_FullName.Contains(keyword) || a.F_Description.Contains(keyword));
             }
             //权限过滤
-            query = GetDataPrivilege("a","", query);
+            query = GetDataPrivilege("a", "", query);
             return await query.ToPageListAsync(pagination);
         }
 
@@ -74,8 +74,8 @@ namespace Shipeng.HRMS.Service.ContentManage
             }
             else
             {
-                    //此处需修改
-                entity.Modify(keyValue); 
+                //此处需修改
+                entity.Modify(keyValue);
                 await repository.Update(entity);
             }
         }
@@ -83,7 +83,7 @@ namespace Shipeng.HRMS.Service.ContentManage
         public async Task DeleteForm(string keyValue)
         {
             var ids = keyValue.Split(',');
-            if (await repository.Db.Queryable<ArticleNewsEntity>().Where(a=> ids.Contains(a.F_CategoryId)).AnyAsync())
+            if (await repository.Db.Queryable<ArticleNewsEntity>().Where(a => ids.Contains(a.F_CategoryId)).AnyAsync())
             {
                 throw new Exception("新闻类别使用中，无法删除");
             }

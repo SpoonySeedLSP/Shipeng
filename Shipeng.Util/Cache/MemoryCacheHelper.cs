@@ -122,9 +122,9 @@ namespace Shipeng.Util
             if (key == null)
                 throw new ArgumentNullException(nameof(key));
             object temp;
-            if (Cache.TryGetValue(key,out temp))
+            if (Cache.TryGetValue(key, out temp))
             {
-               return temp.ToString().ToObject<T>();
+                return temp.ToString().ToObject<T>();
             }
             return default(T);
         }

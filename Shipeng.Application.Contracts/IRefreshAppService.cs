@@ -3,9 +3,9 @@ using Volo.Abp.Application.Services;
 
 namespace Shipeng.Application.Contracts
 {
-    public interface IRefreshAppService: IApplicationService
+    public interface IRefreshAppService : IApplicationService
     {
-        
+
         /// <summary>
         /// 刷新配置数据
         /// </summary>

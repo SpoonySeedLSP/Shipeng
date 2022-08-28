@@ -1,11 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.GZip;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Shipeng.Util
 {

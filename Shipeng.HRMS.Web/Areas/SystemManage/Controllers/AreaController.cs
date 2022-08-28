@@ -1,7 +1,7 @@
-using Shipeng.Util;
 using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
 {
@@ -14,7 +14,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeSelectJson()
         {
-            var data =await _areaService.GetList();
+            var data = await _areaService.GetList();
             //默认三级区域
             data = data.Where(a => a.F_Layers < 3).ToList();
             var treeList = new List<TreeSelectModel>();
@@ -33,14 +33,14 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         public async Task<ActionResult> GetSelectJson(string keyValue)
         {
             var data = await _areaService.GetList();
-            data = data.Where(a => a.F_ParentId== keyValue).ToList();
+            data = data.Where(a => a.F_ParentId == keyValue).ToList();
             return Content(data.ToJson());
         }
         [HttpGet]
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeGridJson(string keyword)
         {
-            var data =await _areaService.GetLookList();
+            var data = await _areaService.GetLookList();
             if (!string.IsNullOrEmpty(keyword))
             {
                 data = data.TreeWhere(t => t.F_FullName.Contains(keyword));
@@ -66,9 +66,9 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
                 result = data;
             }
             result = result.Where(t => t.F_ParentId == keyValue).ToList();
-            if (result.Count==0)
+            if (result.Count == 0)
             {
-                result= data.Where(t => t.F_ParentId == keyValue).ToList();
+                result = data.Where(t => t.F_ParentId == keyValue).ToList();
             }
             foreach (var item in result)
             {
@@ -80,20 +80,20 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _areaService.GetLookForm(keyValue);
+            var data = await _areaService.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
         [HandlerAjaxOnly]
         public async Task<ActionResult> SubmitForm(AreaEntity areaEntity, string keyValue)
         {
-            if (areaEntity.F_ParentId=="0")
+            if (areaEntity.F_ParentId == "0")
             {
                 areaEntity.F_Layers = 1;
             }
             else
             {
-                areaEntity.F_Layers =(await _areaService.GetForm(areaEntity.F_ParentId)).F_Layers + 1;
+                areaEntity.F_Layers = (await _areaService.GetForm(areaEntity.F_ParentId)).F_Layers + 1;
             }
             try
             {

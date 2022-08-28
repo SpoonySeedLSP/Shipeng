@@ -16,7 +16,7 @@ namespace Shipeng.Application.Contracts
        typeof(AbpTenantManagementApplicationContractsModule),
        typeof(AbpObjectExtendingModule)
    )]
-    public class ApplicationContractsModule:AbpModule
+    public class ApplicationContractsModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {

@@ -9,7 +9,7 @@ namespace Shipeng.Util.DataBase.Extensions
         private static string connstring = GlobalContext.SystemConfig.DBConnectionString;
         private static string dbType = GlobalContext.SystemConfig.DBProvider;
 
-        public static int ExecuteSqlCommand(string database,string backupPath)
+        public static int ExecuteSqlCommand(string database, string backupPath)
         {
             try
             {

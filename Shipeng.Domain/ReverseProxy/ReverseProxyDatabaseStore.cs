@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Primitives;
-using Yarp.ReverseProxy.Configuration;
-using Yarp.ReverseProxy.Health;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 using Shipeng.Domain.Shared.Options;
 using Volo.Abp.DependencyInjection;
+using Yarp.ReverseProxy.Configuration;
+using Yarp.ReverseProxy.Health;
 
 namespace Shipeng.Domain.ReverseProxy
 {

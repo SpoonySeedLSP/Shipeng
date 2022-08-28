@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// 异步转同步,防止ASP.NET中死锁 https://cpratt.co/async-tips-tricks/

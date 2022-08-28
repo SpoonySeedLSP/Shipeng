@@ -1,9 +1,9 @@
-﻿using Shipeng.Util;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
 using System.Reflection;
-using Microsoft.AspNetCore.Authorization;
 /// <summary>
 /// 登录验证
 /// </summary>

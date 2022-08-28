@@ -1,16 +1,16 @@
-﻿using System.Reflection;
-using System.Text;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Http;
 using Shipeng.Util.Model;
+using System.Reflection;
+using System.Text;
 
 namespace Shipeng.Util
 {
-	public class GlobalContext
+    public class GlobalContext
     {
         /// <summary>
         /// 服务集合
@@ -75,7 +75,7 @@ namespace Shipeng.Util
         /// <param name="serviceType"></param>
         /// <returns></returns>
         public static IServiceProvider GetServiceProvider(Type serviceType)
-		{
+        {
             if (HostingEnvironment == null)
             {
                 return RootServices;

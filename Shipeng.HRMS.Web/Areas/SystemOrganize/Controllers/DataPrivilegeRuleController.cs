@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
+using Newtonsoft.Json;
 using Shipeng.HRMS.Domain.SystemOrganize;
 using Shipeng.HRMS.Service.SystemOrganize;
-using Newtonsoft.Json;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
 {
@@ -12,7 +12,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
     /// 描 述：数据权限控制器类
     /// </summary>
     [Area("SystemOrganize")]
-    public class DataPrivilegeRuleController :  ControllerBase
+    public class DataPrivilegeRuleController : ControllerBase
     {
 
         public DataPrivilegeRuleService _service { get; set; }
@@ -56,14 +56,14 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         #region 提交数据
         [HttpPost]
         [HandlerAjaxOnly]
-        public async Task<ActionResult> SubmitForm(DataPrivilegeRuleEntity entity,string listData, string keyValue)
+        public async Task<ActionResult> SubmitForm(DataPrivilegeRuleEntity entity, string listData, string keyValue)
         {
             var filterList = JsonConvert.DeserializeObject<List<FilterList>>(listData);
             foreach (var item in filterList)
             {
                 if (!string.IsNullOrEmpty(item.Description))
                 {
-                    entity.F_Description += item.Description+",";
+                    entity.F_Description += item.Description + ",";
                 }
             }
             if (!string.IsNullOrEmpty(entity.F_Description))

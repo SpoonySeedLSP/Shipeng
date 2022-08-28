@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.SystemOrganize
 {
@@ -9,32 +9,32 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
     /// 描 述：数据权限实体类
     /// </summary>
     [SugarTable("sys_dataprivilegerule")]
-    public class DataPrivilegeRuleEntity : IEntity<DataPrivilegeRuleEntity>,ICreationAudited,IModificationAudited,IDeleteAudited
+    public class DataPrivilegeRuleEntity : IEntity<DataPrivilegeRuleEntity>, ICreationAudited, IModificationAudited, IDeleteAudited
     {
         /// <summary>
         /// 主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 模块Id
         /// </summary>
         /// <returns></returns>
         [Required(ErrorMessage = "模块不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_ModuleId",ColumnDataType = "nvarchar(50)", ColumnDescription = "模块Id", UniqueGroupNameList = new string[] { "sys_dataprivilegerule" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ModuleId", ColumnDataType = "nvarchar(50)", ColumnDescription = "模块Id", UniqueGroupNameList = new string[] { "sys_dataprivilegerule" })]
         public string F_ModuleId { get; set; }
         /// <summary>
         /// 模块编号
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ModuleCode",ColumnDataType = "nvarchar(50)", ColumnDescription = "模块编号")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ModuleCode", ColumnDataType = "nvarchar(50)", ColumnDescription = "模块编号")]
         public string F_ModuleCode { get; set; }
         /// <summary>
         /// 权限规则
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_PrivilegeRules",ColumnDataType = "longtext", ColumnDescription = "权限规则")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_PrivilegeRules", ColumnDataType = "longtext", ColumnDescription = "权限规则")]
         public string F_PrivilegeRules { get; set; }
         /// <summary>
         /// 排序
@@ -60,7 +60,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// 备注
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Description",ColumnDataType = "longtext", ColumnDescription = "备注")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Description", ColumnDataType = "longtext", ColumnDescription = "备注")]
         public string F_Description { get; set; }
         /// <summary>
         /// 创建时间
@@ -78,7 +78,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// 修改时间
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true,ColumnDescription = "修改时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "修改时间")]
         public DateTime? F_LastModifyTime { get; set; }
         /// <summary>
         /// 修改人Id

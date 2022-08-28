@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// 使用using代替lock操作的对象,可指定写入和读取锁定模式 参考:https://www.cnblogs.com/blqw/p/3475734.html

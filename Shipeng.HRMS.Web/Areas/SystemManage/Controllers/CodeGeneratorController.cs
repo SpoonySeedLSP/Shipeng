@@ -1,13 +1,13 @@
-using System.Web;
-using System.Data;
 using Microsoft.AspNetCore.Mvc;
-using Shipeng.HRMS.Domain;
-using Shipeng.Util;
-using Shipeng.HRMS.Service;
-using SqlSugar;
-using Shipeng.Util.DataBase;
-using DbTableInfo = SqlSugar.DbTableInfo;
 using Shipeng.HRMS.CodeGenerator;
+using Shipeng.HRMS.Domain;
+using Shipeng.HRMS.Service;
+using Shipeng.Util;
+using Shipeng.Util.DataBase;
+using SqlSugar;
+using System.Data;
+using System.Web;
+using DbTableInfo = SqlSugar.DbTableInfo;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
 {
@@ -42,7 +42,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         #region 获取数据
         [HttpGet]
         [HandlerAjaxOnly]
-        public ActionResult GetTablePageListJson(Pagination pagination, string keyword,string dbNumber)
+        public ActionResult GetTablePageListJson(Pagination pagination, string keyword, string dbNumber)
         {
             //导出全部页使用
             if (pagination.rows == 0 && pagination.page == 0)
@@ -62,7 +62,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         }
         [HttpGet]
         [HandlerAjaxOnly]
-        public ActionResult GetTableJson(string keyword,string dbNumber)
+        public ActionResult GetTableJson(string keyword, string dbNumber)
         {
             List<DbTableInfo> data = _service.GetTableList(keyword, dbNumber);
             return Content(data.ToJson());
@@ -94,7 +94,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public ActionResult GetTableFieldSelectJson(string keyValue, string dbNumber)
         {
-            List<DbColumnInfo> data = _service.GetTableFieldList(keyValue,dbNumber);
+            List<DbColumnInfo> data = _service.GetTableFieldList(keyValue, dbNumber);
             List<object> list = new List<object>();
             foreach (var item in data)
             {
@@ -212,7 +212,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         }
         [HttpPost]
         [HandlerAjaxOnly]
-        public async Task<ActionResult> EntityCodeGenerateJson(BaseConfigModel baseConfig, string keyValue,string dbNumber)
+        public async Task<ActionResult> EntityCodeGenerateJson(BaseConfigModel baseConfig, string keyValue, string dbNumber)
         {
             try
             {
@@ -226,7 +226,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
                     SingleTableTemplate template = new SingleTableTemplate(_unitOfWork.GetDbClient());
                     DataTable dt = DataTableHelper.ListToDataTable(list);  // 用DataTable类型，避免依赖
                     string idcolumn = list.FirstOrDefault(a => a.IsPrimarykey == true)?.DbColumnName;
-                    string codeEntity = template.BuildEntity(baseConfig, dt, idcolumn,true);
+                    string codeEntity = template.BuildEntity(baseConfig, dt, idcolumn, true);
                     await template.EntityCreateCode(baseConfig, codeEntity);
                 }
                 return await Success("操作成功。", "", "");

@@ -1,10 +1,10 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Shipeng.Util;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Shipeng.HRMS.WebApi
 {

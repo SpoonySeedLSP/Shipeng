@@ -1,12 +1,12 @@
 using Shipeng.HRMS.Domain.SystemManage;
-using Shipeng.Util;
-using SqlSugar;
 using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemManage
 {
-    public class QuickModuleService:DataFilterService<QuickModuleEntity> ,IDenpendency
+    public class QuickModuleService : DataFilterService<QuickModuleEntity>, IDenpendency
     {
         public QuickModuleService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -22,7 +22,7 @@ namespace Shipeng.HRMS.Service.SystemManage
                 roleId = "admin";
             }
             var rolelist = roleId.Split(',');
-            var modulelist = repository.Db.Queryable<RoleAuthorizeEntity,ModuleEntity>((a,b)=>new JoinQueryInfos(
+            var modulelist = repository.Db.Queryable<RoleAuthorizeEntity, ModuleEntity>((a, b) => new JoinQueryInfos(
                 JoinType.Inner, a.F_ItemId == b.F_Id && b.F_IsMenu == true
 
                 )).Where(a => roleId.Contains(a.F_ObjectId) && a.F_ItemType == 1).Select(a => a.F_ItemId).ToList();
@@ -111,8 +111,8 @@ namespace Shipeng.HRMS.Service.SystemManage
                             icon = module.F_Icon
                         });
                     }
-					else
-					{
+                    else
+                    {
                         await repository.Delete(a => a.F_Id == item.F_Id);
                     }
                 }

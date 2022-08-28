@@ -1,29 +1,28 @@
-﻿using Volo.Abp;
-using Volo.Abp.AspNetCore.Mvc;
-using Volo.Abp.Autofac;
-using Volo.Abp.Modularity;
-using Volo.Abp.Swashbuckle;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.AspNetCore.Mvc.Validation;
-using Volo.Abp.AspNetCore.Mvc.ExceptionHandling;
-using Shipeng.Hosting.Filters;
-using Volo.Abp.Json;
-using Yarp.ReverseProxy.Configuration;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Shipeng.Application;
+using Shipeng.Application.Contracts;
+using Shipeng.Application.Contracts.Dtos;
 using Shipeng.Domain.ReverseProxy;
 using Shipeng.Domain.Shared.Options;
+using Shipeng.Hosting.Filters;
 using Shipeng.Hosting.Middlewares;
-using Microsoft.Extensions.Options;
-using Shipeng.Application.Contracts.Dtos;
-using Shipeng.Application.Contracts;
-using Serilog;
-using Microsoft.AspNetCore.HttpOverrides;
-using Shipeng.Application;
 using Shipeng.HttpApi;
-using Volo.Abp.AspNetCore.MultiTenancy;
-using Shipeng.EntityFrameworkCore;
+using Volo.Abp;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
+using Volo.Abp.AspNetCore.MultiTenancy;
+using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.ExceptionHandling;
+using Volo.Abp.AspNetCore.Mvc.Validation;
 using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.Autofac;
+using Volo.Abp.Json;
+using Volo.Abp.Modularity;
+using Volo.Abp.Swashbuckle;
+using Yarp.ReverseProxy.Configuration;
 
 namespace Shipeng.Hosting
 {
@@ -37,7 +36,7 @@ namespace Shipeng.Hosting
        typeof(AbpAspNetCoreSerilogModule),
        typeof(AbpSwashbuckleModule)
    )]
-    public class HostingModule:AbpModule
+    public class HostingModule : AbpModule
     {
         #region 中间件注入
         public override void ConfigureServices(ServiceConfigurationContext context)
@@ -76,7 +75,7 @@ namespace Shipeng.Hosting
             });
             context.Services.Configure<TokenValidationParameters>(opt => { });
             //Yarp反向代理配置
-            context.Services.Configure<YarpOption>(opt => 
+            context.Services.Configure<YarpOption>(opt =>
             {
                 opt.Routes = new List<RouteOption>();
             });
@@ -140,7 +139,7 @@ namespace Shipeng.Hosting
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
-            
+
             LoadMainConfigureAsync(context);
             //
             var app = context.GetApplicationBuilder();
@@ -158,11 +157,11 @@ namespace Shipeng.Hosting
             app.UseForwardedHeaders();
             app.UseCors();
             app.UseRouting();
-           
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                
+
                 endpoints.MapReverseProxy(proxyPipeline =>
                 {
                     proxyPipeline.UseMiddleware<ShipengAuthorizationMiddleware>();
@@ -187,13 +186,13 @@ namespace Shipeng.Hosting
                 {
                     var httpClientFactory = context.ServiceProvider.GetService<IHttpClientFactory>();
                     var httpClient = httpClientFactory.CreateClient();
-                    var configureResult =  httpClient.GetFromJsonAsync<ShipengResult<RefreshConfigureDto>>($"{options.Value.AdminServer}/api/Shipeng/refresh/configure").Result;
+                    var configureResult = httpClient.GetFromJsonAsync<ShipengResult<RefreshConfigureDto>>($"{options.Value.AdminServer}/api/Shipeng/refresh/configure").Result;
                     if (configureResult != null && configureResult.Code == 0)
                     {
                         var refreshAppService = context.ServiceProvider.GetService<IRefreshAppService>();
                         if (refreshAppService != null)
                         {
-                           var res= configureResult.Data==null ? null : refreshAppService.RefreshConfigureAsync(configureResult.Data).Result;
+                            var res = configureResult.Data == null ? null : refreshAppService.RefreshConfigureAsync(configureResult.Data).Result;
                         }
                     }
                 }

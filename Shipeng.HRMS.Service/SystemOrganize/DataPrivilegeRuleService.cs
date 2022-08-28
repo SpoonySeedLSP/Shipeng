@@ -1,8 +1,8 @@
-﻿using Shipeng.Util;
+﻿using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using Shipeng.HRMS.Domain.SystemManage;
-using SqlSugar;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemOrganize
 {
@@ -11,22 +11,22 @@ namespace Shipeng.HRMS.Service.SystemOrganize
     /// 日 期：2022-08-27 23:36
     /// 描 述：数据权限服务类
     /// </summary>
-    public class DataPrivilegeRuleService : DataFilterService<DataPrivilegeRuleEntity>,IDenpendency
+    public class DataPrivilegeRuleService : DataFilterService<DataPrivilegeRuleEntity>, IDenpendency
     {
         public DataPrivilegeRuleService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
         //获取类名
-        
+
         #region 获取数据
         public async Task<List<DataPrivilegeRuleEntity>> GetList(string keyword = "")
         {
-            var list =  repository.IQueryable();
+            var list = repository.IQueryable();
             if (!string.IsNullOrEmpty(keyword))
             {
                 list = list.Where(a => a.F_ModuleCode.Contains(keyword) || a.F_Description.Contains(keyword));
             }
-            return await list.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id,OrderByType.Desc).ToListAsync();
+            return await list.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
         public async Task<List<DataPrivilegeRuleEntity>> GetLookList(SoulPage<DataPrivilegeRuleEntity> pagination, string keyword = "")
@@ -71,7 +71,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             }
             else
             {
-                entity.Modify(keyValue); 
+                entity.Modify(keyValue);
                 await repository.Update(entity);
             }
         }

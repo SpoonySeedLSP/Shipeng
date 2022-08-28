@@ -1,5 +1,5 @@
-﻿using Volo.Abp.Domain.Services;
-using Volo.Abp.Domain.Repositories;
+﻿using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Services;
 
 namespace Shipeng.Domain.Node
 {

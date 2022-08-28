@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
-using Shipeng.Domain.Shared.Options;
-using Shipeng.Domain.Shared.Enums;
 using Shipeng.Domain.Middlewares;
+using Shipeng.Domain.Shared.Enums;
+using Shipeng.Domain.Shared.Options;
 using System.Text;
 
 namespace Shipeng.Hosting.Middlewares
@@ -55,7 +55,7 @@ namespace Shipeng.Hosting.Middlewares
                 }
                 foreach (var item in context.Items)
                 {
-                    httpClient.DefaultRequestHeaders.Add(Convert.ToString(item.Key)??"", item.Value?.ToString());
+                    httpClient.DefaultRequestHeaders.Add(Convert.ToString(item.Key) ?? "", item.Value?.ToString());
                 }
                 var response = await httpClient.PostAsync(middleware.Server, null);
                 var responseContent = await response.Content.ReadAsStringAsync();

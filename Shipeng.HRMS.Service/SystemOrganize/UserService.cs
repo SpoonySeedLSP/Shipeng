@@ -1,9 +1,9 @@
-﻿using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemOrganize;
-using SqlSugar;
-using Shipeng.HRMS.Service.SystemSecurity;
+﻿using Shipeng.HRMS.Domain.SystemOrganize;
 using Shipeng.HRMS.Domain.SystemSecurity;
+using Shipeng.HRMS.Service.SystemSecurity;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemOrganize
 {
@@ -38,7 +38,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             var query = GetQuery().Where(a => a.F_IsAdmin == false);
             if (!string.IsNullOrEmpty(keyword))
             {
-                query = query.Where(a => a.F_Account.Contains(keyword) || a.F_RealName.Contains(keyword)||a.F_MobilePhone.Contains(keyword));
+                query = query.Where(a => a.F_Account.Contains(keyword) || a.F_RealName.Contains(keyword) || a.F_MobilePhone.Contains(keyword));
             }
             query = GetDataPrivilege("a", "", query);
             var data = await query.ToPageListAsync(pagination);
@@ -74,49 +74,49 @@ namespace Shipeng.HRMS.Service.SystemOrganize
         }
         private ISugarQueryable<UserExtend> GetQuery()
         {
-            var query = repository.Db.Queryable<UserEntity, RoleEntity, SystemSetEntity>((a,b,c)=>new JoinQueryInfos(
+            var query = repository.Db.Queryable<UserEntity, RoleEntity, SystemSetEntity>((a, b, c) => new JoinQueryInfos(
                 JoinType.Left, a.F_DutyId == b.F_Id,
                 JoinType.Left, a.F_OrganizeId == c.F_Id
                 )).Where(a => a.F_DeleteMark == false)
-                .Select((a, b,c) => new UserExtend
+                .Select((a, b, c) => new UserExtend
                 {
                     F_Id = a.F_Id,
-                    F_IsSenior=a.F_IsSenior,
-                    F_SecurityLevel=a.F_SecurityLevel,
-                    F_Account=a.F_Account,
-                    F_DingTalkAvatar=a.F_DingTalkAvatar,
-                    F_IsAdmin=a.F_IsAdmin,
-                    F_Birthday=a.F_Birthday,
-                    F_CompanyName=c.F_CompanyName,
-                    F_CreatorTime=a.F_CreatorTime,
-                    F_CreatorUserId=a.F_CreatorUserId,  
-                    F_DepartmentId=a.F_DepartmentId,
-                    F_Description=a.F_Description,
-                    F_DingTalkUserId=a.F_DingTalkUserId,
-                    F_DingTalkUserName=a.F_DingTalkUserName,
-                    F_DutyId=a.F_DutyId,
-                    F_DutyName=b.F_FullName,
-                    F_Email=a.F_Email,
-                    F_EnabledMark=a.F_EnabledMark,
-                    F_Gender=a.F_Gender,
-                    F_HeadIcon=a.F_HeadIcon,
-                    F_HeadImgUrl=a.F_HeadImgUrl,
-                    F_IsBoss=a.F_IsBoss,
-                    F_IsLeaderInDepts=a.F_IsLeaderInDepts,
-                    F_ManagerId=a.F_ManagerId,
-                    F_MobilePhone=a.F_MobilePhone,
-                    F_NickName=a.F_NickName,
-                    F_OrganizeId=a.F_OrganizeId,
-                    F_RealName=a.F_RealName,
-                    F_Remark=a.F_RealName,
-                    F_RoleId=a.F_RoleId,
-                    F_Signature=a.F_Signature,
-                    F_SortCode=a.F_SortCode,
-                    F_WeChat=a.F_WeChat,
-                    F_WxNickName=a.F_WxNickName,
-                    F_WxOpenId=a.F_WxOpenId,
-                    F_DepartmentName="",
-                    F_RoleName=""
+                    F_IsSenior = a.F_IsSenior,
+                    F_SecurityLevel = a.F_SecurityLevel,
+                    F_Account = a.F_Account,
+                    F_DingTalkAvatar = a.F_DingTalkAvatar,
+                    F_IsAdmin = a.F_IsAdmin,
+                    F_Birthday = a.F_Birthday,
+                    F_CompanyName = c.F_CompanyName,
+                    F_CreatorTime = a.F_CreatorTime,
+                    F_CreatorUserId = a.F_CreatorUserId,
+                    F_DepartmentId = a.F_DepartmentId,
+                    F_Description = a.F_Description,
+                    F_DingTalkUserId = a.F_DingTalkUserId,
+                    F_DingTalkUserName = a.F_DingTalkUserName,
+                    F_DutyId = a.F_DutyId,
+                    F_DutyName = b.F_FullName,
+                    F_Email = a.F_Email,
+                    F_EnabledMark = a.F_EnabledMark,
+                    F_Gender = a.F_Gender,
+                    F_HeadIcon = a.F_HeadIcon,
+                    F_HeadImgUrl = a.F_HeadImgUrl,
+                    F_IsBoss = a.F_IsBoss,
+                    F_IsLeaderInDepts = a.F_IsLeaderInDepts,
+                    F_ManagerId = a.F_ManagerId,
+                    F_MobilePhone = a.F_MobilePhone,
+                    F_NickName = a.F_NickName,
+                    F_OrganizeId = a.F_OrganizeId,
+                    F_RealName = a.F_RealName,
+                    F_Remark = a.F_RealName,
+                    F_RoleId = a.F_RoleId,
+                    F_Signature = a.F_Signature,
+                    F_SortCode = a.F_SortCode,
+                    F_WeChat = a.F_WeChat,
+                    F_WxNickName = a.F_WxNickName,
+                    F_WxOpenId = a.F_WxOpenId,
+                    F_DepartmentName = "",
+                    F_RoleName = ""
                 }).MergeTable();
             return query;
         }
@@ -132,7 +132,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             {
                 query = query.Where(a => a.F_Account.Contains(keyword) || a.F_RealName.Contains(keyword) || a.F_MobilePhone.Contains(keyword));
             }
-            return await query.Where(a => a.F_EnabledMark ==true && a.F_DeleteMark == false).OrderBy(a => a.F_Account).ToListAsync();
+            return await query.Where(a => a.F_EnabledMark == true && a.F_DeleteMark == false).OrderBy(a => a.F_Account).ToListAsync();
         }
 
         public async Task<UserEntity> GetForm(string keyValue)
@@ -188,9 +188,9 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             else
             {
                 userEntity.Create();
-                userLogOnEntity.F_Id= Utils.GuId();
+                userLogOnEntity.F_Id = Utils.GuId();
                 userLogOnEntity.F_UserId = userEntity.F_Id;
-                 userLogOnEntity.F_ErrorNum = 0;
+                userLogOnEntity.F_ErrorNum = 0;
                 userLogOnEntity.F_UserOnLine = false;
                 userLogOnEntity.F_LogOnCount = 0;
             }
@@ -226,11 +226,11 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             if (GlobalContext.SystemConfig.SqlMode == Define.SQL_TENANT)
             {
                 unitofwork.GetDbClient().ChangeDatabase(GlobalContext.SystemConfig.MainDbNumber);
-                var setTemp=(await syssetApp.GetList()).Where(a=> localurl.Contains(a.F_HostUrl)).FirstOrDefault();
-                if (setTemp!=null)
+                var setTemp = (await syssetApp.GetList()).Where(a => localurl.Contains(a.F_HostUrl)).FirstOrDefault();
+                if (setTemp != null)
                 {
-					if (setTemp.F_EndTime<DateTime.Now.Date)
-					{
+                    if (setTemp.F_EndTime < DateTime.Now.Date)
+                    {
                         throw new Exception("租户已到期，请联系供应商");
                     }
                     unitofwork.GetDbClient().ChangeDatabase(setTemp.F_DbNumber);
@@ -239,18 +239,18 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             if (!(await CheckIP()))
             {
                 throw new Exception("IP受限");
-			}
-            UserEntity userEntity =await unitofwork.GetDbClient().Queryable<UserEntity>().SingleAsync(a => a.F_Account == username);
+            }
+            UserEntity userEntity = await unitofwork.GetDbClient().Queryable<UserEntity>().SingleAsync(a => a.F_Account == username);
             if (userEntity != null)
             {
                 if (userEntity.F_EnabledMark == true)
                 {
                     //缓存用户账户信息
-                    var userLogOnEntity=await CacheHelper.GetAsync<OperatorUserInfo>(cacheKeyOperator + "info_" + userEntity.F_Id);
-                    if (userLogOnEntity==null)
+                    var userLogOnEntity = await CacheHelper.GetAsync<OperatorUserInfo>(cacheKeyOperator + "info_" + userEntity.F_Id);
+                    if (userLogOnEntity == null)
                     {
                         userLogOnEntity = new OperatorUserInfo();
-                        UserLogOnEntity entity =await unitofwork.GetDbClient().Queryable<UserLogOnEntity>().InSingleAsync(userEntity.F_Id);
+                        UserLogOnEntity entity = await unitofwork.GetDbClient().Queryable<UserLogOnEntity>().InSingleAsync(userEntity.F_Id);
                         userLogOnEntity.F_UserPassword = entity.F_UserPassword;
                         userLogOnEntity.F_UserSecretkey = entity.F_UserSecretkey;
                         userLogOnEntity.F_AllowEndTime = entity.F_AllowEndTime;
@@ -277,7 +277,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                         if (userEntity.F_IsAdmin != true)
                         {
                             var list = userEntity.F_RoleId.Split(',');
-                            var rolelist = unitofwork.GetDbClient().Queryable<RoleEntity>().Where(a=>list.Contains(a.F_Id)&&a.F_EnabledMark==true).ToList();
+                            var rolelist = unitofwork.GetDbClient().Queryable<RoleEntity>().Where(a => list.Contains(a.F_Id) && a.F_EnabledMark == true).ToList();
                             if (!rolelist.Any())
                             {
                                 throw new Exception("账户未设置权限,请联系管理员");
@@ -314,7 +314,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                             ipentity.F_Type = false;
                             //默认封禁12小时
                             ipentity.F_EndTime = DateTime.Now.AddHours(12);
-                            await ipApp.SubmitForm(ipentity,null);
+                            await ipApp.SubmitForm(ipentity, null);
                             await OperatorProvider.Provider.ClearCurrentErrorNum();
                             throw new Exception("密码不正确，IP被锁定");
                         }

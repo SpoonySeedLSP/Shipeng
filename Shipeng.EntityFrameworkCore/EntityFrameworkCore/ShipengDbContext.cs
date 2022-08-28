@@ -1,5 +1,5 @@
-﻿using Shipeng.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Shipeng.Domain.Entities;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace Shipeng.EntityFrameworkCore

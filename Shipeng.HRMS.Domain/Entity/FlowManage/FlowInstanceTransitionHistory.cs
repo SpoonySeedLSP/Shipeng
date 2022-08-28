@@ -3,16 +3,16 @@
 namespace Shipeng.HRMS.Domain.FlowManage
 {
     /// <summary>
-	/// 工作流实例流转历史记录
-	/// </summary>
-      [SugarTable("oms_flowinstancehis")]
+    /// 工作流实例流转历史记录
+    /// </summary>
+    [SugarTable("oms_flowinstancehis")]
     public class FlowInstanceTransitionHistory
     {
         /// <summary>
         /// 主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 实例Id
@@ -22,7 +22,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// <summary>
 	    /// 开始节点Id
 	    /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_FromNodeId",ColumnDataType = "nvarchar(50)", ColumnDescription = "开始节点Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_FromNodeId", ColumnDataType = "nvarchar(50)", ColumnDescription = "开始节点Id")]
         public string F_FromNodeId { get; set; }
         /// <summary>
 	    /// 开始节点类型
@@ -37,7 +37,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// <summary>
 	    /// 结束节点Id
 	    /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ToNodeId",ColumnDataType = "nvarchar(50)", ColumnDescription = "结束节点Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ToNodeId", ColumnDataType = "nvarchar(50)", ColumnDescription = "结束节点Id")]
         public string F_ToNodeId { get; set; }
         /// <summary>
 	    /// 结束节点类型
@@ -57,7 +57,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// <summary>
 	    /// 是否结束
 	    /// </summary>
-        [SugarColumn(IsNullable = false,ColumnDescription = "是否结束")]
+        [SugarColumn(IsNullable = false, ColumnDescription = "是否结束")]
         public bool F_IsFinish { get; set; }
         /// <summary>
 	    /// 转化时间

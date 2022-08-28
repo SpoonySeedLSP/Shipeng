@@ -9,18 +9,18 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 用户Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_UserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "用户Id", UniqueGroupNameList = new string[] { "sys_userlogon" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_UserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "用户Id", UniqueGroupNameList = new string[] { "sys_userlogon" })]
         public string F_UserId { get; set; }
         /// <summary>
         /// 用户密码
         /// </summary>
         [Required(ErrorMessage = "密码不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_UserPassword",ColumnDataType = "nvarchar(50)", ColumnDescription = "用户密码")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_UserPassword", ColumnDataType = "nvarchar(50)", ColumnDescription = "用户密码")]
         public string F_UserPassword { get; set; }
         /// <summary>
         /// 用户密钥
@@ -30,12 +30,12 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 登录开始时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "登录开始时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "登录开始时间")]
         public DateTime? F_AllowStartTime { get; set; }
         /// <summary>
         /// 登录结束时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "登录结束时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "登录结束时间")]
         public DateTime? F_AllowEndTime { get; set; }
         /// <summary>
         /// 锁定开始时间
@@ -50,7 +50,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 第一次访问时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "第一次访问时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "第一次访问时间")]
         public DateTime? F_FirstVisitTime { get; set; }
         /// <summary>
         /// 上一次访问时间
@@ -85,12 +85,12 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 密保问题
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Question",ColumnDataType = "nvarchar(50)", ColumnDescription = "密保问题")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Question", ColumnDataType = "nvarchar(50)", ColumnDescription = "密保问题")]
         public string F_Question { get; set; }
         /// <summary>
         /// 密保答案
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_AnswerQuestion",ColumnDataType = "longtext", ColumnDescription = "密保答案")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_AnswerQuestion", ColumnDataType = "longtext", ColumnDescription = "密保答案")]
         public string F_AnswerQuestion { get; set; }
         /// <summary>
         /// 是否校验登录IP

@@ -1,6 +1,6 @@
-﻿using Shipeng.Domain.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Shipeng.Domain.Data;
 using Volo.Abp.DependencyInjection;
 
 namespace Shipeng.EntityFrameworkCore

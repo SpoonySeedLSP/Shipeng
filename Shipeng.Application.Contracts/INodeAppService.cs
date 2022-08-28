@@ -3,7 +3,7 @@ using Volo.Abp.Application.Services;
 
 namespace Shipeng.Application.Contracts
 {
-    public interface INodeAppService:IApplicationService
+    public interface INodeAppService : IApplicationService
     {
         /// <summary>
         /// 获取所有节点数据

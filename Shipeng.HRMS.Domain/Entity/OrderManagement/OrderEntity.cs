@@ -8,12 +8,12 @@ namespace Shipeng.HRMS.Domain.OrderManagement
     /// 描 述：订单管理实体类
     /// </summary>
     [SugarTable("crm_order")]
-    public class OrderEntity : IEntity<OrderEntity>,ICreationAudited,IModificationAudited,IDeleteAudited
+    public class OrderEntity : IEntity<OrderEntity>, ICreationAudited, IModificationAudited, IDeleteAudited
     {
         /// <summary>
         /// 主键
         /// </summary>
-        [SugarColumn(ColumnName="F_Id", IsPrimaryKey = true)]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true)]
         public string F_Id { get; set; }
         /// <summary>
         /// 订单编号

@@ -1,7 +1,7 @@
-﻿using Shipeng.HRMS.Service.SystemManage;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemManage;
-using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
 {
@@ -14,7 +14,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeSelectJson()
         {
-            var data =await _service.GetList();
+            var data = await _service.GetList();
             data = data.Where(a => a.F_Layers == 1).ToList();
             var treeList = new List<TreeSelectModel>();
             foreach (ItemsEntity item in data)
@@ -31,7 +31,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeJson()
         {
-            var data =await _service.GetList();
+            var data = await _service.GetList();
             var treeList = new List<TreeViewModel>();
             foreach (ItemsEntity item in data)
             {
@@ -52,7 +52,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeGridJson(string keyword)
         {
-            var data =await _service.GetLookList();
+            var data = await _service.GetLookList();
             if (!string.IsNullOrEmpty(keyword))
             {
                 data = data.TreeWhere(t => t.F_FullName.Contains(keyword));
@@ -73,7 +73,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetGridJson(string keyword)
         {
-            var data =await _service.GetLookList();
+            var data = await _service.GetLookList();
             if (!string.IsNullOrEmpty(keyword))
             {
                 data = data.TreeWhere(t => t.F_FullName.Contains(keyword));
@@ -84,7 +84,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
@@ -99,7 +99,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
                 }
                 else
                 {
-                    itemsEntity.F_Layers =(await _service.GetForm(itemsEntity.F_ParentId)).F_Layers + 1;
+                    itemsEntity.F_Layers = (await _service.GetForm(itemsEntity.F_ParentId)).F_Layers + 1;
                 }
                 await _service.SubmitForm(itemsEntity, keyValue);
                 return await Success("操作成功。", "", keyValue);

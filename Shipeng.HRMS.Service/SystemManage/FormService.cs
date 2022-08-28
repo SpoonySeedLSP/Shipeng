@@ -1,8 +1,8 @@
-﻿using Shipeng.Util;
-using SqlSugar;
-using Shipeng.HRMS.Domain.SystemManage;
+﻿using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemManage
 {
@@ -27,7 +27,7 @@ namespace Shipeng.HRMS.Service.SystemManage
             return await query.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
-        public async Task<List<FormEntity>> GetLookList(string ItemId="", string keyword = "")
+        public async Task<List<FormEntity>> GetLookList(string ItemId = "", string keyword = "")
         {
             var query = GetQuery().Where(a => a.F_DeleteMark == false);
             if (!string.IsNullOrEmpty(ItemId))
@@ -42,7 +42,7 @@ namespace Shipeng.HRMS.Service.SystemManage
             return await query.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
-        public async Task<List<FormEntity>> GetLookList(Pagination pagination,string keyword = "")
+        public async Task<List<FormEntity>> GetLookList(Pagination pagination, string keyword = "")
         {
             //获取数据权限
             var query = GetQuery().Where(a => a.F_DeleteMark == false);
@@ -55,8 +55,8 @@ namespace Shipeng.HRMS.Service.SystemManage
         }
         private ISugarQueryable<FormEntity> GetQuery()
         {
-            var query = repository.Db.Queryable<FormEntity, OrganizeEntity>((a,b)=>new JoinQueryInfos(
-                    JoinType.Left,a.F_OrganizeId==b.F_Id            
+            var query = repository.Db.Queryable<FormEntity, OrganizeEntity>((a, b) => new JoinQueryInfos(
+                    JoinType.Left, a.F_OrganizeId == b.F_Id
                 ))
                 .Select((a, b) => new FormEntity
                 {
@@ -80,10 +80,10 @@ namespace Shipeng.HRMS.Service.SystemManage
         #region 提交数据
         public async Task SubmitForm(FormEntity entity, string keyValue)
         {
-            if (entity.F_FrmType!=1)
+            if (entity.F_FrmType != 1)
             {
                 var temp = FormUtil.SetValue(entity.F_Content);
-                entity.F_ContentData =string.Join(',', temp.ToArray()) ;
+                entity.F_ContentData = string.Join(',', temp.ToArray());
                 entity.F_Fields = temp.Count();
             }
             else
@@ -101,8 +101,8 @@ namespace Shipeng.HRMS.Service.SystemManage
             }
             else
             {
-                    //此处需修改
-                entity.Modify(keyValue); 
+                //此处需修改
+                entity.Modify(keyValue);
                 await repository.Update(entity);
             }
         }

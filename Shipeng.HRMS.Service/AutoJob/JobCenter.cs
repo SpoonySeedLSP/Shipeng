@@ -1,11 +1,11 @@
-using SqlSugar;
 using Microsoft.Extensions.Hosting;
 using Quartz;
+using Quartz.Impl.Triggers;
 using Quartz.Spi;
 using Shipeng.HRMS.Domain.SystemSecurity;
 using Shipeng.HRMS.Service.SystemSecurity;
-using Quartz.Impl.Triggers;
 using Shipeng.Util;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.AutoJob
 {
@@ -45,8 +45,8 @@ namespace Shipeng.HRMS.Service.AutoJob
         {
             _scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
             _scheduler.JobFactory = _jobFactory;
-			if (GlobalContext.SystemConfig.IsCluster == false || GlobalContext.SystemConfig.NeedClear == true)
-			{
+            if (GlobalContext.SystemConfig.IsCluster == false || GlobalContext.SystemConfig.NeedClear == true)
+            {
                 await _scheduler.Clear();
             }
             List<OpenJobEntity> obj = await _service.GetAllList(null);

@@ -1,6 +1,6 @@
-﻿using Volo.Abp.Domain.Repositories;
+﻿using Mapster;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
-using Mapster;
 
 namespace Shipeng.Domain.Whitelist
 {

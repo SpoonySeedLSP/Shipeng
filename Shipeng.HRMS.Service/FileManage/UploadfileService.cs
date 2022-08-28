@@ -1,8 +1,8 @@
-﻿using Shipeng.Util;
-using Shipeng.HRMS.Domain.FileManage;
+﻿using Shipeng.HRMS.Domain.FileManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using SqlSugar;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.FileManage
 {
@@ -12,7 +12,7 @@ namespace Shipeng.HRMS.Service.FileManage
     /// 描 述：文件管理服务类
     /// </summary>
     public class UploadfileService : DataFilterService<UploadfileEntity>, IDenpendency
-    {       
+    {
         public UploadfileService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
@@ -24,7 +24,7 @@ namespace Shipeng.HRMS.Service.FileManage
             {
                 query = query.Where(a => a.F_FileName.Contains(keyword) || a.F_Description.Contains(keyword));
             }
-            return await query.OrderBy(a => a.F_Id,OrderByType.Desc).ToListAsync();
+            return await query.OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
         public async Task<List<UploadfileEntity>> GetLookList(string keyword = "")
@@ -35,7 +35,7 @@ namespace Shipeng.HRMS.Service.FileManage
                 query = query.Where(a => a.F_FileName.Contains(keyword) || a.F_Description.Contains(keyword));
             }
             query = GetDataPrivilege("a", "", query);
-            var data = await query.OrderBy(a => a.F_Id,OrderByType.Desc).ToListAsync();
+            var data = await query.OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
             foreach (var item in data)
             {
                 string[] departments = item.F_OrganizeId.Split(',');
@@ -76,7 +76,7 @@ namespace Shipeng.HRMS.Service.FileManage
         }
         private ISugarQueryable<UploadfileEntity> GetQuery()
         {
-            var query = repository.Db.Queryable<UploadfileEntity, UserEntity>((a,b)=>new JoinQueryInfos(
+            var query = repository.Db.Queryable<UploadfileEntity, UserEntity>((a, b) => new JoinQueryInfos(
                     JoinType.Left, a.F_CreatorUserId == b.F_Id))
                 .Select((a, b) => new UploadfileEntity
                 {
@@ -113,14 +113,14 @@ namespace Shipeng.HRMS.Service.FileManage
         {
             if (string.IsNullOrEmpty(keyValue))
             {
-                    //此处需修改
+                //此处需修改
                 entity.Create();
                 await repository.Insert(entity);
             }
             else
             {
-                    //此处需修改
-                entity.Modify(keyValue); 
+                //此处需修改
+                entity.Modify(keyValue);
                 await repository.Update(entity);
             }
         }

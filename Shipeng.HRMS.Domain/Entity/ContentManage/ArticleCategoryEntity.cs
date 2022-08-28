@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.ContentManage
 {
@@ -9,20 +9,20 @@ namespace Shipeng.HRMS.Domain.ContentManage
     /// 描 述：新闻类别实体类
     /// </summary>
     [SugarTable("cms_articlecategory")]
-    public class ArticleCategoryEntity : IEntity<ArticleCategoryEntity>,ICreationAudited,IModificationAudited,IDeleteAudited
+    public class ArticleCategoryEntity : IEntity<ArticleCategoryEntity>, ICreationAudited, IModificationAudited, IDeleteAudited
     {
         /// <summary>
         /// 主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 类别名称
         /// </summary>
         /// <returns></returns>
-        [Required(ErrorMessage="新闻类别名称不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_FullName",ColumnDataType = "nvarchar(100)", ColumnDescription = "类别名称", UniqueGroupNameList = new string[] { "cms_articlecategory" })]
+        [Required(ErrorMessage = "新闻类别名称不能为空")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_FullName", ColumnDataType = "nvarchar(100)", ColumnDescription = "类别名称", UniqueGroupNameList = new string[] { "cms_articlecategory" })]
         public string F_FullName { get; set; }
         /// <summary>
         /// 父级Id
@@ -37,13 +37,13 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// <returns></returns>
         [Required(ErrorMessage = "排序不能为空")]
         [Range(0, 99999999, ErrorMessage = "排序大小必须介于1~99999999之间")]
-        [SugarColumn(IsNullable = false,ColumnDescription = "排序")]
+        [SugarColumn(IsNullable = false, ColumnDescription = "排序")]
         public int? F_SortCode { get; set; }
         /// <summary>
         /// 描述
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Description",ColumnDataType = "longtext", ColumnDescription = "描述")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Description", ColumnDataType = "longtext", ColumnDescription = "描述")]
         public string F_Description { get; set; }
         /// <summary>
         /// 链接地址
@@ -55,7 +55,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// 图片地址
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ImgUrl",ColumnDataType = "longtext", ColumnDescription = "图片地址")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ImgUrl", ColumnDataType = "longtext", ColumnDescription = "图片地址")]
         public string F_ImgUrl { get; set; }
         /// <summary>
         /// SEO标题
@@ -67,7 +67,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// SEO关键字
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_SeoKeywords",ColumnDataType = "longtext", ColumnDescription = "SEO关键字")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_SeoKeywords", ColumnDataType = "longtext", ColumnDescription = "SEO关键字")]
         public string F_SeoKeywords { get; set; }
         /// <summary>
         /// SEO描述
@@ -103,7 +103,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// 创建人Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
         public string F_CreatorUserId { get; set; }
         /// <summary>
         /// 修改时间
@@ -127,7 +127,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// 删除人Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
         public string F_DeleteUserId { get; set; }
     }
 }

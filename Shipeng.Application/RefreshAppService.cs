@@ -1,7 +1,7 @@
-﻿using Shipeng.Domain.ReverseProxy;
-using Shipeng.Application.Contracts;
-using Shipeng.Domain;
+﻿using Shipeng.Application.Contracts;
 using Shipeng.Application.Contracts.Dtos;
+using Shipeng.Domain;
+using Shipeng.Domain.ReverseProxy;
 
 namespace Shipeng.Application
 {
@@ -9,7 +9,7 @@ namespace Shipeng.Application
     {
         private readonly IRefreshManager _refreshManager;
         private readonly IConfigureManager _configureManager;
-        public RefreshAppService( IConfigureManager configureManager, IRefreshManager refreshManager)
+        public RefreshAppService(IConfigureManager configureManager, IRefreshManager refreshManager)
         {
             _configureManager = configureManager;
             _refreshManager = refreshManager;
@@ -21,7 +21,7 @@ namespace Shipeng.Application
             {
                 _configureManager.ReloadAuthentication(refreshConfigure.Authentication);
             }
-            if (refreshConfigure.Whitelists!=null)
+            if (refreshConfigure.Whitelists != null)
             {
                 _configureManager.ReloadWhitelist(refreshConfigure.Whitelists);
             }

@@ -15,7 +15,7 @@ namespace Shipeng.Util
         /// <returns></returns>
         public static async Task<bool> SetAsync(string key, object value, int expiresIn = -1, bool isSliding = true)
         {
-           return await SetBySecondAsync(key, value, expiresIn * 3600, isSliding);
+            return await SetBySecondAsync(key, value, expiresIn * 3600, isSliding);
         }
         /// <summary>
         /// 添加缓存

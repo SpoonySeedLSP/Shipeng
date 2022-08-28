@@ -9,7 +9,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 父级Id
@@ -26,7 +26,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// 编号
         /// </summary>
         [Required(ErrorMessage = "编号不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_EnCode",ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_module" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_EnCode", ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_module" })]
         public string F_EnCode { get; set; }
         /// <summary>
         /// 名称
@@ -37,7 +37,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 图标
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Icon",ColumnDataType = "nvarchar(50)", ColumnDescription = "图标")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Icon", ColumnDataType = "nvarchar(50)", ColumnDescription = "图标")]
         public string F_Icon { get; set; }
         /// <summary>
         /// Url地址
@@ -48,12 +48,12 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// 目标
         /// </summary>
         [Required(ErrorMessage = "目标不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_Target",ColumnDataType = "nvarchar(50)", ColumnDescription = "目标")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Target", ColumnDataType = "nvarchar(50)", ColumnDescription = "目标")]
         public string F_Target { get; set; }
         /// <summary>
         /// 是否是菜单
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "是否是菜单")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "是否是菜单")]
         public bool? F_IsMenu { get; set; }
         /// <summary>
         /// 是否展开
@@ -90,7 +90,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 删除标记
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "删除标记")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "删除标记")]
         public bool? F_DeleteMark { get; set; }
         /// <summary>
         /// 有效标记
@@ -100,7 +100,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 备注
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Description",ColumnDataType = "longtext", ColumnDescription = "备注")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Description", ColumnDataType = "longtext", ColumnDescription = "备注")]
         public string F_Description { get; set; }
         /// <summary>
         /// 创建时间
@@ -110,12 +110,12 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 创建人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
         public string F_CreatorUserId { get; set; }
         /// <summary>
         /// 修改时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "修改时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "修改时间")]
         public DateTime? F_LastModifyTime { get; set; }
         /// <summary>
         /// 修改人Id
@@ -125,7 +125,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 删除时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "删除时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "删除时间")]
         public DateTime? F_DeleteTime { get; set; }
         /// <summary>
         /// 删除人Id

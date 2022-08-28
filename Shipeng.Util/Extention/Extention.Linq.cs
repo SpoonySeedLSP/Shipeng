@@ -26,7 +26,7 @@ namespace Shipeng.Util
         {
             return Expression.GreaterThan(left, right);
         }
-        public static Expression<T> ToLambda<T>(this Expression body, params  ParameterExpression[] parameters)
+        public static Expression<T> ToLambda<T>(this Expression body, params ParameterExpression[] parameters)
         {
             return Expression.Lambda<T>(body, parameters);
         }

@@ -1,7 +1,7 @@
-﻿using Shipeng.HRMS.Service.SystemOrganize;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
 {
@@ -20,12 +20,12 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetListJson(string keyword)
         {
-            var data =await _service.GetList(keyword);
+            var data = await _service.GetList(keyword);
             return Content(data.ToJson());
         }
         [HttpGet]
         [HandlerAjaxOnly]
-        public async Task<ActionResult> GetSelectJson(string keyword,string ids)
+        public async Task<ActionResult> GetSelectJson(string keyword, string ids)
         {
             var data = await _service.GetList(keyword);
             data = data.Where(a => a.F_EnabledMark == true).ToList();
@@ -58,20 +58,20 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
         [HandlerAjaxOnly]
         public async Task<ActionResult> SubmitForm(RoleEntity roleEntity, string permissionbuttonIds, string permissionfieldsIds, string keyValue)
         {
-            if (!string.IsNullOrEmpty(keyValue)&& _service.currentuser.RoleId == keyValue)
+            if (!string.IsNullOrEmpty(keyValue) && _service.currentuser.RoleId == keyValue)
             {
                 return Error("操作失败，不能修改用户当前角色");
             }
             try
             {
-                await _service.SubmitForm(roleEntity,string.IsNullOrEmpty(permissionbuttonIds) ?new string[0]: permissionbuttonIds.Split(','), string.IsNullOrEmpty(permissionfieldsIds) ? new string[0] : permissionfieldsIds.Split(','), keyValue);
+                await _service.SubmitForm(roleEntity, string.IsNullOrEmpty(permissionbuttonIds) ? new string[0] : permissionbuttonIds.Split(','), string.IsNullOrEmpty(permissionfieldsIds) ? new string[0] : permissionfieldsIds.Split(','), keyValue);
                 return await Success("操作成功。", "", keyValue);
             }
             catch (Exception ex)

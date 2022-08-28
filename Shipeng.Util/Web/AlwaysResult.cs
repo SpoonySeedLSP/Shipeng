@@ -19,7 +19,7 @@ namespace Shipeng.Util
     /// <summary>
     /// 常用返回结果
     /// </summary>
-    public class AlwaysResult<T>: AlwaysResult
+    public class AlwaysResult<T> : AlwaysResult
     {
         /// <summary>
         /// 列表的记录数

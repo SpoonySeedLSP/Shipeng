@@ -1,22 +1,22 @@
 ﻿namespace Shipeng.Util
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
-	public class ServiceDescriptionAttribute : Attribute
-	{
+    public class ServiceDescriptionAttribute : Attribute
+    {
 
-		public string ClassDescription
-		{
-			get;
-			set;
-		}
+        public string ClassDescription
+        {
+            get;
+            set;
+        }
 
-		private ServiceDescriptionAttribute()
-		{
-		}
+        private ServiceDescriptionAttribute()
+        {
+        }
 
-		public ServiceDescriptionAttribute(string classDescription)
-		{
-			ClassDescription = classDescription;
-		}
-	}
+        public ServiceDescriptionAttribute(string classDescription)
+        {
+            ClassDescription = classDescription;
+        }
+    }
 }

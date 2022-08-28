@@ -1,12 +1,12 @@
-﻿using Shipeng.Util;
-using SqlSugar;
-using Shipeng.HRMS.Domain.FlowManage;
+﻿using Shipeng.HRMS.Domain.FlowManage;
+using Shipeng.HRMS.Domain.InfoManage;
 using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using System.Reflection;
-using Shipeng.HRMS.Domain.InfoManage;
 using Shipeng.HRMS.Service.InfoManage;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
+using System.Reflection;
 
 namespace Shipeng.HRMS.Service.FlowManage
 {
@@ -20,10 +20,10 @@ namespace Shipeng.HRMS.Service.FlowManage
         public IHttpClientFactory _httpClientFactory { get; set; }
         public MessageService messageApp { get; set; }
         private string flowCreator;
-        private string className { get; set; }  
+        private string className { get; set; }
         public FlowinstanceService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            className= MethodBase.GetCurrentMethod().DeclaringType.FullName.Split('.')[3].Substring(0, MethodBase.GetCurrentMethod().DeclaringType.FullName.Split('.')[3].Length - 7);
+            className = MethodBase.GetCurrentMethod().DeclaringType.FullName.Split('.')[3].Substring(0, MethodBase.GetCurrentMethod().DeclaringType.FullName.Split('.')[3].Length - 7);
         }
         #region 获取数据
         public async Task<List<FlowinstanceEntity>> GetList(string keyword = "")
@@ -34,7 +34,7 @@ namespace Shipeng.HRMS.Service.FlowManage
                 //此处需修改
                 query = query.Where(a => a.F_Code.Contains(keyword) || a.F_CustomName.Contains(keyword));
             }
-            return await query.Where(a => a.F_EnabledMark == true).OrderBy(a => a.F_Id,OrderByType.Desc).ToListAsync();
+            return await query.Where(a => a.F_EnabledMark == true).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
         public async Task<List<FlowInstanceOperationHistory>> QueryHistories(string keyValue)
@@ -88,7 +88,7 @@ namespace Shipeng.HRMS.Service.FlowManage
                 query = query.Where(a => a.F_CreatorUserId == user.UserId);
             }
             //权限过滤
-            query = GetDataPrivilege("a","",query);
+            query = GetDataPrivilege("a", "", query);
             return await query.Where(a => a.F_EnabledMark == true).ToPageListAsync(pagination);
         }
 
@@ -150,7 +150,7 @@ namespace Shipeng.HRMS.Service.FlowManage
                 }
                 else
                 {
-                    flowInstance.F_MakerList = await repository.Db.Queryable<FlowInstanceTransitionHistory>().Where(a => a.F_FromNodeId == resnode && a.F_ToNodeId == prruntime.nextNodeId).OrderBy(a => a.F_CreatorTime,OrderByType.Desc).Select(a => a.F_CreatorUserId).FirstAsync();//当前节点可执行的人信息
+                    flowInstance.F_MakerList = await repository.Db.Queryable<FlowInstanceTransitionHistory>().Where(a => a.F_FromNodeId == resnode && a.F_ToNodeId == prruntime.nextNodeId).OrderBy(a => a.F_CreatorTime, OrderByType.Desc).Select(a => a.F_CreatorUserId).FirstAsync();//当前节点可执行的人信息
                 }
                 await AddRejectTransHistory(wfruntime, prruntime);
                 await repository.Update(flowInstance);
@@ -196,7 +196,7 @@ namespace Shipeng.HRMS.Service.FlowManage
             msg.F_CreatorUserName = currentuser.UserName;
             msg.F_EnabledMark = true;
             msg.F_MessageType = 2;
-            var lastmsg = repository.Db.Queryable<MessageEntity>().Where(a => a.F_ClickRead == false && a.F_KeyValue == flowInstance.F_Id).OrderBy(a => a.F_CreatorTime,OrderByType.Desc).First();
+            var lastmsg = repository.Db.Queryable<MessageEntity>().Where(a => a.F_ClickRead == false && a.F_KeyValue == flowInstance.F_Id).OrderBy(a => a.F_CreatorTime, OrderByType.Desc).First();
             if (lastmsg != null && !await repository.Db.Queryable<MessageHistoryEntity>().Where(a => a.F_MessageId == lastmsg.F_Id).AnyAsync())
             {
                 await messageApp.ReadMsgForm(lastmsg.F_Id);
@@ -352,7 +352,7 @@ namespace Shipeng.HRMS.Service.FlowManage
                 msg.F_KeyValue = flowInstance.F_Id;
             }
             msg.F_MessageType = 2;
-            var lastmsg = repository.Db.Queryable<MessageEntity>().Where(a => a.F_ClickRead == false && a.F_KeyValue == flowInstance.F_Id).OrderBy(a => a.F_CreatorTime,OrderByType.Desc).First();
+            var lastmsg = repository.Db.Queryable<MessageEntity>().Where(a => a.F_ClickRead == false && a.F_KeyValue == flowInstance.F_Id).OrderBy(a => a.F_CreatorTime, OrderByType.Desc).First();
             if (lastmsg != null && !await repository.Db.Queryable<MessageHistoryEntity>().Where(a => a.F_MessageId == lastmsg.F_Id).AnyAsync())
             {
                 await messageApp.ReadMsgForm(lastmsg.F_Id);
@@ -406,11 +406,11 @@ namespace Shipeng.HRMS.Service.FlowManage
                     throw new Exception("前端提交的节点权限类型异常，请检查流程");
                 }
                 var users = new List<string>();
-				foreach (var item in request.NodeDesignates)
-				{
+                foreach (var item in request.NodeDesignates)
+                {
                     var temps = repository.Db.Queryable<UserEntity>().Where(a => a.F_RoleId.Contains(item) && a.F_EnabledMark == true && a.F_DeleteMark == false).Select(a => a.F_Id).ToList();
-					if (temps!=null&&temps.Count>0)
-					{
+                    if (temps != null && temps.Count > 0)
+                    {
                         users.AddRange(temps);
                     }
                 }
@@ -581,8 +581,8 @@ namespace Shipeng.HRMS.Service.FlowManage
             if (runtime.nextNodeType != -1 && runtime.nextNode != null && runtime.nextNode.setInfo != null && runtime.nextNodeType != 4)
             {
                 flowinstance.NextNodeDesignateType = runtime.nextNode.setInfo.NodeDesignate;
-				if (flowinstance.NextNodeDesignateType==Setinfo.SPECIAL_USER)
-				{
+                if (flowinstance.NextNodeDesignateType == Setinfo.SPECIAL_USER)
+                {
                     flowinstance.NextNodeDesignates = runtime.nextNode.setInfo.NodeDesignateData.users;
                     flowinstance.NextMakerName = string.Join(',', repository.Db.Queryable<UserEntity>().Where(a => flowinstance.NextNodeDesignates.Contains(a.F_Id)).Select(a => a.F_RealName).ToList());
                 }
@@ -621,13 +621,13 @@ namespace Shipeng.HRMS.Service.FlowManage
             if (runtime.currentNode != null && runtime.currentNode.setInfo != null && runtime.currentNodeType != 4)
             {
                 flowinstance.CurrentNodeDesignateType = runtime.currentNode.setInfo.NodeDesignate;
-				if (flowinstance.F_MakerList!="1" && !string.IsNullOrEmpty(flowinstance.F_MakerList))
-				{
+                if (flowinstance.F_MakerList != "1" && !string.IsNullOrEmpty(flowinstance.F_MakerList))
+                {
                     var temps = flowinstance.F_MakerList.Split(',');
                     flowinstance.CurrentMakerName = string.Join(',', repository.Db.Queryable<UserEntity>().Where(a => temps.Contains(a.F_Id)).Select(a => a.F_RealName).ToList());
                 }
-				else
-				{
+                else
+                {
                     flowinstance.CurrentMakerName = "所有人";
                 }
             }
@@ -762,7 +762,7 @@ namespace Shipeng.HRMS.Service.FlowManage
                 var referencedAssemblies = Directory.GetFiles(path, "*.dll").Select(Assembly.LoadFrom).ToArray();
                 var t = referencedAssemblies
                     .SelectMany(a => a.GetTypes().Where(t => t.FullName.Contains("Shipeng.HRMS.Service.") && t.FullName.Contains("." + entity.F_DbName + "Service"))).First();
-                ICustomerForm icf = (ICustomerForm) GlobalContext.GetRequiredService(t);
+                ICustomerForm icf = (ICustomerForm)GlobalContext.GetRequiredService(t);
                 await icf.Add(entity.F_Id, entity.F_FrmData);
             }
 
@@ -823,7 +823,7 @@ namespace Shipeng.HRMS.Service.FlowManage
             }
             msg.F_MessageType = 2;
             msg.F_ToUserId = entity.F_MakerList == "1" ? "" : entity.F_MakerList;
-            var lastmsg = repository.Db.Queryable<MessageEntity>().Where(a => a.F_ClickRead == false && a.F_KeyValue == entity.F_Id).OrderBy(a => a.F_CreatorTime,OrderByType.Desc).First();
+            var lastmsg = repository.Db.Queryable<MessageEntity>().Where(a => a.F_ClickRead == false && a.F_KeyValue == entity.F_Id).OrderBy(a => a.F_CreatorTime, OrderByType.Desc).First();
             if (lastmsg != null && !await repository.Db.Queryable<MessageHistoryEntity>().Where(a => a.F_MessageId == lastmsg.F_Id).AnyAsync())
             {
                 await messageApp.ReadMsgForm(lastmsg.F_Id);
@@ -953,7 +953,7 @@ namespace Shipeng.HRMS.Service.FlowManage
             }
             msg.F_MessageType = 2;
             msg.F_ToUserId = entity.F_MakerList == "1" ? "" : entity.F_MakerList;
-            var lastmsg = repository.Db.Queryable<MessageEntity>().Where(a => a.F_ClickRead == false && a.F_KeyValue == entity.F_Id).OrderBy(a => a.F_CreatorTime,OrderByType.Desc).First();
+            var lastmsg = repository.Db.Queryable<MessageEntity>().Where(a => a.F_ClickRead == false && a.F_KeyValue == entity.F_Id).OrderBy(a => a.F_CreatorTime, OrderByType.Desc).First();
             if (lastmsg != null && !await repository.Db.Queryable<MessageHistoryEntity>().Where(a => a.F_MessageId == lastmsg.F_Id).AnyAsync())
             {
                 await messageApp.ReadMsgForm(lastmsg.F_Id);
@@ -982,7 +982,7 @@ namespace Shipeng.HRMS.Service.FlowManage
             FlowRuntime wfruntime = new FlowRuntime(flowInstance);
 
             string resnode = "";
-            resnode =  wfruntime.RejectNode("1");
+            resnode = wfruntime.RejectNode("1");
 
             var tag = new Tag
             {

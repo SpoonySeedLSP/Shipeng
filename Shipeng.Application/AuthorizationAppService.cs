@@ -1,8 +1,8 @@
-﻿using Shipeng.Application.Contracts;
+﻿using Mapster;
+using Shipeng.Application.Contracts;
 using Shipeng.Application.Contracts.Dtos.Authorization;
 using Shipeng.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
-using Mapster;
 namespace Shipeng.Application
 {
     public class AuthorizationAppService : BaseApplicationService, IAuthorizationAppService
@@ -17,12 +17,12 @@ namespace Shipeng.Application
 
         public async Task<ShipengResult<SaveAuthenticationDto>> GetAuthenticationAsync()
         {
-            var result= (await _authenticationRepository.GetQueryableAsync())
+            var result = (await _authenticationRepository.GetQueryableAsync())
                 .ProjectToType<SaveAuthenticationDto>()
                 .FirstOrDefault();
             if (result == null)
             {
-                result = new SaveAuthenticationDto() 
+                result = new SaveAuthenticationDto()
                 {
                     UseState = true
                 };
@@ -32,7 +32,7 @@ namespace Shipeng.Application
 
         public async Task<ShipengResult> SaveAuthenticationAsync(SaveAuthenticationDto authenticationDto)
         {
-            var model =await _authenticationRepository.FirstOrDefaultAsync();
+            var model = await _authenticationRepository.FirstOrDefaultAsync();
             if (model == null)
             {
                 model = new AuthenticationConfigure(GuidGenerator.Create());
@@ -42,7 +42,7 @@ namespace Shipeng.Application
             else
             {
                 TypeAdapter.Adapt(authenticationDto, model);
-                
+
                 await _authenticationRepository.UpdateAsync(model);
             }
             return Ok();

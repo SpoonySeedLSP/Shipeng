@@ -1,8 +1,8 @@
-﻿using Shipeng.HRMS.Service.SystemOrganize;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
 {
@@ -34,7 +34,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         }
         [HttpGet]
         [HandlerAjaxOnly]
-        public async Task<ActionResult> GetListJson(string keyword,string ids)
+        public async Task<ActionResult> GetListJson(string keyword, string ids)
         {
             var data = await _service.GetList(keyword);
             data = data.Where(a => a.F_EnabledMark == true).ToList();
@@ -55,7 +55,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             if (!string.IsNullOrEmpty(data.F_DepartmentId))
             {
                 List<string> str = new List<string>();
@@ -88,7 +88,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetUserFormJson()
         {
-            var data =await _service.GetFormExtend(_service.currentuser.UserId);
+            var data = await _service.GetFormExtend(_service.currentuser.UserId);
             if (!string.IsNullOrEmpty(data.F_DepartmentId))
             {
                 List<string> str = new List<string>();
@@ -120,7 +120,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HttpPost]
         [HandlerAjaxOnly]
         [HandlerLock]
-        public async Task<ActionResult> SubmitUserForm(string F_Account,string F_RealName, bool F_Gender,DateTime F_Birthday,string F_MobilePhone,string F_Email,string F_Description)
+        public async Task<ActionResult> SubmitUserForm(string F_Account, string F_RealName, bool F_Gender, DateTime F_Birthday, string F_MobilePhone, string F_Email, string F_Description)
         {
             try
             {
@@ -267,7 +267,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
             }
             catch (Exception ex)
             {
-                return await Error("账户启用失败,"+ex.Message, "", keyValue);
+                return await Error("账户启用失败," + ex.Message, "", keyValue);
             }
         }
     }

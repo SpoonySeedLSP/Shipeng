@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.InfoManage;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Service.BackgroundService
 {
@@ -11,10 +11,10 @@ namespace Shipeng.HRMS.Service.BackgroundService
         private readonly IHubContext<MessageHub> _messageHub;
 
         public MessageService(RabbitMqHelper rabbitMqHelper, IHubContext<MessageHub> messageHub)
-		{
-			_rabbitMqHelper = rabbitMqHelper;
-			_messageHub = messageHub;
-		}
+        {
+            _rabbitMqHelper = rabbitMqHelper;
+            _messageHub = messageHub;
+        }
         /// <summary>
         /// 开始执行任务
         /// </summary>

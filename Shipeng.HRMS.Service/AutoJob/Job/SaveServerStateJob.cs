@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Shipeng.Util;
-using Shipeng.Util.DataBase;
 using Shipeng.HRMS.Domain.SystemSecurity;
 using Shipeng.HRMS.Service.SystemSecurity;
+using Shipeng.Util;
+using Shipeng.Util.DataBase;
 
 
 namespace Shipeng.HRMS.Service.AutoJob
 {
     [ServiceDescription("服务器监控")]
-	public class SaveServerStateJob : IJobTask
+    public class SaveServerStateJob : IJobTask
     {
         private IWebHostEnvironment _hostingEnvironment;
         private ServerStateService _server;
@@ -16,7 +16,7 @@ namespace Shipeng.HRMS.Service.AutoJob
         {
             _hostingEnvironment = GlobalContext.HostingEnvironment;
             _server = new ServerStateService(unitOfWork);
-         }
+        }
         public async Task<AlwaysResult> Start()
         {
             AlwaysResult obj = new AlwaysResult();
@@ -35,7 +35,7 @@ namespace Shipeng.HRMS.Service.AutoJob
             catch (Exception ex)
             {
                 obj.state = ResultType.error.ToString();
-                obj.message = "服务器状态更新失败！"+ex.Message;
+                obj.message = "服务器状态更新失败！" + ex.Message;
             }
             return obj;
         }

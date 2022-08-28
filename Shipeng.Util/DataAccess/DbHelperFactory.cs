@@ -1,5 +1,4 @@
 ﻿using EFCore.Sharding;
-using System;
 
 namespace Shipeng.Util
 {

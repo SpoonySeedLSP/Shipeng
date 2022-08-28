@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Shipeng.Util;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
 /// <summary>
 /// 权限验证
 /// </summary>

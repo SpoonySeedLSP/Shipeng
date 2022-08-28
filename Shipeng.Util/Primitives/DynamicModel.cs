@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// 动态数据模型类

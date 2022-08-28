@@ -1,7 +1,7 @@
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.ContentManage;
-using SqlSugar;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.ContentManage
 {
@@ -16,7 +16,7 @@ namespace Shipeng.HRMS.Service.ContentManage
         {
 
         }
-        
+
         #region 获取数据
         public async Task<List<ArticleNewsEntity>> GetList(string keyword = "")
         {
@@ -25,10 +25,10 @@ namespace Shipeng.HRMS.Service.ContentManage
             {
                 query = query.Where(a => a.F_Title.Contains(keyword) || a.F_Tags.Contains(keyword));
             }
-            return await query.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id,OrderByType.Desc).ToListAsync();
+            return await query.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
-        public async Task<List<ArticleNewsEntity>> GetLookList(SoulPage<ArticleNewsEntity> pagination, string keyword = "", string CategoryId="")
+        public async Task<List<ArticleNewsEntity>> GetLookList(SoulPage<ArticleNewsEntity> pagination, string keyword = "", string CategoryId = "")
         {
             //反格式化显示只能用"等于"，其他不支持
             Dictionary<string, Dictionary<string, string>> dic = new Dictionary<string, Dictionary<string, string>>();
@@ -43,8 +43,8 @@ namespace Shipeng.HRMS.Service.ContentManage
             dic.Add("F_IsHot", isTrue);
             pagination = ChangeSoulData(dic, pagination);
             //获取新闻列表
-            var query = repository.Db.Queryable<ArticleNewsEntity, ArticleCategoryEntity>((a,b) => new JoinQueryInfos(
-                JoinType.Left,a.F_CategoryId==b.F_Id && b.F_EnabledMark == true
+            var query = repository.Db.Queryable<ArticleNewsEntity, ArticleCategoryEntity>((a, b) => new JoinQueryInfos(
+                JoinType.Left, a.F_CategoryId == b.F_Id && b.F_EnabledMark == true
                 ))
             .Select((a, b) => new ArticleNewsEntity
             {
@@ -61,7 +61,7 @@ namespace Shipeng.HRMS.Service.ContentManage
             }
             query = query.Where(a => a.F_DeleteMark == false);
             //权限过滤
-            query = GetDataPrivilege<ArticleNewsEntity>("a", "",query);
+            query = GetDataPrivilege<ArticleNewsEntity>("a", "", query);
             return await query.ToPageListAsync(pagination);
         }
         /// <summary>
@@ -93,7 +93,7 @@ namespace Shipeng.HRMS.Service.ContentManage
         {
             if (string.IsNullOrEmpty(entity.F_Zhaiyao))
             {
-                entity.F_Zhaiyao = TextHelper.GetSubString(WebHelper.NoHtml(entity.F_Description),255);
+                entity.F_Zhaiyao = TextHelper.GetSubString(WebHelper.NoHtml(entity.F_Description), 255);
             }
             if (string.IsNullOrEmpty(entity.F_SeoTitle))
             {
@@ -117,8 +117,8 @@ namespace Shipeng.HRMS.Service.ContentManage
             }
             else
             {
-                    //此处需修改
-                entity.Modify(keyValue); 
+                //此处需修改
+                entity.Modify(keyValue);
                 await repository.Update(entity);
             }
         }

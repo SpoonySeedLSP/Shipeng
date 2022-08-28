@@ -65,6 +65,6 @@
         /// 绑定工具栏模板
         /// </summary>
         public string toolbar { get; set; }
-       
+
     }
 }

@@ -6,12 +6,12 @@ namespace Shipeng.Util.DataBase
     {
         public void Add<TV>(string key, TV value)
         {
-           CacheHelper.SetBySecond(key, value);
+            CacheHelper.SetBySecond(key, value);
         }
 
         public void Add<TV>(string key, TV value, int cacheDurationInSeconds)
         {
-           CacheHelper.SetBySecond(key, value, cacheDurationInSeconds);
+            CacheHelper.SetBySecond(key, value, cacheDurationInSeconds);
         }
 
         public bool ContainsKey<TV>(string key)

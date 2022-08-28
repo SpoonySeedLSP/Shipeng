@@ -9,7 +9,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 模块Id
@@ -20,7 +20,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 父级Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ParentId",ColumnDataType = "nvarchar(50)", ColumnDescription = "父级", UniqueGroupNameList = new string[] { "sys_modulebutton" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ParentId", ColumnDataType = "nvarchar(50)", ColumnDescription = "父级", UniqueGroupNameList = new string[] { "sys_modulebutton" })]
         public string F_ParentId { get; set; }
         /// <summary>
         /// 层级
@@ -31,7 +31,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// 编号
         /// </summary>
         [Required(ErrorMessage = "编号不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_EnCode",ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_modulebutton" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_EnCode", ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_modulebutton" })]
         public string F_EnCode { get; set; }
         /// <summary>
         /// 名称
@@ -48,7 +48,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// 位置
         /// </summary>
         [Required(ErrorMessage = "位置不能为空")]
-        [SugarColumn(IsNullable = true,ColumnDescription = "位置")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "位置")]
         public int? F_Location { get; set; }
         /// <summary>
         /// 事件
@@ -79,7 +79,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 是否允许删除
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "是否允许删除")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "是否允许删除")]
         public bool? F_AllowDelete { get; set; }
         /// <summary>
         /// 排序码
@@ -131,12 +131,12 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 删除人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
         public string F_DeleteUserId { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Authorize",ColumnDataType = "nvarchar(200)", ColumnDescription = "权限标识")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Authorize", ColumnDataType = "nvarchar(200)", ColumnDescription = "权限标识")]
         public string F_Authorize { get; set; }
     }
 }

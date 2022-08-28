@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     public class EnumEitityDTO
     {

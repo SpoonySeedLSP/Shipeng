@@ -3,7 +3,7 @@ using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service.SystemManage
 {
-    public class ItemsDataService : DataFilterService<ItemsDetailEntity>,IDenpendency
+    public class ItemsDataService : DataFilterService<ItemsDetailEntity>, IDenpendency
     {
         public ItemsTypeService itemApp { get; set; }
         /// <summary>
@@ -13,7 +13,7 @@ namespace Shipeng.HRMS.Service.SystemManage
         {
         }
         //获取类名
-        
+
         public async Task<List<ItemsDetailEntity>> GetList(string itemId = "", string keyword = "")
         {
             var list = repository.IQueryable();
@@ -38,7 +38,7 @@ namespace Shipeng.HRMS.Service.SystemManage
             {
                 query = query.Where(a => a.F_ItemName.Contains(keyword) || a.F_ItemCode.Contains(keyword));
             }
-            query = GetDataPrivilege("a","", query);
+            query = GetDataPrivilege("a", "", query);
             return await query.OrderBy(a => a.F_SortCode).ToListAsync();
         }
         public async Task<List<ItemsDetailEntity>> GetItemList(string enCode)

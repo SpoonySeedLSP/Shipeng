@@ -1,15 +1,15 @@
-﻿using SqlSugar;
+﻿using Shipeng.HRMS.Domain.SystemManage;
+using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.Util;
+using Shipeng.Util.DataBase;
+using SqlSugar;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
-using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemManage;
-using Shipeng.HRMS.Domain.SystemOrganize;
-using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service
 {
-    public class DataFilterService<T>: RepositoryBase<T> where T : class, new()
+    public class DataFilterService<T> : RepositoryBase<T> where T : class, new()
     {
         // 用户信息
         public OperatorModel currentuser;
@@ -17,7 +17,7 @@ namespace Shipeng.HRMS.Service
         protected IRepositoryBase<T> repository;
         // 用于其他表操作
         protected IUnitOfWork unitofwork;
-        public DataFilterService(IUnitOfWork unitOfWork):base(unitOfWork)
+        public DataFilterService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
             currentuser = OperatorProvider.Provider.GetCurrent();
             unitofwork = unitOfWork;
@@ -43,7 +43,7 @@ namespace Shipeng.HRMS.Service
             }
             if (!CheckDataPrivilege(moduleName))
             {
-                return GetFieldsFilterDataNew(parametername,query, moduleName);
+                return GetFieldsFilterDataNew(parametername, query, moduleName);
             }
             var rule = repository.Db.Queryable<DataPrivilegeRuleEntity>().WithCache().First(u => u.F_ModuleCode == moduleName && u.F_EnabledMark == true && u.F_DeleteMark == false);
             if (rule.F_PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINUSER) ||
@@ -66,8 +66,8 @@ namespace Shipeng.HRMS.Service
             }
             //query = query.GenerateFilter(parametername,
             //    JsonHelper.ToObject<List<FilterList>>(rule.F_PrivilegeRules));
-            query = query.GenerateFilter(parametername,rule.F_PrivilegeRules.ToObject<List<FilterList>>());
-            return GetFieldsFilterDataNew(parametername,query, moduleName);
+            query = query.GenerateFilter(parametername, rule.F_PrivilegeRules.ToObject<List<FilterList>>());
+            return GetFieldsFilterDataNew(parametername, query, moduleName);
         }
         /// <summary>
         ///  获取当前登录用户的数据访问权限(复杂查询)
@@ -81,7 +81,7 @@ namespace Shipeng.HRMS.Service
             moduleName = string.IsNullOrEmpty(moduleName) ? ReflectionHelper.GetModuleName() : moduleName;
             if (!CheckDataPrivilege(moduleName))
             {
-                return GetFieldsFilterDataNew(parametername,query, moduleName);
+                return GetFieldsFilterDataNew(parametername, query, moduleName);
             }
             var rule = repository.Db.Queryable<DataPrivilegeRuleEntity>().WithCache().First(u => u.F_ModuleCode == moduleName && u.F_EnabledMark == true && u.F_DeleteMark == false);
             if (rule.F_PrivilegeRules.Contains(Define.DATAPRIVILEGE_LOGINUSER) ||
@@ -100,8 +100,8 @@ namespace Shipeng.HRMS.Service
             }
             //query = query.GenerateFilter(parametername,
             //    JsonHelper.ToObject<List<FilterList>>(rule.F_PrivilegeRules));
-            query = query.GenerateFilter(parametername,rule.F_PrivilegeRules.ToObject<List<FilterList>>());
-            return GetFieldsFilterDataNew(parametername,query, moduleName);
+            query = query.GenerateFilter(parametername, rule.F_PrivilegeRules.ToObject<List<FilterList>>());
+            return GetFieldsFilterDataNew(parametername, query, moduleName);
         }
         /// <summary>
         ///  获取当前登录用户是否需要数据控制
@@ -144,7 +144,7 @@ namespace Shipeng.HRMS.Service
             {
                 if (item.mode == "condition" && dic.ContainsKey(item.field) && dic[item.field].Values.Contains(item.value))
                 {
-                    item.value = dic[item.field].FirstOrDefault(a=>a.Value== item.value).Key;
+                    item.value = dic[item.field].FirstOrDefault(a => a.Value == item.value).Key;
                 }
                 if (item.children != null && item.children.Count > 0)
                 {
@@ -268,27 +268,27 @@ namespace Shipeng.HRMS.Service
             }
             fieldsList.Add(idName);
             fieldsList = fieldsList.Distinct().ToList();
-			//可以构建lambda
-			var parameter = Expression.Parameter(typeof(TEntity), parametername);
-			var bindings = fieldsList
-			.Select(name => name.Trim())
-			.Select(name => Expression.Bind(
-			typeof(TEntity).GetProperty(name),
-			Expression.Property(parameter, name)
-			));
-			var newT = Expression.MemberInit(Expression.New(typeof(TEntity)), bindings);
-			var lambda = Expression.Lambda<Func<TEntity, TEntity>>(newT, parameter);
-			query = query.Select(lambda);
+            //可以构建lambda
+            var parameter = Expression.Parameter(typeof(TEntity), parametername);
+            var bindings = fieldsList
+            .Select(name => name.Trim())
+            .Select(name => Expression.Bind(
+            typeof(TEntity).GetProperty(name),
+            Expression.Property(parameter, name)
+            ));
+            var newT = Expression.MemberInit(Expression.New(typeof(TEntity)), bindings);
+            var lambda = Expression.Lambda<Func<TEntity, TEntity>>(newT, parameter);
+            query = query.Select(lambda);
             //chloe扩展方法
-			//List<string> ignoreList = new List<string>();
-   //         foreach (var item in typeof(TEntity).GetProperties())
-   //         {
-   //             if (!fieldsList.Contains(item.Name))
-   //             {
-   //                 ignoreList.Add(item.Name);
-   //             }
-   //         }
-   //         query = query.Ignore(ignoreList.ToArray());
+            //List<string> ignoreList = new List<string>();
+            //         foreach (var item in typeof(TEntity).GetProperties())
+            //         {
+            //             if (!fieldsList.Contains(item.Name))
+            //             {
+            //                 ignoreList.Add(item.Name);
+            //             }
+            //         }
+            //         query = query.Ignore(ignoreList.ToArray());
             return query;
         }
     }

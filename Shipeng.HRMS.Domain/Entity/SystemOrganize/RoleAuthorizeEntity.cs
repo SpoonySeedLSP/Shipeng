@@ -11,7 +11,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 项目类型(1菜单，2按钮，3字段)
@@ -31,7 +31,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 目标Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ObjectId",ColumnDataType = "nvarchar(50)", ColumnDescription = "目标Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ObjectId", ColumnDataType = "nvarchar(50)", ColumnDescription = "目标Id")]
         public string F_ObjectId { get; set; }
         /// <summary>
         /// 排序码
@@ -46,7 +46,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 创建人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
         public string F_CreatorUserId { get; set; }
     }
 }

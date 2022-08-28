@@ -1,9 +1,9 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Http;
-using Volo.Abp.Domain.Services;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.IdentityModel.Tokens.Jwt;
+using Volo.Abp.Domain.Services;
 
 namespace Shipeng.Domain.Authorization
 {

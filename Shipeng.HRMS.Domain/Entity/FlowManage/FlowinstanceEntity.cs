@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.FlowManage
 {
@@ -15,13 +15,13 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 流程实例模板Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = false, ColumnName = "F_InstanceSchemeId",ColumnDataType = "nvarchar(50)", ColumnDescription = "流程实例模板Id")]
+        [SugarColumn(IsNullable = false, ColumnName = "F_InstanceSchemeId", ColumnDataType = "nvarchar(50)", ColumnDescription = "流程实例模板Id")]
         public string F_InstanceSchemeId { get; set; }
         /// <summary>
         /// 实例编号
@@ -34,13 +34,13 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 自定义名称
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CustomName",ColumnDataType = "nvarchar(200)", ColumnDescription = "自定义名称")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CustomName", ColumnDataType = "nvarchar(200)", ColumnDescription = "自定义名称")]
         public string F_CustomName { get; set; }
         /// <summary>
         /// 当前节点ID
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ActivityId",ColumnDataType = "nvarchar(50)", ColumnDescription = "当前节点ID")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ActivityId", ColumnDataType = "nvarchar(50)", ColumnDescription = "当前节点ID")]
         public string F_ActivityId { get; set; }
         /// <summary>
         /// 当前节点类型（0会签节点）
@@ -58,7 +58,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 前一个ID
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_PreviousId",ColumnDataType = "nvarchar(50)", ColumnDescription = "前一个ID")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_PreviousId", ColumnDataType = "nvarchar(50)", ColumnDescription = "前一个ID")]
         public string F_PreviousId { get; set; }
         /// <summary>
         /// 流程模板内容
@@ -77,7 +77,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 数据库名称
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DbName",ColumnDataType = "nvarchar(50)", ColumnDescription = "数据库名称")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DbName", ColumnDataType = "nvarchar(50)", ColumnDescription = "数据库名称")]
         public string F_DbName { get; set; }
         /// <summary>
         /// 表单数据
@@ -89,7 +89,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 表单类型
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = false, ColumnDescription = "表单类型")] 
+        [SugarColumn(IsNullable = false, ColumnDescription = "表单类型")]
         public int? F_FrmType { get; set; }
         /// <summary>
         /// 表单中的字段
@@ -101,19 +101,19 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 表单字段（冗余)
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_FrmContentParse",ColumnDataType = "longtext", ColumnDescription = "表单字段")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_FrmContentParse", ColumnDataType = "longtext", ColumnDescription = "表单字段")]
         public string F_FrmContentParse { get; set; }
         /// <summary>
         /// 表单参数
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_FrmContent",ColumnDataType = "longtext", ColumnDescription = "表单参数")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_FrmContent", ColumnDataType = "longtext", ColumnDescription = "表单参数")]
         public string F_FrmContent { get; set; }
         /// <summary>
         /// 表单ID
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_FrmId",ColumnDataType = "nvarchar(50)", ColumnDescription = "表单ID")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_FrmId", ColumnDataType = "nvarchar(50)", ColumnDescription = "表单ID")]
         public string F_FrmId { get; set; }
         /// <summary>
         /// 流程类型
@@ -131,7 +131,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 实例备注
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Description",ColumnDataType = "nvarchar(200)", ColumnDescription = "实例备注")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Description", ColumnDataType = "nvarchar(200)", ColumnDescription = "实例备注")]
         public string F_Description { get; set; }
         /// <summary>
         /// 是否完成
@@ -167,7 +167,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 创建用户主键
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建用户主键")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建用户主键")]
         public string F_CreatorUserId { get; set; }
         /// <summary>
         /// 创建用户
@@ -179,7 +179,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 如果下个执行节点是运行时指定执行者。需要传指定的类型
         /// <para>取值为RUNTIME_SPECIAL_ROLE、RUNTIME_SPECIAL_USER</para>
         /// </summary>
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         public string NextNodeDesignateType { get; set; }
 
         /// <summary>
@@ -187,13 +187,13 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// <para>如果NodeDesignateType为RUNTIME_SPECIAL_ROLE，则该值为指定的角色</para>
         /// <para>如果NodeDesignateType为RUNTIME_SPECIAL_USER，则该值为指定的用户</para>
         /// </summary>
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         public string[] NextNodeDesignates { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         public string NextMakerName { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         public string CurrentMakerName { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         public string CurrentNodeDesignateType { get; set; }
     }
 }

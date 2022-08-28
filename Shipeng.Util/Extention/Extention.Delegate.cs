@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// 拓展方法静态类

@@ -12,7 +12,7 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 类型
@@ -24,7 +24,7 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// 起始IP
         /// </summary>
         [Required(ErrorMessage = "起始IP不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_StartIP",ColumnDataType = "nvarchar(50)", ColumnDescription = "起始IP")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_StartIP", ColumnDataType = "nvarchar(50)", ColumnDescription = "起始IP")]
         public string F_StartIP { get; set; }
         /// <summary>
         /// 结束IP
@@ -49,7 +49,7 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// <summary>
         /// 备注
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Description",ColumnDataType = "longtext", ColumnDescription = "备注")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Description", ColumnDataType = "longtext", ColumnDescription = "备注")]
         public string F_Description { get; set; }
         /// <summary>
         /// 创建时间
@@ -59,7 +59,7 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// <summary>
         /// 创建人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
         public string F_CreatorUserId { get; set; }
         /// <summary>
         /// 修改时间

@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
-using System.Text;
 using Shipeng.Util;
+using System.Text;
 
 namespace Shipeng.HRMS.Domain.FlowManage
 {
@@ -16,11 +16,11 @@ namespace Shipeng.HRMS.Domain.FlowManage
             InitLines(schemeContentJson);
             InitNodes(schemeContentJson);
 
-            currentNodeId = (string.IsNullOrEmpty(instance.F_ActivityId)? startNodeId : instance.F_ActivityId);
+            currentNodeId = (string.IsNullOrEmpty(instance.F_ActivityId) ? startNodeId : instance.F_ActivityId);
             currentNodeType = GetNodeType(currentNodeId);
             FrmData = instance.F_FrmData;
             title = schemeContentJson.title;
-            initNum = schemeContentJson.initNum?? 0;
+            initNum = schemeContentJson.initNum ?? 0;
             previousId = GetPreviousNodeId(currentNodeId);
             flowInstanceId = instance.F_Id;
 
@@ -110,11 +110,11 @@ namespace Shipeng.HRMS.Domain.FlowManage
 
             foreach (var l in lines)
             {
-                if (l.Compares==null)
+                if (l.Compares == null)
                 {
                     l.Compares = new List<DataCompare>();
                 }
-                if (l.Compares.Count>0 &&l.Compare(frmDataJson))
+                if (l.Compares.Count > 0 && l.Compare(frmDataJson))
                 {
                     return l.to;
                 }
@@ -251,17 +251,17 @@ namespace Shipeng.HRMS.Domain.FlowManage
             FlowNode nextNode = GetNextNode(nodeId); //获取当前处理的下一个节点
 
             int forkNumber = FromNodeLines[currentNodeId].Count;   //直接与会签节点连接的点，即会签分支数目
-            string res =string.Empty;  //记录会签的结果,默认正在会签
+            string res = string.Empty;  //记录会签的结果,默认正在会签
             if (forkNode.setInfo.NodeConfluenceType == "one") //有一个步骤通过即可
             {
-                if (tag.Taged == (int) TagState.Ok)
+                if (tag.Taged == (int)TagState.Ok)
                 {
                     if (nextNode.type == FlowNode.JOIN)  //下一个节点是会签结束，则该线路结束
                     {
                         res = GetNextNodeId(nextNode.id);
                     }
                 }
-                else if(tag.Taged ==(int) TagState.No)
+                else if (tag.Taged == (int)TagState.No)
                 {
                     if (forkNode.setInfo.ConfluenceNo == null)
                     {
@@ -277,7 +277,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
                         var preNode = GetPreNode(nodeId);
                         while (preNode.id != forkNode.id) //反向一直到会签开始节点
                         {
-                            if (preNode.setInfo != null && preNode.setInfo.Taged == (int) TagState.No)
+                            if (preNode.setInfo != null && preNode.setInfo.Taged == (int)TagState.No)
                             {
                                 isFirst = false;
                                 break;
@@ -293,11 +293,11 @@ namespace Shipeng.HRMS.Domain.FlowManage
             }
             else //默认所有步骤通过
             {
-                if (tag.Taged == (int) TagState.No)  //只要有一个不同意，那么流程就结束
+                if (tag.Taged == (int)TagState.No)  //只要有一个不同意，那么流程就结束
                 {
                     res = TagState.No.ToString("D");
                 }
-                else if(tag.Taged == (int)TagState.Ok)
+                else if (tag.Taged == (int)TagState.Ok)
                 {
                     if (nextNode.type == FlowNode.JOIN)  //这种模式下只有坚持到【会签结束】节点之前才有意义，是否需要判定这条线所有的节点都通过，不然直接执行这个节点？？
                     {
@@ -319,12 +319,12 @@ namespace Shipeng.HRMS.Domain.FlowManage
 
             if (res == TagState.No.ToString("D"))
             {
-                tag.Taged = (int) TagState.No;
+                tag.Taged = (int)TagState.No;
                 MakeTagNode(nextNode.id, tag);
             }
             else if (!string.IsNullOrEmpty(res)) //会签结束，标记合流节点
             {
-                tag.Taged = (int) TagState.Ok;
+                tag.Taged = (int)TagState.Ok;
                 MakeTagNode(nextNode.id, tag);
                 nextNodeId = res;
                 nextNodeType = GetNodeType(res);
@@ -336,7 +336,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
             }
             return res;
         }
-        
+
         //获取上一个节点
         private FlowNode GetPreNode(string nodeId = null)
         {
@@ -360,7 +360,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
             {
                 rejectType = node.setInfo.NodeRejectType;
             }
-            
+
             if (rejectType == "0")
             {
                 return previousId;
@@ -384,7 +384,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
                 {
                     if (item.Value.setInfo == null)
                     {
-                        item.Value.setInfo  = new Setinfo();
+                        item.Value.setInfo = new Setinfo();
                     }
                     item.Value.setInfo.Taged = tag.Taged;
                     item.Value.setInfo.UserId = tag.UserId;
@@ -421,11 +421,11 @@ namespace Shipeng.HRMS.Domain.FlowManage
             var postData = new
             {
                 flowInstanceId,
-                nodeName=currentNode.name,
+                nodeName = currentNode.name,
                 nodeId = currentNodeId,
                 userId = tag.UserId,
                 userName = tag.UserName,
-                result=tag.Taged, //1：通过;2：不通过；3驳回
+                result = tag.Taged, //1：通过;2：不通过；3驳回
                 description = tag.Description,
                 execTime = tag.TagedTime,
                 isFinish = currentNodeType == 4

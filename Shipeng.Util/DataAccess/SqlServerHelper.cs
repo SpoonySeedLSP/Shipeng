@@ -1,7 +1,5 @@
 ﻿using EFCore.Sharding;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
 
 namespace Shipeng.Util

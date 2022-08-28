@@ -1,5 +1,5 @@
-using Shipeng.Util;
 using Microsoft.AspNetCore.Mvc;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
 {
@@ -15,7 +15,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
         }
         [HttpGet]
         [HandlerAjaxOnly]
-        public async Task<ActionResult> GetGridJson(Pagination pagination, string keyword,int timetype=2)
+        public async Task<ActionResult> GetGridJson(Pagination pagination, string keyword, int timetype = 2)
         {
             if (string.IsNullOrEmpty(pagination.field))
             {
@@ -28,7 +28,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
                 pagination.rows = 99999999;
                 pagination.page = 1;
             }
-            var data =await _logService.GetList(pagination, timetype, keyword);
+            var data = await _logService.GetList(pagination, timetype, keyword);
             return Success(pagination.records, data);
         }
         [HttpPost]

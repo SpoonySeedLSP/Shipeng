@@ -47,7 +47,7 @@ namespace Shipeng.Util
         /// <param name="entitys"></param>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static List<T> ListFilter<T>(List<T> entitys,List<string> list)
+        public static List<T> ListFilter<T>(List<T> entitys, List<string> list)
         {
             //检查实体集合不能为空
             if (entitys == null || entitys.Count < 1)

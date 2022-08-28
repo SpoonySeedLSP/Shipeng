@@ -1,7 +1,7 @@
-﻿using Shipeng.HRMS.Service.SystemManage;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemManage;
-using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
 {
@@ -16,7 +16,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeSelectJson(string moduleId)
         {
-            var data =await _service.GetList(moduleId);
+            var data = await _service.GetList(moduleId);
             var treeList = new List<TreeSelectModel>();
             foreach (ModuleButtonEntity item in data)
             {
@@ -39,7 +39,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
@@ -55,7 +55,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
                 }
                 else
                 {
-                    moduleButtonEntity.F_Layers =(await _service.GetForm(moduleButtonEntity.F_ParentId)).F_Layers + 1;
+                    moduleButtonEntity.F_Layers = (await _service.GetForm(moduleButtonEntity.F_ParentId)).F_Layers + 1;
                 }
                 await _service.SubmitForm(moduleButtonEntity, keyValue);
                 return await Success("操作成功。", "", keyValue);
@@ -89,8 +89,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetCloneButtonTreeJson()
         {
-            var moduledata =await _moduleService.GetList();
-            var buttondata =await _service.GetList();
+            var moduledata = await _moduleService.GetList();
+            var buttondata = await _service.GetList();
             var treeList = new List<TreeGridModel>();
             foreach (ModuleEntity item in moduledata)
             {
@@ -126,7 +126,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
             }
             catch (Exception ex)
             {
-                return await Error("克隆失败，"+ex.Message, "", Ids, DbLogType.Create);
+                return await Error("克隆失败，" + ex.Message, "", Ids, DbLogType.Create);
             }
         }
     }

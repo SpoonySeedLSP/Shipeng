@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Text.Encodings.Web;
-using System.Net.Sockets;
 
 namespace Shipeng.Util
 {
@@ -194,7 +194,7 @@ namespace Shipeng.Util
         /// <returns>cookie值</returns>
         public static string GetCookie(string strName)
         {
-            return GlobalContext.HttpContext?.Request.Cookies[strName]??"";
+            return GlobalContext.HttpContext?.Request.Cookies[strName] ?? "";
         }
         /// <summary>
         /// 删除Cookie对象
@@ -238,7 +238,7 @@ namespace Shipeng.Util
             Htmlstring = Regex.Replace(Htmlstring, @"&rdquo;", "", RegexOptions.IgnoreCase);
             Htmlstring.Replace(">", "");
             Htmlstring.Replace("\r\n", "");
-            
+
             Htmlstring = HtmlEncoder.Default.Encode(Htmlstring).Trim();
             return Htmlstring;
 
@@ -317,8 +317,8 @@ namespace Shipeng.Util
                     {
                         return hostAddress.ToString();
                     }
-                    else if(hostAddress.AddressFamily == AddressFamily.InterNetworkV6)
-					{
+                    else if (hostAddress.AddressFamily == AddressFamily.InterNetworkV6)
+                    {
                         return hostAddress.MapToIPv4().ToString();
                     }
                 }
@@ -360,11 +360,11 @@ namespace Shipeng.Util
             {
                 string url = "http://www.net.cn/static/customercare/yourip.asp";
                 string html = "";
-                using (var client=new HttpClient())
-				{
-                   var reponse= client.GetAsync(url).GetAwaiter().GetResult();
+                using (var client = new HttpClient())
+                {
+                    var reponse = client.GetAsync(url).GetAwaiter().GetResult();
                     reponse.EnsureSuccessStatusCode();
-                   html = reponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    html = reponse.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 }
                 if (!string.IsNullOrEmpty(html))
                 {
@@ -509,8 +509,8 @@ namespace Shipeng.Util
                 {
                     ipLocation = GetIpLocationFromPCOnline(ipAddress);
                 }
-				else
-				{
+                else
+                {
                     ipLocation = "本地局域网";
                 }
             }
@@ -527,8 +527,8 @@ namespace Shipeng.Util
             try
             {
                 var res = "";
-                using (var client=new HttpClient())
-				{
+                using (var client = new HttpClient())
+                {
                     var URL = "http://whois.pconline.com.cn/ip.jsp?ip=" + ipAddress;
                     var response = client.GetAsync(URL).GetAwaiter().GetResult();
                     response.EnsureSuccessStatusCode();
@@ -540,7 +540,7 @@ namespace Shipeng.Util
                 }
             }
             catch
-			{
+            {
                 ipLocation = "未知";
             }
             return ipLocation;

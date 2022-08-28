@@ -7,8 +7,8 @@
 
         public HomeInfoEntity()
         {
-            title= "首页";
-            href= "../Home/Default";
+            title = "首页";
+            href = "../Home/Default";
         }
     }
 }

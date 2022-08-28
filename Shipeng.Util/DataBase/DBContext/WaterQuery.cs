@@ -1,7 +1,7 @@
-﻿using SqlSugar;
+﻿using Shipeng.Util;
+using SqlSugar;
 using System.Linq.Expressions;
 using System.Reflection;
-using Shipeng.Util;
 
 namespace Shipeng.Util.DataBase
 {
@@ -788,12 +788,12 @@ namespace Shipeng.Util.DataBase
                                 }
                                 else
                                 {
-									if (gresult==null)
-									{
+                                    if (gresult == null)
+                                    {
                                         gresult = Expression.Equal(left, Expression.Constant(false, typeof(bool?)));
                                     }
-									else
-									{
+                                    else
+                                    {
                                         gresult.OrElse(Expression.Equal(left, Expression.Constant(false, typeof(bool?))));
                                     }
                                 }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Shipeng.HRMS.Domain.SystemManage
+﻿namespace Shipeng.HRMS.Domain.SystemManage
 {
     public class FlowschemeExtend : FlowschemeEntity
     {

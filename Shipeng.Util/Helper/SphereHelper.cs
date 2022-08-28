@@ -1,6 +1,4 @@
 ﻿using NetTopologySuite.Mathematics;
-using System;
-using System.Collections.Generic;
 
 namespace Shipeng.Util.Helper
 {

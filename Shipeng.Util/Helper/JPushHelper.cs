@@ -1,8 +1,5 @@
 ﻿using JPushSDK.Jiguang.JPush;
 using JPushSDK.Jiguang.JPush.Model;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 
 namespace Shipeng.Util.Helper
 {

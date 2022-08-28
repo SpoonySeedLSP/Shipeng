@@ -6,7 +6,7 @@ namespace Shipeng.Application.Contracts
     /// <summary>
     /// 
     /// </summary>
-    public interface IRouteAppService:IApplicationService
+    public interface IRouteAppService : IApplicationService
     {
         /// <summary>
         /// 获取全部路由数据

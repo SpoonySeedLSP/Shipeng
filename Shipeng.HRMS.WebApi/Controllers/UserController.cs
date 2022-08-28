@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemOrganize;
 using Shipeng.HRMS.Domain.SystemSecurity;
 using Shipeng.HRMS.Service.SystemOrganize;
 using Shipeng.HRMS.Service.SystemSecurity;
+using Shipeng.Util;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.WebApi.Controllers
 {
@@ -30,7 +30,7 @@ namespace Shipeng.HRMS.WebApi.Controllers
         /// <param name="request">请求对象</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<AlwaysResult> Login([FromBody]LoginRequest request)
+        public async Task<AlwaysResult> Login([FromBody] LoginRequest request)
         {
             var apitoken = Utils.GuId();
             if (!string.IsNullOrEmpty(OperatorProvider.Provider.GetToken()))
@@ -81,7 +81,7 @@ namespace Shipeng.HRMS.WebApi.Controllers
                 {
                     operatorModel.IsSuperAdmin = false;
                 }
-                await OperatorProvider.Provider.AddLoginUser(operatorModel, apitoken, "api_",false);
+                await OperatorProvider.Provider.AddLoginUser(operatorModel, apitoken, "api_", false);
                 logEntity.F_Account = userEntity.F_Account;
                 logEntity.F_NickName = userEntity.F_RealName;
                 logEntity.F_Result = true;
@@ -89,7 +89,7 @@ namespace Shipeng.HRMS.WebApi.Controllers
                 await _logService.WriteDbLog(logEntity);
                 // 设置刷新Token令牌
                 _httpContextAccessor.HttpContext.Response.Headers[GlobalContext.SystemConfig.TokenName] = apitoken;
-                return new AlwaysResult<string> { state = ResultType.success.ToString(), message = "登录成功。",data= apitoken };
+                return new AlwaysResult<string> { state = ResultType.success.ToString(), message = "登录成功。", data = apitoken };
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace Shipeng.HRMS.WebApi.Controllers
                 logEntity.F_Result = false;
                 logEntity.F_Description = "登录失败，" + ex.Message;
                 await _logService.WriteDbLog(logEntity);
-                return new AlwaysResult<string> { state = ResultType.error.ToString(), message = ex.Message,data= apitoken };
+                return new AlwaysResult<string> { state = ResultType.error.ToString(), message = ex.Message, data = apitoken };
             }
         }
         private async Task<bool> CheckIP()

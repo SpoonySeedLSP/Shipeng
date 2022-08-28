@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// 业务异常 注:并不会当作真正的异常处理,仅为方便返回前端错误提示信息

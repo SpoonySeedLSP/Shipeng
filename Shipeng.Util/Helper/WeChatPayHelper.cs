@@ -1,12 +1,9 @@
-﻿using Shipeng.Util.Helper;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
-using System;
-using System.IO;
+using Shipeng.Util.Helper;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Shipeng.Util
 {

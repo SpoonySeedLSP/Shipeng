@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.FileManage;
 using Shipeng.HRMS.Service.FileManage;
 using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
 using System.Net.Http.Headers;
 
 namespace Shipeng.HRMS.Web.Areas.FileManage.Controllers
@@ -13,10 +13,10 @@ namespace Shipeng.HRMS.Web.Areas.FileManage.Controllers
     /// 描 述：文件管理控制器类
     /// </summary>
     [Area("FileManage")]
-    public class UploadfileController :  ControllerBase
+    public class UploadfileController : ControllerBase
     {
 
-        public UploadfileService _service {get;set;}
+        public UploadfileService _service { get; set; }
         public SystemSetService _setService { get; set; }
 
         #region 获取数据
@@ -29,7 +29,7 @@ namespace Shipeng.HRMS.Web.Areas.FileManage.Controllers
                 pagination.field = "F_Id";
                 pagination.order = "desc";
             }
-            var data = await _service.GetLookList(pagination,keyword);
+            var data = await _service.GetLookList(pagination, keyword);
             return Content(pagination.setData(data).ToJson());
         }
 
@@ -54,7 +54,7 @@ namespace Shipeng.HRMS.Web.Areas.FileManage.Controllers
         [HttpPost]
         [HandlerLogin]
         [IgnoreAntiforgeryToken]
-        public async Task<ActionResult> Upload(string fileby,int filetype =0)
+        public async Task<ActionResult> Upload(string fileby, int filetype = 0)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace Shipeng.HRMS.Web.Areas.FileManage.Controllers
                     UploadfileEntity entity = new UploadfileEntity();
                     if (!string.IsNullOrEmpty(stemp))
                     {
-                        entity.F_FilePath = $@"/" + fileValue + $@"/"+ stemp + $@"/" + DateTime.Now.ToString("yyyyMMdd") + $@"/" + fileName;
+                        entity.F_FilePath = $@"/" + fileValue + $@"/" + stemp + $@"/" + DateTime.Now.ToString("yyyyMMdd") + $@"/" + fileName;
                         filePath = GlobalContext.HostingEnvironment.WebRootPath + $@"/" + fileValue + $@"/" + stemp + $@"/" + DateTime.Now.ToString("yyyyMMdd") + $@"/";
                     }
                     string fileFullName = filePath + fileName;
@@ -150,13 +150,13 @@ namespace Shipeng.HRMS.Web.Areas.FileManage.Controllers
                         fs.Flush();
                     }
                     list.Add(new { src = entity.F_FilePath, title = fileName });
-                }   
-                await _logService.WriteLog("操作成功。","","",DbLogType.Visit);
+                }
+                await _logService.WriteLog("操作成功。", "", "", DbLogType.Visit);
                 return Content(new { code = 0, msg = "操作成功", data = list }.ToJson());
             }
             catch (Exception ex)
             {
-                await _logService.WriteLog(ex.Message, "", "", DbLogType.Visit,true);
+                await _logService.WriteLog(ex.Message, "", "", DbLogType.Visit, true);
                 return Content(new { code = 400, msg = "操作失败," + ex.Message }.ToJson());
             }
         }

@@ -1,7 +1,7 @@
 ﻿namespace Shipeng.HRMS.Domain.FlowManage
 {
     public class NodeDesignateEntity
-	{
+    {
         /// <summary>
         /// 如果下个执行节点是运行时指定执行者。需要传指定的类型
         /// <para>取值为RUNTIME_SPECIAL_ROLE、RUNTIME_SPECIAL_USER</para>

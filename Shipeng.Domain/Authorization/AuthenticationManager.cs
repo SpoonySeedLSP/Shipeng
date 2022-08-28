@@ -1,12 +1,7 @@
-﻿using Shipeng.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Volo.Abp.Domain.Services;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Shipeng.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
-using Microsoft.Extensions.Caching.Memory;
+using Volo.Abp.Domain.Services;
 
 namespace Shipeng.Domain.Authorization
 {

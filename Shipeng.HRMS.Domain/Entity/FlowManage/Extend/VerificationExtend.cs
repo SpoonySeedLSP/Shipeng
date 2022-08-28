@@ -1,6 +1,6 @@
 ﻿namespace Shipeng.HRMS.Domain.FlowManage
 {
-    public class VerificationExtend:NodeDesignateEntity
+    public class VerificationExtend : NodeDesignateEntity
     {
         public string F_FlowInstanceId { get; set; }
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using Shipeng.HRMS.Domain.SystemManage;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service.SystemManage
@@ -46,16 +46,16 @@ namespace Shipeng.HRMS.Service.SystemManage
         }
         public async Task<string> GetMaxSortCode(string F_ParentId)
         {
-			try
-			{
+            try
+            {
                 int F_SortCode = (int)await repository.Db.Queryable<ModuleEntity>().Where(t => t.F_ParentId == F_ParentId).MaxAsync(a => a.F_SortCode);
 
                 return (F_SortCode + 1).ToString();
             }
-			catch (Exception)
-			{
+            catch (Exception)
+            {
                 return "0";
-			}
+            }
         }
         public async Task DeleteForm(string keyValue)
         {
@@ -83,8 +83,8 @@ namespace Shipeng.HRMS.Service.SystemManage
 
         public async Task SubmitForm(ModuleEntity moduleEntity, string keyValue)
         {
-			if (!string.IsNullOrEmpty(moduleEntity.F_Authorize))
-			{
+            if (!string.IsNullOrEmpty(moduleEntity.F_Authorize))
+            {
                 moduleEntity.F_Authorize = moduleEntity.F_Authorize.ToLower();
             }
             if (!string.IsNullOrEmpty(keyValue))

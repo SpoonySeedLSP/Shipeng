@@ -1,7 +1,5 @@
 ﻿using EFCore.Sharding;
 using MySqlConnector;
-using System;
-using System.Collections.Generic;
 using System.Data.Common;
 
 namespace Shipeng.Util

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.ContentManage;
 using Shipeng.HRMS.Service.ContentManage;
-using Microsoft.AspNetCore.Authorization;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.ContentManage.Controllers
 {
@@ -13,7 +13,7 @@ namespace Shipeng.HRMS.Web.Areas.ContentManage.Controllers
     /// </summary>
     [Area("ContentManage")]
     [AllowAnonymous]
-    public class ArticleNewsController :  ControllerBase
+    public class ArticleNewsController : ControllerBase
     {
 
         //属性注入示例
@@ -26,7 +26,7 @@ namespace Shipeng.HRMS.Web.Areas.ContentManage.Controllers
             {
                 return View();
             }
-            var keyValue=HttpContext.Request.Query["keyValue"].ToString();
+            var keyValue = HttpContext.Request.Query["keyValue"].ToString();
             ViewBag.UserName = _service.currentuser.UserName;
             ViewBag.Content = _service.GetForm(keyValue).Result.ToJson();
             return View();
@@ -46,14 +46,14 @@ namespace Shipeng.HRMS.Web.Areas.ContentManage.Controllers
         #region 获取数据
         [HandlerAjaxOnly]
         [IgnoreAntiforgeryToken]
-        public async Task<ActionResult> GetGridJson(SoulPage<ArticleNewsEntity> pagination, string keyword,string CategoryId)
+        public async Task<ActionResult> GetGridJson(SoulPage<ArticleNewsEntity> pagination, string keyword, string CategoryId)
         {
             if (string.IsNullOrEmpty(pagination.field))
             {
                 pagination.field = "F_Id";
                 pagination.order = "desc";
             }
-            var data = await _service.GetLookList(pagination, keyword,CategoryId);
+            var data = await _service.GetLookList(pagination, keyword, CategoryId);
             return Content(pagination.setData(data).ToJson());
         }
 

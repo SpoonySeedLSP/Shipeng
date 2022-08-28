@@ -34,7 +34,7 @@ namespace Shipeng.HRMS.Service.SystemSecurity
             return await repository.IQueryable(expression).ToListAsync();
         }
 
-		public async Task SubmitForm(ServerStateEntity entity)
+        public async Task SubmitForm(ServerStateEntity entity)
         {
             var old = repository.IQueryable().First(a => a.F_WebSite == entity.F_WebSite && a.F_Date == DateTime.Now.Date);
             if (old != null)

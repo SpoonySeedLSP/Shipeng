@@ -20,12 +20,12 @@ namespace Shipeng.Util
                         message = message += error.ErrorMessage + "|";
                     }
                 }
-                if (message.Length>0)
+                if (message.Length > 0)
                 {
                     message = message.Substring(0, message.Length - 1);
                 }
                 context.Result = new JsonResult(new AlwaysResult { state = ResultType.error.ToString(), message = message });
-            } 
+            }
         }
     }
 }

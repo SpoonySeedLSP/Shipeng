@@ -1,13 +1,13 @@
-﻿using Shipeng.HRMS.Service.SystemManage;
-using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemManage;
-using System.Text;
-using Shipeng.HRMS.Domain;
-using Shipeng.HRMS.Service.SystemSecurity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.HRMS.Domain;
+using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Service.InfoManage;
-using Microsoft.AspNetCore.Authorization;
+using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.HRMS.Service.SystemSecurity;
+using Shipeng.Util;
+using System.Text;
 
 namespace Shipeng.HRMS.Web.Controllers
 {
@@ -39,7 +39,7 @@ namespace Shipeng.HRMS.Web.Controllers
         {
             var data = new
             {
-                dataItems =await this.GetDataItemList(),
+                dataItems = await this.GetDataItemList(),
                 authorizeButton = await this.GetMenuButtonListNew(),
                 moduleFields = await this.GetMenuFields(),
                 authorizeFields = await this.GetMenuFieldsListNew(),
@@ -84,10 +84,10 @@ namespace Shipeng.HRMS.Web.Controllers
                 roleId = "visitor";
             }
             Dictionary<string, bool> dictionary = new Dictionary<string, bool>();
-            var list= await _roleAuthorizeService.GetMenuList(roleId);
-            foreach (ModuleEntity item in list.Where(a=>a.F_UrlAddress!=null))
+            var list = await _roleAuthorizeService.GetMenuList(roleId);
+            foreach (ModuleEntity item in list.Where(a => a.F_UrlAddress != null))
             {
-                dictionary.Add(item.F_UrlAddress, item.F_IsFields??false);
+                dictionary.Add(item.F_UrlAddress, item.F_IsFields ?? false);
             }
             return dictionary;
         }
@@ -137,7 +137,7 @@ namespace Shipeng.HRMS.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> GetNoticeInfo()
         {
-            var data =await this.GetNoticeList();
+            var data = await this.GetNoticeList();
             return Content(data.ToJson());
         }
         /// <summary>
@@ -150,12 +150,12 @@ namespace Shipeng.HRMS.Web.Controllers
         public async Task<ActionResult> GetUserCode()
         {
             var currentuser = _userService.currentuser;
-            if (currentuser.UserId==null)
+            if (currentuser.UserId == null)
             {
                 return Content("");
             }
-            var data =await _userService.GetFormExtend(currentuser.UserId);
-            var msglist= await _msgService.GetUnReadListJson();
+            var data = await _userService.GetFormExtend(currentuser.UserId);
+            var msglist = await _msgService.GetUnReadListJson();
             data.MsgCout = msglist.Count();
             return Content(data.ToJson());
         }
@@ -168,7 +168,7 @@ namespace Shipeng.HRMS.Web.Controllers
         {
             try
             {
-                var data =await this.GetQuickModuleList();
+                var data = await this.GetQuickModuleList();
                 return Content(data.ToJson());
             }
             catch (Exception)
@@ -188,12 +188,12 @@ namespace Shipeng.HRMS.Web.Controllers
             {
                 return Content("");
             }
-            int usercout =(await _userService.GetUserList("")).Count();
-            var temp =await CacheHelper.GetAsync<OperatorUserInfo>(cacheKeyOperator + "info_" + currentuser.UserId);
-            int logincout = temp!=null&&temp.F_LogOnCount!=null? (int)temp.F_LogOnCount : 0;
-            int modulecout =(await _moduleService.GetList()).Where(a => a.F_EnabledMark == true && a.F_UrlAddress != null).Count();
+            int usercout = (await _userService.GetUserList("")).Count();
+            var temp = await CacheHelper.GetAsync<OperatorUserInfo>(cacheKeyOperator + "info_" + currentuser.UserId);
+            int logincout = temp != null && temp.F_LogOnCount != null ? (int)temp.F_LogOnCount : 0;
+            int modulecout = (await _moduleService.GetList()).Where(a => a.F_EnabledMark == true && a.F_UrlAddress != null).Count();
             int logcout = (await _logService.GetList()).Count();
-            var data= new { usercout = usercout, logincout = logincout, modulecout = modulecout, logcout = logcout };
+            var data = new { usercout = usercout, logincout = logincout, modulecout = modulecout, logcout = logcout };
             return Content(data.ToJson());
         }
         /// <summary>
@@ -209,14 +209,14 @@ namespace Shipeng.HRMS.Web.Controllers
             init.homeInfo = new HomeInfoEntity();
             init.homeInfo.href = GlobalContext.SystemConfig.HomePage;
             init.logoInfo = new LogoInfoEntity();
-            var systemset =await _setService.GetForm(currentuser.CompanyId);
+            var systemset = await _setService.GetForm(currentuser.CompanyId);
             //修改主页及logo参数
             init.logoInfo.title = systemset.F_LogoCode;
-            init.logoInfo.image = ".."+systemset.F_Logo;
+            init.logoInfo.image = ".." + systemset.F_Logo;
             init.menuInfo = new List<MenuInfoEntity>();
             init.menuInfo = ToMenuJsonNew(await _roleAuthorizeService.GetMenuList(roleId), "0");
             sbJson.Append(init.ToJson());
-            return sbJson.ToString() ;
+            return sbJson.ToString();
         }
         /// <summary>
         /// 菜单信息
@@ -250,13 +250,13 @@ namespace Shipeng.HRMS.Web.Controllers
                         default:
                             munu.target = "_self";
                             break;
-                    }                    
-                    if (data.FindAll(t => t.F_ParentId == item.F_Id).Count>0)
+                    }
+                    if (data.FindAll(t => t.F_ParentId == item.F_Id).Count > 0)
                     {
                         munu.child = new List<MenuInfoEntity>();
                         munu.child = ToMenuJsonNew(data, item.F_Id);
                     }
-                    if (item.F_IsMenu ==true)
+                    if (item.F_IsMenu == true)
                     {
                         list.Add(munu);
                     }
@@ -271,12 +271,12 @@ namespace Shipeng.HRMS.Web.Controllers
         /// <returns></returns>
         private async Task<object> GetDataItemList()
         {
-            var itemdata =await _itemsDetailService.GetList();
+            var itemdata = await _itemsDetailService.GetList();
             Dictionary<string, object> dictionaryItem = new Dictionary<string, object>();
             var itemlist = await _itemsService.GetList();
-            foreach (var item in itemlist.Where(a=>a.F_EnabledMark==true).ToList())
+            foreach (var item in itemlist.Where(a => a.F_EnabledMark == true).ToList())
             {
-                var dataItemList = itemdata.FindAll(t => t.F_ItemId==item.F_Id);
+                var dataItemList = itemdata.FindAll(t => t.F_ItemId == item.F_Id);
                 Dictionary<string, string> dictionaryItemList = new Dictionary<string, string>();
                 foreach (var itemList in dataItemList)
                 {
@@ -295,7 +295,7 @@ namespace Shipeng.HRMS.Web.Controllers
         {
             var currentuser = _userService.currentuser;
             var roleId = currentuser.RoleId;
-            if (roleId==null&& currentuser.IsAdmin)
+            if (roleId == null && currentuser.IsAdmin)
             {
                 roleId = "admin";
             }
@@ -321,7 +321,7 @@ namespace Shipeng.HRMS.Web.Controllers
                     if (dictionarylist.ContainsKey(item.F_ModuleId))
                     {
                         dictionarylist[item.F_ModuleId].AddRange(buttonList);
-                        dictionarylist[item.F_ModuleId]= dictionarylist[item.F_ModuleId].GroupBy(p => p.F_Id).Select(q => q.First()).ToList();
+                        dictionarylist[item.F_ModuleId] = dictionarylist[item.F_ModuleId].GroupBy(p => p.F_Id).Select(q => q.First()).ToList();
                     }
                     else
                     {

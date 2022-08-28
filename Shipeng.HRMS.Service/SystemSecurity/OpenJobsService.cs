@@ -1,12 +1,12 @@
-using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemSecurity;
 using Quartz;
-using Shipeng.HRMS.Service.AutoJob;
+using Quartz.Impl.Triggers;
 using Quartz.Spi;
+using Shipeng.HRMS.Domain.SystemSecurity;
+using Shipeng.HRMS.Service.AutoJob;
+using Shipeng.Util;
+using Shipeng.Util.DataBase;
 using SqlSugar;
 using System.Reflection;
-using Quartz.Impl.Triggers;
-using Shipeng.Util.DataBase;
 using HttpMethod = System.Net.Http.HttpMethod;
 
 namespace Shipeng.HRMS.Service.SystemSecurity
@@ -43,7 +43,8 @@ namespace Shipeng.HRMS.Service.SystemSecurity
 
         public async Task<List<OpenJobLogEntity>> GetLogList(string keyValue)
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 if (HandleLogProvider != Define.CACHEPROVIDER_REDIS)
                 {
                     return repository.Db.Queryable<OpenJobLogEntity>().Where(a => a.F_JobId == keyValue).OrderBy(a => a.F_CreatorTime, OrderByType.Desc).ToList();
@@ -147,13 +148,14 @@ namespace Shipeng.HRMS.Service.SystemSecurity
                     .Contains(typeof(IJobTask))))
                 .ToArray();
             var list = new List<KeyValue>();
-			foreach (var item in types)
-			{
-                list.Add(new KeyValue { 
-                    Key=item.FullName,
+            foreach (var item in types)
+            {
+                list.Add(new KeyValue
+                {
+                    Key = item.FullName,
                     Description = item.GetCustomAttribute<ServiceDescriptionAttribute>(false)!.ClassDescription
                 });
-			}
+            }
             return list;
         }
 
@@ -206,8 +208,8 @@ namespace Shipeng.HRMS.Service.SystemSecurity
 
         public async Task DoNow(string keyValue, bool returnEx = true)
         {
-			try
-			{
+            try
+            {
                 // 获取数据库中的任务
                 var dbJobEntity = await GetForm(keyValue);
                 if (dbJobEntity != null)
@@ -353,8 +355,8 @@ namespace Shipeng.HRMS.Service.SystemSecurity
                     repository.unitOfWork.CurrentCommit();
                 }
             }
-			catch (Exception ex)
-			{
+            catch (Exception ex)
+            {
                 repository.unitOfWork.CurrentRollback();
                 LogHelper.WriteWithTime(ex);
                 if (returnEx)
@@ -362,7 +364,7 @@ namespace Shipeng.HRMS.Service.SystemSecurity
                     throw new Exception(ex.Message);
                 }
             }
-            
+
         }
 
         public async Task DeleteLogForm(string keyValue)

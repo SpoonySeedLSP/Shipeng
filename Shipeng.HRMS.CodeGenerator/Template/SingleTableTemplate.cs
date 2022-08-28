@@ -1,11 +1,11 @@
-using System.Text;
-using System.Data;
-using System.Web;
 using Newtonsoft.Json.Linq;
-using SqlSugar;
+using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.Util;
 using Shipeng.Util.DataBase;
-using Shipeng.HRMS.Domain.SystemManage;
+using SqlSugar;
+using System.Data;
+using System.Text;
+using System.Web;
 
 namespace Shipeng.HRMS.CodeGenerator
 {
@@ -44,9 +44,9 @@ namespace Shipeng.HRMS.CodeGenerator
             #region OutputConfigModel          
             baseConfigModel.OutputConfig = new OutputConfigModel();
             baseConfigModel.OutputConfig.OutputModule = string.Empty;
-            baseConfigModel.OutputConfig.OutputEntity = Path.Combine(path, "WaterCloud.Domain\\Entity");
-            baseConfigModel.OutputConfig.OutputService = Path.Combine(path, "WaterCloud.Service");
-            baseConfigModel.OutputConfig.OutputWeb = Path.Combine(path, "WaterCloud.Web");
+            baseConfigModel.OutputConfig.OutputEntity = Path.Combine(path, "Shipeng.HRMS.Domain\\Entity");
+            baseConfigModel.OutputConfig.OutputService = Path.Combine(path, "Shipeng.HRMS.Service");
+            baseConfigModel.OutputConfig.OutputWeb = Path.Combine(path, "Shipeng.HRMS.Web");
             #endregion
 
             #region PageIndexModel
@@ -88,12 +88,12 @@ namespace Shipeng.HRMS.CodeGenerator
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("using System;");
             //sb.AppendLine("using Newtonsoft.Json;");
-            //sb.AppendLine("using WaterCloud.Code;");
+            //sb.AppendLine("using Shipeng.Util;");
             sb.AppendLine("using System.ComponentModel.DataAnnotations;");
             sb.AppendLine("using SqlSugar;");
             sb.AppendLine();
 
-            sb.AppendLine("namespace WaterCloud.Domain." + baseConfigModel.OutputConfig.OutputModule);
+            sb.AppendLine("namespace Shipeng.HRMS.Domain." + baseConfigModel.OutputConfig.OutputModule);
             sb.AppendLine("{");
 
             SetClassDescription("实体类", baseConfigModel, sb);
@@ -135,7 +135,7 @@ namespace Shipeng.HRMS.CodeGenerator
                 sb.AppendLine("        /// <summary>");
                 sb.AppendLine("        /// " + item.ColumnDescription);
                 sb.AppendLine("        /// </summary>");
-                sb.AppendLine("        [SugarColumn(ColumnName=\"" + item.DbColumnName + "\", ColumnDescription = \""+item.ColumnDescription+ "\",ColumnDataType = \""+ columntype + "\""+ IsNullable + isIgnore+isJson+isIdentity+isPrimaryKey+")]");
+                sb.AppendLine("        [SugarColumn(ColumnName=\"" + item.DbColumnName + "\", ColumnDescription = \"" + item.ColumnDescription + "\",ColumnDataType = \"" + columntype + "\"" + IsNullable + isIgnore + isJson + isIdentity + isPrimaryKey + ")]");
                 sb.AppendLine("        public " + datatype + isNull + " " + item.DbColumnName + " { get; set; }");
                 //switch (datatype)
                 //{
@@ -166,13 +166,13 @@ namespace Shipeng.HRMS.CodeGenerator
             sb.AppendLine("using System.Linq;");
             sb.AppendLine("using System.Threading.Tasks;");
             sb.AppendLine("using System.Collections.Generic;");
-            sb.AppendLine("using WaterCloud.Code;");
+            sb.AppendLine("using Shipeng.Util;");
             sb.AppendLine("using SqlSugar;");
-            sb.AppendLine("using WaterCloud.DataBase;");
-            sb.AppendLine("using WaterCloud.Domain." + baseConfigModel.OutputConfig.OutputModule + ";");
+            sb.AppendLine("using Shipeng.Util.DataBase;");
+            sb.AppendLine("using Shipeng.HRMS.Domain." + baseConfigModel.OutputConfig.OutputModule + ";");
             sb.AppendLine();
 
-            sb.AppendLine("namespace WaterCloud.Service." + baseConfigModel.OutputConfig.OutputModule);
+            sb.AppendLine("namespace Shipeng.HRMS.Service." + baseConfigModel.OutputConfig.OutputModule);
             sb.AppendLine("{");
 
             SetClassDescription("服务类", baseConfigModel, sb);
@@ -207,7 +207,7 @@ namespace Shipeng.HRMS.CodeGenerator
                     }
                 }
                 sb.AppendLine("            }");
-                sb.AppendLine("            return await data"+(string.IsNullOrEmpty(baseConfigModel.PageIndex.DeleteColum)? "" : $".Where(a => a.{baseConfigModel.PageIndex.DeleteColum} == false)") + $".OrderBy(a => a.{baseConfigModel.PageIndex.SortColumn}"+ (baseConfigModel.PageIndex.IsAsc == true ? "" : " , OrderByType.Desc") + ").ToListAsync();");
+                sb.AppendLine("            return await data" + (string.IsNullOrEmpty(baseConfigModel.PageIndex.DeleteColum) ? "" : $".Where(a => a.{baseConfigModel.PageIndex.DeleteColum} == false)") + $".OrderBy(a => a.{baseConfigModel.PageIndex.SortColumn}" + (baseConfigModel.PageIndex.IsAsc == true ? "" : " , OrderByType.Desc") + ").ToListAsync();");
             }
             else
             {
@@ -316,7 +316,7 @@ namespace Shipeng.HRMS.CodeGenerator
             sb.AppendLine("        }");
             sb.AppendLine();
             sb.AppendLine("        #region 提交数据");
-            sb.AppendLine("        public async Task SubmitForm(" + baseConfigModel.FileConfig.EntityName + $" entity, {idType} keyValue"+ (idType == "int" || idType == "long"?"=0)":")"));
+            sb.AppendLine("        public async Task SubmitForm(" + baseConfigModel.FileConfig.EntityName + $" entity, {idType} keyValue" + (idType == "int" || idType == "long" ? "=0)" : ")"));
             sb.AppendLine("        {");
             if (idType == "int" || idType == "long")
             {
@@ -328,13 +328,13 @@ namespace Shipeng.HRMS.CodeGenerator
             }
             sb.AppendLine("            {");
             sb.AppendLine("                    //初始值添加");
-			if (!string.IsNullOrEmpty(baseConfigModel.PageIndex.DeleteColum))
-			{
+            if (!string.IsNullOrEmpty(baseConfigModel.PageIndex.DeleteColum))
+            {
                 sb.AppendLine($"                entity.{baseConfigModel.PageIndex.DeleteColum} = false;");
             }
             foreach (var item in baseConfigModel.PageIndex.ColumnList)
             {
-                if (item.field != idColumn&& item.field != baseConfigModel.PageIndex.DeleteColum && item.field != baseConfigModel.PageIndex.CreateColum && !string.IsNullOrEmpty(item.value))
+                if (item.field != idColumn && item.field != baseConfigModel.PageIndex.DeleteColum && item.field != baseConfigModel.PageIndex.CreateColum && !string.IsNullOrEmpty(item.value))
                 {
                     sb.AppendLine($"                entity.{item.field} = {item.value};");
                 }
@@ -430,14 +430,14 @@ namespace Shipeng.HRMS.CodeGenerator
             sb.AppendLine("using System.Threading.Tasks;");
             sb.AppendLine("using System.Collections.Generic;");
             sb.AppendLine("using Microsoft.AspNetCore.Mvc;");
-            sb.AppendLine("using WaterCloud.Code;");
-            sb.AppendLine("using WaterCloud.Domain." + baseConfigModel.OutputConfig.OutputModule + ";");
-            sb.AppendLine("using WaterCloud.Service;");
+            sb.AppendLine("using Shipeng.Util;");
+            sb.AppendLine("using Shipeng.HRMS.Domain." + baseConfigModel.OutputConfig.OutputModule + ";");
+            sb.AppendLine("using Shipeng.HRMS.Service;");
             sb.AppendLine("using Microsoft.AspNetCore.Authorization;");
-            sb.AppendLine("using WaterCloud.Service." + baseConfigModel.OutputConfig.OutputModule + ";");
+            sb.AppendLine("using Shipeng.HRMS.Service." + baseConfigModel.OutputConfig.OutputModule + ";");
             sb.AppendLine();
 
-            sb.AppendLine("namespace WaterCloud.Web.Areas." + baseConfigModel.OutputConfig.OutputModule + ".Controllers");
+            sb.AppendLine("namespace Shipeng.HRMS.Web.Areas." + baseConfigModel.OutputConfig.OutputModule + ".Controllers");
             sb.AppendLine("{");
 
             SetClassDescription("控制器类", baseConfigModel, sb);
@@ -675,7 +675,7 @@ namespace Shipeng.HRMS.CodeGenerator
                     sb.AppendLine("             search:false,");
                 }
                 sb.AppendLine("             treeColIndex: 1,           // 折叠图标显示在第几列");
-                sb.AppendLine("             url: '/" + baseConfigModel.OutputConfig.OutputModule + "/" + baseConfigModel.FileConfig.ClassPrefix + "/GetTreeGridJson'+(!queryJson ? '' : '?keyword=' + queryJson),"); 
+                sb.AppendLine("             url: '/" + baseConfigModel.OutputConfig.OutputModule + "/" + baseConfigModel.FileConfig.ClassPrefix + "/GetTreeGridJson'+(!queryJson ? '' : '?keyword=' + queryJson),");
                 sb.AppendLine("             cols: [[");
                 sb.AppendLine("                 //此处需修改");
                 sb.AppendLine("                 { type: \"radio\", width: 50, fixed: 'left' },");
@@ -990,7 +990,7 @@ namespace Shipeng.HRMS.CodeGenerator
                             sb.AppendLine("                            <input type=\"text\" id=\"" + item.Key + "\" name=\"" + item.Key + "\" autocomplete=\"off\" lay-verify=\"required\" placeholder=\"请输入\" class=\"layui-input\">");
                             sb.AppendLine("                        </div>");
                             sb.AppendLine("                    </div>");
-                            if (i % 2 == 0 )
+                            if (i % 2 == 0)
                             {
                                 sb.AppendLine("                </div>");
                             }
@@ -1323,7 +1323,7 @@ namespace Shipeng.HRMS.CodeGenerator
                     await uniwork.GetDbClient().Insertable(moduleFieldsList).ExecuteCommandAsync();
                 }
                 uniwork.CurrentCommit();
-                await CacheHelper.RemoveAsync(authorizecacheKey+ OperatorProvider.Provider.GetCurrent().DbNumber+ "_list");
+                await CacheHelper.RemoveAsync(authorizecacheKey + OperatorProvider.Provider.GetCurrent().DbNumber + "_list");
                 FileHelper.CreateFile(indexPath, codeIndex);
                 result.Add(new KeyValue { Key = "列表页", Value = indexPath, Description = "生成成功！" });
             }
@@ -1375,7 +1375,8 @@ namespace Shipeng.HRMS.CodeGenerator
         #region EntityCreateCode
         public async Task EntityCreateCode(BaseConfigModel baseConfigModel, string code)
         {
-           await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 string codeEntity = "";
                 string entityPath = "";
                 if (!string.IsNullOrEmpty(code))
@@ -1389,7 +1390,7 @@ namespace Shipeng.HRMS.CodeGenerator
                     }
                     FileHelper.CreateFile(entityPath, codeEntity);
                 }
-            });        
+            });
         }
         #endregion
 
@@ -1433,7 +1434,7 @@ namespace Shipeng.HRMS.CodeGenerator
         }
         #endregion 
 
-        private string GetBaseEntity(string EntityName, DataTable dt, string idColumn = "F_Id",bool keyIsNull = false)
+        private string GetBaseEntity(string EntityName, DataTable dt, string idColumn = "F_Id", bool keyIsNull = false)
         {
             string entity = string.Empty;
             var columnList = dt.AsEnumerable().Select(p => p["DbColumnName"].ParseToString()).ToList();

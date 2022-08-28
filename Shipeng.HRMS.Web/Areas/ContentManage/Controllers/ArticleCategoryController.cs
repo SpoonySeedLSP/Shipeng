@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.ContentManage;
 using Shipeng.HRMS.Service.ContentManage;
-using Microsoft.AspNetCore.Authorization;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.ContentManage.Controllers
 {
@@ -13,7 +13,7 @@ namespace Shipeng.HRMS.Web.Areas.ContentManage.Controllers
     /// </summary>
     [Area("ContentManage")]
     [AllowAnonymous]
-    public class ArticleCategoryController :  ControllerBase
+    public class ArticleCategoryController : ControllerBase
     {
 
         //属性注入示例
@@ -28,7 +28,7 @@ namespace Shipeng.HRMS.Web.Areas.ContentManage.Controllers
                 pagination.order = "desc";
                 pagination.field = "F_Id";
             }
-            var data = await _service.GetLookList(pagination,keyword);
+            var data = await _service.GetLookList(pagination, keyword);
             return Success(pagination.records, data);
         }
         [HttpGet]
@@ -67,7 +67,7 @@ namespace Shipeng.HRMS.Web.Areas.ContentManage.Controllers
             try
             {
                 await _service.SubmitForm(entity, keyValue);
-                return await Success("操作成功。","",keyValue);
+                return await Success("操作成功。", "", keyValue);
             }
             catch (Exception ex)
             {

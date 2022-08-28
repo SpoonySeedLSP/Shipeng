@@ -1,14 +1,14 @@
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using SqlSugar;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemOrganize
 {
     public class DutyService : DataFilterService<RoleEntity>, IDenpendency
     {
         public SystemSetService setApp { get; set; }
-        public DutyService(IUnitOfWork unitOfWork) :base(unitOfWork)
+        public DutyService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 
@@ -30,7 +30,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             enabledTemp.Add("1", "有效");
             enabledTemp.Add("0", "无效");
             dic.Add("F_EnabledMark", enabledTemp);
-            var setList =await setApp.GetList();
+            var setList = await setApp.GetList();
             Dictionary<string, string> orgizeTemp = new Dictionary<string, string>();
             foreach (var item in setList)
             {
@@ -38,12 +38,12 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             }
             dic.Add("F_OrganizeId", orgizeTemp);
             pagination = ChangeSoulData(dic, pagination);
-            var query= GetQuery();
+            var query = GetQuery();
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(a => a.F_FullName.Contains(keyword) || a.F_EnCode.Contains(keyword));
             }
-            query = query.Where(a => a.F_DeleteMark == false&& a.F_Category == 2);
+            query = query.Where(a => a.F_DeleteMark == false && a.F_Category == 2);
             query = GetDataPrivilege("a", "", query);
             return await query.ToPageListAsync(pagination);
         }
@@ -59,11 +59,11 @@ namespace Shipeng.HRMS.Service.SystemOrganize
         }
         private ISugarQueryable<RoleExtend> GetQuery()
         {
-            var query = repository.Db.Queryable<RoleEntity,SystemSetEntity>((a,b)=>new JoinQueryInfos(
+            var query = repository.Db.Queryable<RoleEntity, SystemSetEntity>((a, b) => new JoinQueryInfos(
                 JoinType.Left, a.F_OrganizeId == b.F_Id
 
                 )).Where(a => a.F_DeleteMark == false && a.F_Category == 2)
-                .Select((a,b)=>new RoleExtend
+                .Select((a, b) => new RoleExtend
                 {
                     F_Id = a.F_Id.SelectAll(),
                     F_CompanyName = b.F_CompanyName,

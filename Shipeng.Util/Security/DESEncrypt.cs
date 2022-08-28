@@ -8,7 +8,7 @@ namespace Shipeng.Util
     /// </summary>
     public class DESEncrypt
     {
-        private static string DESKey = "WaterCloud_desencrypt_2019";
+        private static string DESKey = "HRMS_desencrypt_2019";
 
         #region ========加密========
         /// <summary>
@@ -139,7 +139,7 @@ namespace Shipeng.Util
             {
                 builder.Append(data[i].ToString("X2"));
             }
-            strEncrypt = builder.ToString().Substring(0,8);
+            strEncrypt = builder.ToString().Substring(0, 8);
             return strEncrypt;
         }
         /// <summary>

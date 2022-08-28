@@ -1,5 +1,4 @@
 ﻿using QRCoder;
-using System;
 using System.Drawing;
 
 namespace Shipeng.Util

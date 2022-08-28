@@ -1,9 +1,9 @@
-﻿using Shipeng.Util;
-using SqlSugar;
-using Shipeng.HRMS.Domain.InfoManage;
+﻿using Shipeng.HRMS.Domain.InfoManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
 using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.InfoManage
 {
@@ -27,7 +27,7 @@ namespace Shipeng.HRMS.Service.InfoManage
             {
                 query = query.Where(a => a.F_MessageInfo.Contains(keyword) || a.F_CreatorUserName.Contains(keyword));
             }
-            return await query.Where(a => a.F_EnabledMark == true).OrderBy(a => a.F_CreatorTime,OrderByType.Desc).ToListAsync();
+            return await query.Where(a => a.F_EnabledMark == true).OrderBy(a => a.F_CreatorTime, OrderByType.Desc).ToListAsync();
         }
 
         public async Task<List<MessageEntity>> GetLookList(string keyword = "")
@@ -37,19 +37,19 @@ namespace Shipeng.HRMS.Service.InfoManage
             {
                 query = query.Where(a => a.F_MessageInfo.Contains(keyword) || a.F_CreatorUserName.Contains(keyword));
             }
-            query = GetDataPrivilege("a","", query);
-            return await query.OrderBy(a => a.F_CreatorTime,OrderByType.Desc).ToListAsync();
+            query = GetDataPrivilege("a", "", query);
+            return await query.OrderBy(a => a.F_CreatorTime, OrderByType.Desc).ToListAsync();
         }
 
         public async Task<List<MessageEntity>> GetUnReadListJson()
         {
             var hisquery = repository.Db.Queryable<MessageHistoryEntity>().Where(a => a.F_CreatorUserId == currentuser.UserId).Select(a => a.F_MessageId).ToList();
-            var tempList= repository.Db.Queryable<MessageEntity, MessageHistoryEntity>((a,b) => new JoinQueryInfos(
-                JoinType.Inner,a.F_Id==b.F_MessageId&&a.F_MessageType==2
+            var tempList = repository.Db.Queryable<MessageEntity, MessageHistoryEntity>((a, b) => new JoinQueryInfos(
+                JoinType.Inner, a.F_Id == b.F_MessageId && a.F_MessageType == 2
                 )).Select(a => a.F_Id).ToList();
             hisquery.AddRange(tempList);
             var query = repository.IQueryable(a => (a.F_ToUserId.Contains(currentuser.UserId) || a.F_ToUserId == "") && a.F_EnabledMark == true).Where(a => !hisquery.Contains(a.F_Id));
-            return await GetFieldsFilterDataNew("a", query.OrderBy(a => a.F_CreatorTime,OrderByType.Desc)).ToListAsync();
+            return await GetFieldsFilterDataNew("a", query.OrderBy(a => a.F_CreatorTime, OrderByType.Desc)).ToListAsync();
         }
 
         public async Task<List<MessageEntity>> GetLookList(SoulPage<MessageEntity> pagination, string keyword = "")
@@ -60,7 +60,7 @@ namespace Shipeng.HRMS.Service.InfoManage
             Dictionary<string, string> messageTypeTemp = new Dictionary<string, string>();
             foreach (var item in setList)
             {
-                messageTypeTemp.Add(item.F_ItemCode,item.F_ItemName);
+                messageTypeTemp.Add(item.F_ItemCode, item.F_ItemName);
             }
             dic.Add("F_MessageType", messageTypeTemp);
             pagination = ChangeSoulData(dic, pagination);
@@ -71,7 +71,7 @@ namespace Shipeng.HRMS.Service.InfoManage
                 //此处需修改
                 query = query.Where(a => a.F_MessageInfo.Contains(keyword) || a.F_CreatorUserName.Contains(keyword));
             }
-            query = GetDataPrivilege("a","",query);
+            query = GetDataPrivilege("a", "", query);
             return await query.ToPageListAsync(pagination);
         }
 
@@ -106,7 +106,7 @@ namespace Shipeng.HRMS.Service.InfoManage
             {
                 var users = entity.F_ToUserId.Split(",");
                 entity.F_ToUserName = string.Join(",", repository.Db.Queryable<UserEntity>().Where(a => users.Contains(a.F_Id)).Select(a => a.F_RealName).ToList());
-                messageEntity= await repository.Insert(entity);
+                messageEntity = await repository.Insert(entity);
             }
             //通过http发送消息
             messageEntity.companyId = currentuser.CompanyId;
@@ -115,18 +115,18 @@ namespace Shipeng.HRMS.Service.InfoManage
         }
         public async Task ReadAllMsgForm(int type)
         {
-            var unList=await GetUnReadListJson();
-            var strList = unList.Where(a => a.F_MessageType == type&&a.F_ClickRead==true).Select(a=>a.F_Id).ToList();
+            var unList = await GetUnReadListJson();
+            var strList = unList.Where(a => a.F_MessageType == type && a.F_ClickRead == true).Select(a => a.F_Id).ToList();
             unitofwork.CurrentBeginTrans();
             foreach (var item in strList)
             {
-               await ReadMsgForm(item);
+                await ReadMsgForm(item);
             }
             unitofwork.CurrentCommit();
         }
 
         public async Task ReadMsgForm(string keyValue)
-        {            
+        {
             MessageHistoryEntity msghis = new MessageHistoryEntity();
             msghis.Create();
             msghis.F_CreatorUserName = currentuser.UserName;
@@ -137,11 +137,11 @@ namespace Shipeng.HRMS.Service.InfoManage
         public async Task<bool> CheckMsg(string keyValue)
         {
             var msg = await repository.FindEntity(keyValue);
-            if (msg==null)
+            if (msg == null)
             {
                 return true;
             }
-            if (msg.F_ClickRead==false)
+            if (msg.F_ClickRead == false)
             {
                 return true;
             }
@@ -158,8 +158,9 @@ namespace Shipeng.HRMS.Service.InfoManage
         public async Task DeleteForm(string keyValue)
         {
             var ids = keyValue.Split(',');
-            await repository.Update(a => ids.Contains(a.F_Id), a=>new MessageEntity { 
-                F_EnabledMark=false         
+            await repository.Update(a => ids.Contains(a.F_Id), a => new MessageEntity
+            {
+                F_EnabledMark = false
             });
         }
         #endregion

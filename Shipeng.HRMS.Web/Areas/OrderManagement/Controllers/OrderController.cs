@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.OrderManagement;
 using Shipeng.HRMS.Service.OrderManagement;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.OrderManagement.Controllers
 {
@@ -11,9 +11,9 @@ namespace Shipeng.HRMS.Web.Areas.OrderManagement.Controllers
     /// 描 述：订单管理控制器类
     /// </summary>
     [Area("OrderManagement")]
-    public class OrderController :  ControllerBase
+    public class OrderController : ControllerBase
     {
-        public OrderService _service {get;set;}
+        public OrderService _service { get; set; }
 
         #region 获取数据
         [HandlerAjaxOnly]
@@ -25,7 +25,7 @@ namespace Shipeng.HRMS.Web.Areas.OrderManagement.Controllers
                 pagination.field = "F_NeedTime";
                 pagination.order = "asc";
             }
-            var data = await _service.GetLookList(pagination,keyword);
+            var data = await _service.GetLookList(pagination, keyword);
             return Content(pagination.setData(data).ToJson());
         }
 

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.SystemManage
 {
@@ -9,7 +9,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 分类Id
@@ -26,7 +26,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// 编号
         /// </summary>
         [Required(ErrorMessage = "编号不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_ItemCode",ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_itemsdetail" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ItemCode", ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_itemsdetail" })]
         public string F_ItemCode { get; set; }
         /// <summary>
         /// 名称
@@ -59,7 +59,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 删除标记
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "删除标记")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "删除标记")]
         public bool? F_DeleteMark { get; set; }
         /// <summary>
         /// 有效标记
@@ -69,7 +69,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 备注
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Description",ColumnDataType = "longtext", ColumnDescription = "备注")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Description", ColumnDataType = "longtext", ColumnDescription = "备注")]
         public string F_Description { get; set; }
         /// <summary>
         /// 创建时间

@@ -1,13 +1,13 @@
-﻿using Shipeng.HRMS.Service.SystemOrganize;
-using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemOrganize;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http.Headers;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
+using System.Net.Http.Headers;
 
 namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
 {
@@ -30,21 +30,21 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
                 pagination.field = "F_Id";
                 pagination.order = "desc";
             }
-            var data =await _service.GetLookList(pagination,keyword);
+            var data = await _service.GetLookList(pagination, keyword);
             return Content(pagination.setData(data).ToJson());
         }
         [HttpGet]
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetListJson(string keyword)
         {
-            var data =await _service.GetList(keyword);
+            var data = await _service.GetList(keyword);
             return Content(data.ToJson());
         }
         [HttpGet]
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
@@ -145,7 +145,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HttpGet]
         public async Task<FileResult> Download()
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 string fileName = "岗位导入模板.xlsx";
                 string fileValue = "model";
                 string filePath = GlobalContext.HostingEnvironment.WebRootPath + $@"/" + fileValue + $@"/" + fileName;
@@ -164,7 +165,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
                 f.Close();
                 var contentType = MimeMapping.GetMimeMapping(fileName);
                 return File(ms, contentType, fileName);
-            });      
+            });
         }
         [HttpGet]
         public async Task<FileResult> ExportExcel(string keyword = "")
@@ -192,7 +193,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
                 rowtemp.CreateCell(0).SetCellValue((i + 1).ToString());
                 rowtemp.CreateCell(1).SetCellValue(list[i].F_EnCode != null ? list[i].F_EnCode.ToString() : "");
                 rowtemp.CreateCell(2).SetCellValue(list[i].F_FullName != null ? list[i].F_FullName.ToString() : "");
-                var set=await _setService.GetForm(_service.currentuser.CompanyId);
+                var set = await _setService.GetForm(_service.currentuser.CompanyId);
                 rowtemp.CreateCell(3).SetCellValue(set != null ? set.F_CompanyName : "");
                 rowtemp.CreateCell(4).SetCellValue(list[i].F_EnabledMark == true ? "有效" : "无效");
                 rowtemp.CreateCell(5).SetCellValue(list[i].F_CreatorTime != null ? list[i].F_CreatorTime.ToString() : "");
@@ -249,7 +250,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
             parag.Alignment = Element.ALIGN_CENTER;
             Doc.Add(parag);
 
-            table = new PdfPTable(new float[] { 5, 5, 5, 5, 5, 5, 5});
+            table = new PdfPTable(new float[] { 5, 5, 5, 5, 5, 5, 5 });
             table.WidthPercentage = 100f;
             table.AddCell(new Phrase("序号", Font12Bold));
             table.AddCell(new Phrase("岗位编号", Font12Bold));
@@ -272,7 +273,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
                 var set = await _setService.GetForm(_service.currentuser.CompanyId);
                 table.AddCell(new Phrase(set != null ? set.F_CompanyName.ToString() : "", Font12));
                 table.AddCell(new Phrase(item.F_EnabledMark != true ? "无效" : "有效", Font12));
-                table.AddCell(new Phrase(item.F_CreatorTime!=null?((DateTime)item.F_CreatorTime).ToString("yyyy-MM-dd") :"", Font12));
+                table.AddCell(new Phrase(item.F_CreatorTime != null ? ((DateTime)item.F_CreatorTime).ToString("yyyy-MM-dd") : "", Font12));
                 table.AddCell(new Phrase(item.F_Description, Font12));
                 Doc.Add(table);
             }

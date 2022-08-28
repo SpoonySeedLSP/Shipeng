@@ -147,13 +147,13 @@ namespace Shipeng.Util
             }
             else
             {
-                if (columnObject is DateTime|| columnObject is Nullable<DateTime>)
+                if (columnObject is DateTime || columnObject is Nullable<DateTime>)
                 {
                     columnValue = dateFormat((DateTime)columnObject, null);
                 }
-                else if (columnObject is bool|| columnObject is Nullable<bool>)
+                else if (columnObject is bool || columnObject is Nullable<bool>)
                 {
-                    columnValue = (bool)columnObject==true?"1":"0";
+                    columnValue = (bool)columnObject == true ? "1" : "0";
                 }
                 else
                 {
@@ -177,7 +177,7 @@ namespace Shipeng.Util
                             columnMap.Add(column, new HashSet<string>());
                         }
                         var columnObject = ReflectionHelper.GetObjectPropertyValue(datum, column);
-                        if (columnObject!=null)
+                        if (columnObject != null)
                         { //空值不展示
                             columnMap.Get(column).Add(getFormatValue(typeMap, column, columnObject));
                         }

@@ -4,7 +4,7 @@ using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service.SystemOrganize
 {
-    public class NoticeService: DataFilterService<NoticeEntity>,IDenpendency
+    public class NoticeService : DataFilterService<NoticeEntity>, IDenpendency
     {
         public NoticeService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -38,7 +38,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
         }
         public async Task<NoticeEntity> GetLookForm(string keyValue)
         {
-            var data = await repository.FindEntity( keyValue);
+            var data = await repository.FindEntity(keyValue);
             return GetFieldsFilterData(data);
         }
         public async Task<NoticeEntity> GetForm(string keyValue)
@@ -62,7 +62,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             }
         }
 
-		public async Task DeleteForm(string keyValue)
+        public async Task DeleteForm(string keyValue)
         {
             var ids = keyValue.Split(',');
             await repository.Delete(a => ids.Contains(a.F_Id));

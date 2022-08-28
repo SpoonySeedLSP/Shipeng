@@ -1,9 +1,9 @@
-using Shipeng.HRMS.Service.SystemSecurity;
-using Shipeng.Util;
 using Microsoft.AspNetCore.Mvc;
+using Quartz;
 using Shipeng.HRMS.Domain.SystemSecurity;
 using Shipeng.HRMS.Service;
-using Quartz;
+using Shipeng.HRMS.Service.SystemSecurity;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
 {
@@ -67,7 +67,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
         [HttpGet]
         public async Task<ActionResult> QueryLocalHandlers()
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 var data = _service.QueryLocalHandlers();
                 return Content(data.ToJson());
             });

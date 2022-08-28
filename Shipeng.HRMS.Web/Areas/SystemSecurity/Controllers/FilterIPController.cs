@@ -1,7 +1,7 @@
-﻿using Shipeng.HRMS.Service.SystemSecurity;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemSecurity;
-using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Service.SystemSecurity;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
 {
@@ -15,14 +15,14 @@ namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetGridJson(string keyword)
         {
-            var data =await _service.GetLookList(keyword);
-            return Success(data.Count,data);
+            var data = await _service.GetLookList(keyword);
+            return Success(data.Count, data);
         }
         [HttpGet]
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]

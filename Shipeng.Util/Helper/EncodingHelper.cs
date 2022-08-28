@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// 编码帮助类

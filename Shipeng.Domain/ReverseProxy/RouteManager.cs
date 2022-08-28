@@ -1,6 +1,6 @@
-﻿using Volo.Abp.Domain.Repositories;
+﻿using Shipeng.Domain.Entities;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
-using Shipeng.Domain.Entities;
 
 namespace Shipeng.Domain.ReverseProxy
 {

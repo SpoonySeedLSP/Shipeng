@@ -1,19 +1,18 @@
-﻿using SqlSugar;
-using Shipeng.Util.Model;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Shipeng.Util.Model;
+using SqlSugar;
 
 namespace Shipeng.Util.DataBase
 {
     /// <summary>
     /// 非泛型仓储
     /// </summary>
-    public class UnitOfWork: IUnitOfWork,IDisposable
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly ISqlSugarClient _context;
         public UnitOfWork(ISqlSugarClient context)
         {
-			if (GlobalContext.SystemConfig!=null)
-			{
+            if (GlobalContext.SystemConfig != null)
+            {
                 var current = OperatorProvider.Provider.GetCurrent();
                 if (GlobalContext.SystemConfig.SqlMode == Define.SQL_TENANT && current != null && !string.IsNullOrEmpty(current.DbNumber))
                 {
@@ -29,7 +28,7 @@ namespace Shipeng.Util.DataBase
             var context = (SqlSugarClient)GlobalContext.GetRequiredService<ISqlSugarClient>();
             _context = context;
             if (config == null)
-			{
+            {
                 config = new DBConfig();
                 config.DBNumber = DateTime.Now.ToString();
                 config.DBConnectionString = ConnectStr;
@@ -76,24 +75,24 @@ namespace Shipeng.Util.DataBase
 
         }
 
-		public SqlSugarClient GetDbClient()
-		{
+        public SqlSugarClient GetDbClient()
+        {
             // 必须要as，后边会用到切换数据库操作
             return _context as SqlSugarClient;
         }
 
-		public void Dispose()
-		{
+        public void Dispose()
+        {
             GetDbClient().Dispose();
-		}
+        }
 
-		public void CurrentBeginTrans()
-		{
+        public void CurrentBeginTrans()
+        {
             GetDbClient().Ado.BeginTran();
         }
 
-		public void CurrentCommit()
-		{
+        public void CurrentCommit()
+        {
             try
             {
                 GetDbClient().Ado.CommitTran();
@@ -105,8 +104,8 @@ namespace Shipeng.Util.DataBase
             }
         }
 
-		public void CurrentRollback()
-		{
+        public void CurrentRollback()
+        {
             try
             {
                 GetDbClient().Ado.RollbackTran();

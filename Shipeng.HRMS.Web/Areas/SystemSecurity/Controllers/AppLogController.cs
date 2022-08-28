@@ -1,7 +1,7 @@
-﻿using Shipeng.Util;
-using System.Web;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Shipeng.Util;
 using Shipeng.Util.Model;
+using System.Web;
 
 namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
 {
@@ -13,7 +13,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetGridJson(Pagination pagination, int timetype = 2)
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 //导出全部页使用
                 if (pagination.rows == 0 && pagination.page == 0)
                 {
@@ -51,7 +52,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 string content;
                 string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs", keyValue.Split('.')[0].Substring(0, 7), keyValue);
                 using (StreamReader sr = new StreamReader(logPath))

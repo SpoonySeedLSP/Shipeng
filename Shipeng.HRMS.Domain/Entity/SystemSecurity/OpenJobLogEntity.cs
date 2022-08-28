@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel;
 
 namespace Shipeng.HRMS.Domain.SystemSecurity
 {
@@ -10,13 +10,13 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
     [Tenant("0")]
     public partial class OpenJobLogEntity : IEntity<OpenJobEntity>
     {
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 任务名称
         /// </summary>
         [Description("任务名称")]
-        [SugarColumn(IsNullable = false, ColumnName = "F_JobName",ColumnDataType = "nvarchar(50)", ColumnDescription = "任务名称")]
+        [SugarColumn(IsNullable = false, ColumnName = "F_JobName", ColumnDataType = "nvarchar(50)", ColumnDescription = "任务名称")]
         public string F_JobName { get; set; }
         /// <summary>
         /// 任务Id

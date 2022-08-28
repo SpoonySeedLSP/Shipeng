@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.InfoManage;
 using Shipeng.HRMS.Service.InfoManage;
 using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Service
 {
@@ -35,7 +35,7 @@ namespace Shipeng.HRMS.Service
                 //将用户信息存进缓存
                 var list = await CacheHelper.GetAsync<List<string>>(cacheKey + user.UserId) ?? new List<string>();
                 //登录计数
-                var onlinelist = await CacheHelper.GetAsync<List<string>>(cacheKey+"list_" + user.CompanyId) ?? new List<string>();
+                var onlinelist = await CacheHelper.GetAsync<List<string>>(cacheKey + "list_" + user.CompanyId) ?? new List<string>();
                 list.Add(Context.ConnectionId);
                 onlinelist.Add(Context.ConnectionId);
                 await CacheHelper.SetAsync(cacheKey + Context.ConnectionId, user.UserId);

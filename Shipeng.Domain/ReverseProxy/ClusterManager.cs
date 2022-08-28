@@ -1,9 +1,9 @@
-﻿using Volo.Abp.Domain.Repositories;
-using Volo.Abp.Domain.Services;
-using Mapster;
-using Yarp.ReverseProxy.Health;
+﻿using Mapster;
 using Shipeng.Domain.Entities;
 using Shipeng.Domain.Shared.Enums;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Domain.Services;
+using Yarp.ReverseProxy.Health;
 
 namespace Shipeng.Domain.ReverseProxy
 {
@@ -33,7 +33,8 @@ namespace Shipeng.Domain.ReverseProxy
         }
         public Task<ClusterDestination> CreateClusterDestinationAsync(Guid clusterId, string destinationName, string destinationAddress)
         {
-            return Task.Factory.StartNew(() => {
+            return Task.Factory.StartNew(() =>
+            {
                 return new ClusterDestination(GuidGenerator.Create())
                 {
                     DestinationAddress = destinationAddress,
@@ -45,7 +46,8 @@ namespace Shipeng.Domain.ReverseProxy
 
         public Task<ClusterHealthCheck> CreateHealthCheckAsync<TDto>(TDto healthCheck) where TDto : class
         {
-            return Task.Factory.StartNew(() => {
+            return Task.Factory.StartNew(() =>
+            {
                 var model = new ClusterHealthCheck(GuidGenerator.Create());
                 model.Policy = HealthCheckConstants.ActivePolicy.ConsecutiveFailures;
                 TypeAdapter.Adapt(healthCheck, model);

@@ -2,7 +2,7 @@
 
 namespace Shipeng.Application
 {
-    public class ApplicationAutoMapperProfile: Profile
+    public class ApplicationAutoMapperProfile : Profile
     {
         /* 可以在此处配置自动映射配置
          * 或者，可以拆分映射配置

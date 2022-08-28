@@ -1,5 +1,5 @@
-﻿using Volo.Abp.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Volo.Abp.Domain.Entities;
 
 namespace Shipeng.Domain.Entities
 {

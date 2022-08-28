@@ -1,19 +1,18 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Shipeng.Domain;
-using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.Sqlite;
-using Volo.Abp.Modularity;
-using Volo.Abp;
-using Microsoft.EntityFrameworkCore;
-using Volo.Abp.Identity.EntityFrameworkCore;
-using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.MySQL;
-using Volo.Abp.EntityFrameworkCore.PostgreSql;
-using Volo.Abp.EntityFrameworkCore.Oracle;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
-using Volo.Abp.AuditLogging.EntityFrameworkCore;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Shipeng.Domain.Configurations;
+using Volo.Abp.AuditLogging.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.MySQL;
+using Volo.Abp.EntityFrameworkCore.Oracle;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.EntityFrameworkCore.Sqlite;
+using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.Modularity;
+using Volo.Abp.SettingManagement.EntityFrameworkCore;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace Shipeng.EntityFrameworkCore
 {

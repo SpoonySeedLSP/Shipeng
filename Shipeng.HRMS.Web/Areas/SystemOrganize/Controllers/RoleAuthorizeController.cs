@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Domain.SystemManage;
+using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.HRMS.Service.SystemManage;
 using Shipeng.HRMS.Service.SystemOrganize;
 using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemOrganize;
-using Microsoft.AspNetCore.Mvc;
-using Shipeng.HRMS.Service.SystemManage;
-using Shipeng.HRMS.Domain.SystemManage;
 
 namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
 {
@@ -24,7 +24,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
             var buttondata = new List<ModuleButtonEntity>();
             var authorizedata = new List<RoleAuthorizeEntity>();
             //隐藏系统菜单及字典管理
-            if (roleid == null&& current.IsAdmin)
+            if (roleid == null && current.IsAdmin)
             {
                 moduledata = await _moduleService.GetList();
                 buttondata = await _moduleButtonService.GetList();
@@ -44,7 +44,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
             }
             if (!string.IsNullOrEmpty(roleId))
             {
-                authorizedata =await _roleAuthorizeService.GetList(roleId);
+                authorizedata = await _roleAuthorizeService.GetList(roleId);
             }
             var treeList = new List<TreeGridModel>();
             foreach (ModuleEntity item in moduledata)
@@ -70,7 +70,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
                 tree.id = item.F_Id;
                 tree.title = item.F_FullName;
                 tree.parentId = item.F_ParentId == "0" ? item.F_ModuleId : item.F_ParentId;
-                if (item.F_IsPublic==true)
+                if (item.F_IsPublic == true)
                 {
                     tree.checkArr = "1";
                     tree.disabled = true;
@@ -85,7 +85,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         }
         [HttpPost]
         [IgnoreAntiforgeryToken]
-        public async Task<ActionResult> GetPermissionFieldsTree(string roleId,string moduleids)
+        public async Task<ActionResult> GetPermissionFieldsTree(string roleId, string moduleids)
         {
             var current = _moduleService.currentuser;
             string roleid = current.RoleId;
@@ -111,15 +111,15 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
                 moduledata = moduledata.GroupBy(p => p.F_Id).Select(q => q.First()).ToList();
                 fieldsdata = fieldsdata.GroupBy(p => p.F_Id).Select(q => q.First()).ToList();
             }
-            moduledata = moduledata.Where(a => a.F_IsFields==true||(a.F_Layers<3&&a.F_IsExpand==true)).ToList();
+            moduledata = moduledata.Where(a => a.F_IsFields == true || (a.F_Layers < 3 && a.F_IsExpand == true)).ToList();
             if (!string.IsNullOrEmpty(moduleids))
             {
-                var list=moduleids.Split(',');
-                moduledata= moduledata.Where(a=> list.Contains(a.F_Id)||a.F_IsPublic==true).ToList();
+                var list = moduleids.Split(',');
+                moduledata = moduledata.Where(a => list.Contains(a.F_Id) || a.F_IsPublic == true).ToList();
             }
             else
             {
-                moduledata = moduledata.Where(a =>a.F_IsPublic == true).ToList();
+                moduledata = moduledata.Where(a => a.F_IsPublic == true).ToList();
             }
             if (!string.IsNullOrEmpty(roleId))
             {

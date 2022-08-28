@@ -1,6 +1,6 @@
-using Shipeng.Hosting;
 using Microsoft.AspNetCore.Http.Features;
 using Serilog;
+using Shipeng.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host

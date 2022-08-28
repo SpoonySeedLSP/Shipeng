@@ -1,12 +1,12 @@
-using Shipeng.Util;
-using Shipeng.HRMS.Service;
 using Autofac;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
+using Shipeng.HRMS.Service;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web
 {
-    public class Startup:DefaultStartUp
+    public class Startup : DefaultStartUp
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment env) : base(configuration, env)
         {
@@ -18,7 +18,7 @@ namespace Shipeng.HRMS.Web
                 .AddQuartz()
                 .ReviseSuperSysem()
                 .AddRabbitMq()
-                .AddIf(GlobalContext.SystemConfig.RabbitMq.Enabled,x => x.AddWorkerService())
+                .AddIf(GlobalContext.SystemConfig.RabbitMq.Enabled, x => x.AddWorkerService())
                 .AddSignalR(options =>
                 {
                     //客户端发保持连接请求到服务端最长间隔，默认30秒，改成4分钟，网页需跟着设置connection.keepAliveIntervalInMilliseconds = 12e4;即2分钟

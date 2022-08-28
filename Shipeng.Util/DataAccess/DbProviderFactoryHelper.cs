@@ -3,7 +3,6 @@ using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using Npgsql;
 using Oracle.ManagedDataAccess.Client;
-using System;
 using System.Data.Common;
 
 namespace Shipeng.Util

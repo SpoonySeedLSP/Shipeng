@@ -1,8 +1,8 @@
-﻿using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemManage;
-using SqlSugar;
+﻿using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemManage
 {
@@ -38,7 +38,7 @@ namespace Shipeng.HRMS.Service.SystemManage
         }
         public async Task<ModuleButtonEntity> GetLookForm(string keyValue)
         {
-            var data =await repository.FindEntity(keyValue);
+            var data = await repository.FindEntity(keyValue);
             return GetFieldsFilterData(data);
         }
         public async Task<ModuleButtonEntity> GetForm(string keyValue)
@@ -95,7 +95,7 @@ namespace Shipeng.HRMS.Service.SystemManage
         public async Task SubmitCloneButton(string moduleId, string Ids)
         {
             string[] ArrayId = Ids.Split(',');
-            var data =await this.GetList();
+            var data = await this.GetList();
             List<ModuleButtonEntity> entitys = new List<ModuleButtonEntity>();
             var module = await repository.Db.Queryable<ModuleEntity>().Where(a => a.F_Id == moduleId).FirstAsync();
             if (module.F_Target != "iframe" && module.F_Target != "expand")
@@ -115,7 +115,7 @@ namespace Shipeng.HRMS.Service.SystemManage
 
         public async Task<List<ModuleButtonEntity>> GetListNew(string moduleId = "")
         {
-            var query = repository.Db.Queryable<ModuleButtonEntity, ModuleEntity>((a,b)=>new JoinQueryInfos(
+            var query = repository.Db.Queryable<ModuleButtonEntity, ModuleEntity>((a, b) => new JoinQueryInfos(
                 JoinType.Inner, a.F_ModuleId == b.F_Id && b.F_EnabledMark == true && b.F_DeleteMark == false
 
                 )).Where(a => a.F_EnabledMark == true && a.F_DeleteMark == false)

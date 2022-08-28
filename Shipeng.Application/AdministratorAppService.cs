@@ -1,10 +1,10 @@
-﻿using Shipeng.Application.Contracts;
+﻿using Mapster;
+using Shipeng.Application.Contracts;
 using Shipeng.Application.Contracts.Dtos.Administrator;
 using Shipeng.Domain.Administrator;
 using Shipeng.Domain.Entities;
-using Volo.Abp.Domain.Repositories;
-using Mapster;
 using Shipeng.Util.Helper;
+using Volo.Abp.Domain.Repositories;
 
 namespace Shipeng.Application
 {
@@ -33,14 +33,14 @@ namespace Shipeng.Application
                 });
                 await CurrentUnitOfWork.SaveChangesAsync();
             }
-            var administrator =await _administratorManager.LoginAsync(loginAdministrator.AdminName, Md5Helper.MD5Encrypt(loginAdministrator.Password));
+            var administrator = await _administratorManager.LoginAsync(loginAdministrator.AdminName, Md5Helper.MD5Encrypt(loginAdministrator.Password));
             var result = TypeAdapter.Adapt<AdministratorDto>(administrator);
             return Ok(result);
         }
 
         public async Task<ShipengResult> CreateAsync(CreateAdministratorDto createAdministrator)
         {
-            var model =await _administratorManager.CreateAsync(createAdministrator.AdminName);
+            var model = await _administratorManager.CreateAsync(createAdministrator.AdminName);
             model.AdminName = createAdministrator.AdminName;
             model.NickName = createAdministrator.NickName;
             model.Password = Md5Helper.MD5Encrypt(createAdministrator.Password);
@@ -73,7 +73,7 @@ namespace Shipeng.Application
             return Ok(result, query.Count());
         }
 
-        
+
 
         public async Task<ShipengResult> UpdateAsync(UpdateAdministratorDto updateAdministrator)
         {

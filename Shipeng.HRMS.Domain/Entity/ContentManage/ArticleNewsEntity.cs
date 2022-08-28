@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.ContentManage
 {
@@ -9,13 +9,13 @@ namespace Shipeng.HRMS.Domain.ContentManage
     /// 描 述：新闻管理实体类
     /// </summary>
     [SugarTable("cms_articlenews")]
-    public class ArticleNewsEntity : IEntity<ArticleNewsEntity>,ICreationAudited,IModificationAudited,IDeleteAudited
+    public class ArticleNewsEntity : IEntity<ArticleNewsEntity>, ICreationAudited, IModificationAudited, IDeleteAudited
     {
         /// <summary>
         /// 文章主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 类别Id
@@ -28,7 +28,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// 类别名称（不映射任何列）
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         public string F_CategoryName { get; set; }
         /// <summary>
         /// 标题
@@ -47,7 +47,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// 图片地址
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ImgUrl",ColumnDataType = "longtext", ColumnDescription = "图片地址")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ImgUrl", ColumnDataType = "longtext", ColumnDescription = "图片地址")]
         public string F_ImgUrl { get; set; }
         /// <summary>
         /// SEO标题
@@ -65,7 +65,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// SEO描述
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_SeoDescription",ColumnDataType = "longtext", ColumnDescription = "SEO描述")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_SeoDescription", ColumnDataType = "longtext", ColumnDescription = "SEO描述")]
         public string F_SeoDescription { get; set; }
         /// <summary>
         /// 标签
@@ -83,7 +83,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// 内容
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Description",ColumnDataType = "longtext", ColumnDescription = "内容")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Description", ColumnDataType = "longtext", ColumnDescription = "内容")]
         public string F_Description { get; set; }
         /// <summary>
         /// 排序
@@ -121,13 +121,13 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// 来源
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Source",ColumnDataType = "nvarchar(50)", ColumnDescription = "来源")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Source", ColumnDataType = "nvarchar(50)", ColumnDescription = "来源")]
         public string F_Source { get; set; }
         /// <summary>
         /// 作者
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Author",ColumnDataType = "nvarchar(50)", ColumnDescription = "作者")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Author", ColumnDataType = "nvarchar(50)", ColumnDescription = "作者")]
         public string F_Author { get; set; }
         /// <summary>
         /// 是否启用
@@ -175,7 +175,7 @@ namespace Shipeng.HRMS.Domain.ContentManage
         /// 删除人
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人")]
         public string F_DeleteUserId { get; set; }
     }
 }

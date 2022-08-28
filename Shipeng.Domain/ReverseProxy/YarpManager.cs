@@ -1,13 +1,13 @@
-﻿using Volo.Abp.Domain.Repositories;
+﻿using Consul;
 using Mapster;
-using Consul;
-using Volo.Abp.Uow;
 using Serilog;
 using Shipeng.Domain.Entities;
+using Shipeng.Domain.ReverseProxy.Models;
 using Shipeng.Domain.Shared.Enums;
 using Shipeng.Domain.Shared.Options;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
-using Shipeng.Domain.ReverseProxy.Models;
+using Volo.Abp.Uow;
 
 namespace Shipeng.Domain.ReverseProxy
 {
@@ -80,10 +80,10 @@ namespace Shipeng.Domain.ReverseProxy
                 cluster = clusters.Where(x => x.RouteId == route.Id).FirstOrDefault();
                 routeOption.Cluster = new ClusterOption()
                 {
-                    ClusterName = cluster?.ClusterName??"",
-                    LoadBalancingPolicy = cluster?.LoadBalancingPolicy??""
+                    ClusterName = cluster?.ClusterName ?? "",
+                    LoadBalancingPolicy = cluster?.LoadBalancingPolicy ?? ""
                 };
-                if (cluster!=null && cluster.ServiceGovernanceType == ServiceGovernanceType.Consul)
+                if (cluster != null && cluster.ServiceGovernanceType == ServiceGovernanceType.Consul)
                 {
                     var consulDestinations = await GetConsulServiceAsync(cluster.ServiceGovernanceName);
                     if (consulDestinations == null)
@@ -92,7 +92,7 @@ namespace Shipeng.Domain.ReverseProxy
                     }
                     routeOption.Cluster.ClusterDestinations = consulDestinations;
                 }
-                else if (cluster!=null && cluster.ServiceGovernanceType == ServiceGovernanceType.Nacos)
+                else if (cluster != null && cluster.ServiceGovernanceType == ServiceGovernanceType.Nacos)
                 {
                     var consulDestinations = await GetNacosServiceAsync(cluster.ServiceGovernanceName);
                     if (consulDestinations == null)
@@ -111,10 +111,10 @@ namespace Shipeng.Domain.ReverseProxy
                         })
                         .ToList();
                 }
-                if (cluster != null && clusterHealthChecks!=null && clusterHealthChecks.Count>0)
+                if (cluster != null && clusterHealthChecks != null && clusterHealthChecks.Count > 0)
                 {
                     clusterHealthCheck = clusterHealthChecks.Where(x => x.ClusterId == cluster.Id)?.ToList().FirstOrDefault();
-                    if (clusterHealthCheck!=null)
+                    if (clusterHealthCheck != null)
                         routeOption.Cluster.ClusterHealthCheck = new ClusterHealthCheckOption()
                         {
                             Enabled = clusterHealthCheck.Enabled,
@@ -123,7 +123,7 @@ namespace Shipeng.Domain.ReverseProxy
                             Policy = clusterHealthCheck.Policy,
                             Timeout = clusterHealthCheck.Timeout
                         };
-                }                         
+                }
                 //
                 result.Routes.Add(routeOption);
             }

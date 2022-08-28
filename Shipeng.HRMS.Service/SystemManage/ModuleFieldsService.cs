@@ -1,8 +1,8 @@
-﻿using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemManage;
-using SqlSugar;
+﻿using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemManage
 {
@@ -25,7 +25,7 @@ namespace Shipeng.HRMS.Service.SystemManage
                 //此处需修改
                 query = query.Where(a => a.F_FullName.Contains(keyword) || a.F_EnCode.Contains(keyword));
             }
-            return await query.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id,OrderByType.Desc).ToListAsync();
+            return await query.Where(a => a.F_DeleteMark == false).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
 
         public async Task<List<ModuleFieldsEntity>> GetLookList(Pagination pagination, string moduleId, string keyword = "")
@@ -36,8 +36,8 @@ namespace Shipeng.HRMS.Service.SystemManage
             {
                 query = query.Where(a => a.F_FullName.Contains(keyword) || a.F_EnCode.Contains(keyword));
             }
-            query = GetDataPrivilege("a","", query);
-			return await query.ToPageListAsync(pagination);
+            query = GetDataPrivilege("a", "", query);
+            return await query.ToPageListAsync(pagination);
 
         }
 
@@ -98,13 +98,13 @@ namespace Shipeng.HRMS.Service.SystemManage
         {
             var moduleList = repository.Db.Queryable<RoleAuthorizeEntity>().Where(a => a.F_ObjectId == roleid && a.F_ItemType == 3).Select(a => a.F_ItemId).ToList();
             var query = repository.IQueryable().Where(a => (moduleList.Contains(a.F_Id) || a.F_IsPublic == true) && a.F_DeleteMark == false && a.F_EnabledMark == true);
-            return await query.OrderBy(a => a.F_CreatorTime,OrderByType.Desc).ToListAsync();
+            return await query.OrderBy(a => a.F_CreatorTime, OrderByType.Desc).ToListAsync();
         }
 
         internal async Task<List<ModuleFieldsEntity>> GetListNew(string moduleId = "")
         {
-            var query = repository.Db.Queryable<ModuleFieldsEntity, ModuleEntity>((a,b) => new JoinQueryInfos (
-                JoinType.Inner,a.F_ModuleId==b.F_Id && b.F_EnabledMark == true
+            var query = repository.Db.Queryable<ModuleFieldsEntity, ModuleEntity>((a, b) => new JoinQueryInfos(
+                JoinType.Inner, a.F_ModuleId == b.F_Id && b.F_EnabledMark == true
                 ))
             .Select((a, b) => new ModuleFieldsEntity
             {
@@ -127,7 +127,7 @@ namespace Shipeng.HRMS.Service.SystemManage
             {
                 query = query.Where(a => a.F_ModuleId == moduleId);
             }
-            return await query.OrderBy(a => a.F_CreatorTime,OrderByType.Desc).ToListAsync();
+            return await query.OrderBy(a => a.F_CreatorTime, OrderByType.Desc).ToListAsync();
         }
         #endregion
 

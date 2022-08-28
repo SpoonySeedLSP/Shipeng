@@ -1,10 +1,10 @@
-using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemSecurity;
-using Shipeng.HRMS.Service.SystemManage;
-using SqlSugar;
 using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.HRMS.Domain.SystemSecurity;
+using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemSecurity
 {
@@ -18,7 +18,7 @@ namespace Shipeng.HRMS.Service.SystemSecurity
         public LogService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
-        public async Task<List<LogEntity>> GetList(Pagination pagination, int timetype, string keyword="")
+        public async Task<List<LogEntity>> GetList(Pagination pagination, int timetype, string keyword = "")
         {
             //获取数据权限
             var result = new List<LogEntity>();
@@ -70,7 +70,8 @@ namespace Shipeng.HRMS.Service.SystemSecurity
         }
         public async Task<List<LogEntity>> GetList()
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 if (HandleLogProvider != Define.CACHEPROVIDER_REDIS)
                 {
                     return repository.IQueryable().ToList();
@@ -79,7 +80,7 @@ namespace Shipeng.HRMS.Service.SystemSecurity
                 {
                     return HandleLogHelper.HGetAll<LogEntity>(currentuser.CompanyId).Values.ToList(); ;
                 }
-            });           
+            });
         }
         public async Task RemoveLog(string keepTime)
         {
@@ -144,12 +145,12 @@ namespace Shipeng.HRMS.Service.SystemSecurity
                 if (currentuser == null || string.IsNullOrEmpty(currentuser.UserId))
                 {
                     logEntity.F_IPAddress = WebHelper.Ip;
-					if (GlobalContext.SystemConfig.LocalLAN != false)
-					{
+                    if (GlobalContext.SystemConfig.LocalLAN != false)
+                    {
                         logEntity.F_IPAddressName = "本地局域网";
                     }
-					else
-					{
+                    else
+                    {
                         logEntity.F_IPAddressName = WebHelper.GetIpLocation(logEntity.F_IPAddress);
                     }
                     logEntity.F_CompanyId = systemSet.F_Id;
@@ -220,7 +221,7 @@ namespace Shipeng.HRMS.Service.SystemSecurity
             try
             {
                 var moduleitem = (await moduleservice.GetList()).Where(a => a.F_IsExpand == false && a.F_EnCode == className.Substring(0, className.Length - 10)).FirstOrDefault();
-                if (moduleitem==null)
+                if (moduleitem == null)
                 {
                     throw new Exception();
                 }
@@ -229,7 +230,7 @@ namespace Shipeng.HRMS.Service.SystemSecurity
             }
             catch (Exception)
             {
-                return new LogEntity(className, "" , type.ToString());
+                return new LogEntity(className, "", type.ToString());
             }
         }
         public async Task<LogEntity> CreateLog(string className, string type)
@@ -250,21 +251,21 @@ namespace Shipeng.HRMS.Service.SystemSecurity
                 return new LogEntity(className, "", type.ToString());
             }
         }
-        public async Task<string> CreateModule(ModuleEntity module, string str="")
+        public async Task<string> CreateModule(ModuleEntity module, string str = "")
         {
-            if (module==null)
+            if (module == null)
             {
                 return str;
             }
             str = module.F_FullName + "-" + str;
-            if (module.F_ParentId=="0")
+            if (module.F_ParentId == "0")
             {
                 return str;
             }
             else
             {
-                var temp= (await moduleservice.GetList()).Where(a =>a.F_Id==module.F_ParentId).First();
-                return await CreateModule(temp ,str);
+                var temp = (await moduleservice.GetList()).Where(a => a.F_Id == module.F_ParentId).First();
+                return await CreateModule(temp, str);
             }
         }
         public async Task WriteLog(string message, string className, string keyValue = "", DbLogType? logType = null, bool isError = false)

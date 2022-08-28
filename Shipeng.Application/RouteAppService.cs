@@ -1,17 +1,17 @@
-﻿using Volo.Abp.Domain.Repositories;
-using Mapster;
-using Shipeng.Domain.ReverseProxy;
-using Shipeng.Application.Contracts.Dtos.ReverseProxy;
+﻿using Mapster;
 using Shipeng.Application.Contracts;
+using Shipeng.Application.Contracts.Dtos.ReverseProxy;
 using Shipeng.Domain.Entities;
+using Shipeng.Domain.ReverseProxy;
 using Shipeng.Domain.Shared.Enums;
+using Volo.Abp.Domain.Repositories;
 
 namespace Shipeng.Application
 {
     /// <summary>
     /// 路由相关接口
     /// </summary>
-    public class RouteAppService: BaseApplicationService,IRouteAppService
+    public class RouteAppService : BaseApplicationService, IRouteAppService
     {
         private readonly IClusterManager _clusterManager;
         private readonly IRouteManager _routeManager;
@@ -48,7 +48,7 @@ namespace Shipeng.Application
             await _routeRepository.InsertAsync(route);
             await CurrentUnitOfWork.SaveChangesAsync();
             //路由转换配置
-            if (!string.IsNullOrEmpty(createRouteDto.PathRemovePrefix)&&createRouteDto.PathRemovePrefix!="")
+            if (!string.IsNullOrEmpty(createRouteDto.PathRemovePrefix) && createRouteDto.PathRemovePrefix != "")
             {
                 await _routeTransformRepository.InsertAsync(await _routeManager.CreateRouteTransformAsync(route.Id, "PathRemovePrefix", createRouteDto.PathRemovePrefix));
             }
@@ -80,7 +80,7 @@ namespace Shipeng.Application
             if (createRouteDto.ClusterHealthCheck != null)
             {
                 createRouteDto.ClusterHealthCheck.ClusterId = cluster.Id;
-                var healthCheck =await _clusterManager.CreateHealthCheckAsync(createRouteDto.ClusterHealthCheck);
+                var healthCheck = await _clusterManager.CreateHealthCheckAsync(createRouteDto.ClusterHealthCheck);
                 await _clusterHealthCheckRepository.InsertAsync(healthCheck);
             }
             await CurrentUnitOfWork.SaveChangesAsync();
@@ -93,7 +93,7 @@ namespace Shipeng.Application
         /// <returns></returns>
         public async Task<ShipengResult> DeleteAsync(Guid routeId)
         {
-            await _routeRepository.DeleteAsync(x=>x.Id==routeId);
+            await _routeRepository.DeleteAsync(x => x.Id == routeId);
             return Ok();
         }
         /// <summary>
@@ -105,21 +105,21 @@ namespace Shipeng.Application
         /// <returns></returns>
         public async Task<ShipengPageResult<List<RoutePageDto>>> GetListAsync(string kw = "", int page = 1, int pageSize = 10)
         {
-            var query =(await _routeRepository.GetQueryableAsync()).WhereIf(!string.IsNullOrEmpty(kw) && kw != "", x => x.RouteName.Contains(kw));
+            var query = (await _routeRepository.GetQueryableAsync()).WhereIf(!string.IsNullOrEmpty(kw) && kw != "", x => x.RouteName.Contains(kw));
             var totalCount = query.Count();
             var result = query
-                .Join((await _clusterRepository.GetQueryableAsync()), x => x.Id, y => y.RouteId, (x, y) =>new RoutePageDto()
+                .Join((await _clusterRepository.GetQueryableAsync()), x => x.Id, y => y.RouteId, (x, y) => new RoutePageDto()
                 {
                     Created = x.Created,
-                    Description=x.Description,
+                    Description = x.Description,
                     Id = x.Id,
-                    LoadBalancingPolicy=y.LoadBalancingPolicy,
-                    RouteMatchPath=x.RouteMatchPath,
-                    RouteName=x.RouteName,
-                    ServiceGovernanceName=y.ServiceGovernanceName,
-                    ServiceGovernanceType=y.ServiceGovernanceType,
-                    UseState =x.UseState,
-                    ClusterId=y.Id
+                    LoadBalancingPolicy = y.LoadBalancingPolicy,
+                    RouteMatchPath = x.RouteMatchPath,
+                    RouteName = x.RouteName,
+                    ServiceGovernanceName = y.ServiceGovernanceName,
+                    ServiceGovernanceType = y.ServiceGovernanceType,
+                    UseState = x.UseState,
+                    ClusterId = y.Id
                 })
                 .OrderByDescending(x => x.Created)
                 .PageBy((page - 1) * pageSize, pageSize)
@@ -195,7 +195,7 @@ namespace Shipeng.Application
             }
             await _clusterRepository.UpdateAsync(cluster);
 
-            var clusterDestinations = await _clusterDestinationRepository.GetListAsync(x=>x.ClusterId==cluster.Id);
+            var clusterDestinations = await _clusterDestinationRepository.GetListAsync(x => x.ClusterId == cluster.Id);
             //移除原有集群下的目的地数据
             await _clusterDestinationRepository.DeleteManyAsync(clusterDestinations);
             //新增集群下目的地地址
@@ -214,10 +214,10 @@ namespace Shipeng.Application
             //集群健康检查信息
             if (updateRouteDto.ClusterHealthCheck != null)
             {
-                var healthCheck = await _clusterHealthCheckRepository.FirstOrDefaultAsync(x=>x.ClusterId==cluster.Id);
+                var healthCheck = await _clusterHealthCheckRepository.FirstOrDefaultAsync(x => x.ClusterId == cluster.Id);
                 await _clusterHealthCheckRepository.UpdateAsync(healthCheck);
             }
-            
+
             return Ok();
         }
         /// <summary>

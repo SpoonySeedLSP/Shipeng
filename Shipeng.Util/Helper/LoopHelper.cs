@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// 循环帮助类

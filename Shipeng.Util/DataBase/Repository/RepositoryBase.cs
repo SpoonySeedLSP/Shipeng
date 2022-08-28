@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using SqlSugar;
+﻿using SqlSugar;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Shipeng.Util.DataBase
@@ -40,13 +40,13 @@ namespace Shipeng.Util.DataBase
         /// <param name="configId"></param>
         /// <returns></returns>
         public ISqlSugarClient ChangeEntityDb(object configId = null)
-		{
-			if (!configId.IsEmpty())
-			{
+        {
+            if (!configId.IsEmpty())
+            {
                 _dbBase.ChangeDatabase(configId);
             }
-			else
-			{
+            else
+            {
                 var entityType = typeof(TEntity);
                 if (entityType.IsDefined(typeof(TenantAttribute), false))
                 {
@@ -65,7 +65,7 @@ namespace Shipeng.Util.DataBase
 
         public async Task<TEntity> Insert(TEntity entity)
         {
-           return await _db.Insertable(entity).ExecuteReturnEntityAsync();
+            return await _db.Insertable(entity).ExecuteReturnEntityAsync();
         }
         public async Task<int> Insert(List<TEntity> entitys)
         {

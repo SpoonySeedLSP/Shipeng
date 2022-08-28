@@ -66,7 +66,8 @@ namespace Shipeng.Util
         }
     }
 
-    public class GetJsVesion{
+    public class GetJsVesion
+    {
         public static string GetVcode()
         {
             TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);

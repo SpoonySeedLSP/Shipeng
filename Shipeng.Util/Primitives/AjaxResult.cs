@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary>
     /// Ajax请求结果

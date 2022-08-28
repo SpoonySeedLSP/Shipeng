@@ -359,7 +359,7 @@ namespace Shipeng.Util
             using (var tempFile = new FileStream(filePath, FileMode.Open))
             {
                 IWorkbook workbook = null;
-                if (Path.GetExtension(filePath)==".xls")
+                if (Path.GetExtension(filePath) == ".xls")
                 {
                     workbook = new HSSFWorkbook(tempFile);
                 }

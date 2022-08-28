@@ -6,7 +6,7 @@ namespace Shipeng.Application.Contracts
     /// <summary>
     /// 
     /// </summary>
-    public interface IMiddlewareAppService:IApplicationService
+    public interface IMiddlewareAppService : IApplicationService
     {
         /// <summary>
         /// 获取中间件列表
@@ -34,7 +34,7 @@ namespace Shipeng.Application.Contracts
         /// <param name="id">中间件ID</param>
         /// <param name="useState">状态</param>
         /// <returns></returns>
-        Task<ShipengResult> UpdateUseStateAsync(Guid id,bool useState);
+        Task<ShipengResult> UpdateUseStateAsync(Guid id, bool useState);
         /// <summary>
         /// 创建中间件信息
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using Castle.DynamicProxy;
-using System;
 using System.Reflection;
 
 namespace Shipeng.Util

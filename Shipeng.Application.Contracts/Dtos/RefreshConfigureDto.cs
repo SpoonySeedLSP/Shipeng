@@ -1,5 +1,5 @@
-﻿using Shipeng.Domain.Shared.Options;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Shipeng.Domain.Shared.Options;
 
 namespace Shipeng.Application.Contracts.Dtos
 {

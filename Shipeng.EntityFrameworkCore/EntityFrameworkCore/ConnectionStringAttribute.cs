@@ -3,7 +3,7 @@ using Volo.Abp.Data;
 
 namespace Shipeng.EntityFrameworkCore
 {
-    public class ConnectionStringAttribute: ConnectionStringNameAttribute
+    public class ConnectionStringAttribute : ConnectionStringNameAttribute
     {
         private static readonly string db = AppSettings.EnableDb;
 

@@ -1,6 +1,6 @@
-﻿using Shipeng.HRMS.Service.SystemManage;
+﻿using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Service.SystemManage;
 using Shipeng.Util;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
 {
@@ -19,7 +19,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         public async Task<ActionResult> GetTransferJson()
         {
             var userId = _moduleService.currentuser.UserId;
-            var data =await _moduleService.GetTransferList(userId);
+            var data = await _moduleService.GetTransferList(userId);
             return Content(data.ToJson());
         }
         [HttpPost]

@@ -12,12 +12,12 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// 主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 实例进程Id
         /// </summary>
-        [SugarColumn(IsNullable = false, ColumnName = "F_InstanceId",ColumnDataType = "nvarchar(50)", ColumnDescription = "实例进程Id")]
+        [SugarColumn(IsNullable = false, ColumnName = "F_InstanceId", ColumnDataType = "nvarchar(50)", ColumnDescription = "实例进程Id")]
         public string F_InstanceId { get; set; }
         /// <summary>
 	    /// 操作内容
@@ -27,7 +27,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// <summary>
 	    /// 创建时间
 	    /// </summary>
-        [SugarColumn(IsNullable = false,ColumnDescription = "类别名称")]
+        [SugarColumn(IsNullable = false, ColumnDescription = "类别名称")]
         public DateTime? F_CreatorTime { get; set; }
         /// <summary>
 	    /// 创建用户主键
@@ -37,7 +37,7 @@ namespace Shipeng.HRMS.Domain.FlowManage
         /// <summary>
 	    /// 创建用户
 	    /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserName",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建用户")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserName", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建用户")]
         public string F_CreatorUserName { get; set; }
     }
 }

@@ -1,13 +1,13 @@
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Impl.Triggers;
 using Quartz.Spi;
-using SqlSugar;
 using Shipeng.HRMS.Domain.SystemSecurity;
 using Shipeng.HRMS.Service.SystemSecurity;
 using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
+using System.Reflection;
 using HttpMethod = System.Net.Http.HttpMethod;
 
 namespace Shipeng.HRMS.Service.AutoJob
@@ -35,8 +35,8 @@ namespace Shipeng.HRMS.Service.AutoJob
                 JobDataMap jobData = null;
                 OpenJobEntity dbJobEntity = null;
                 DateTime now = DateTime.Now;
-				using (var scope = GlobalContext.RootServices.CreateScope())
-				{
+                using (var scope = GlobalContext.RootServices.CreateScope())
+                {
                     var unitwork = scope.ServiceProvider.GetRequiredService(typeof(IUnitOfWork)) as UnitOfWork;
                     try
                     {
@@ -145,8 +145,8 @@ namespace Shipeng.HRMS.Service.AutoJob
                                                 break;
                                         }
                                         var dic = dbJobEntity.F_RequestHeaders.ToObject<Dictionary<string, string>>();
-										if (dic == null)
-										{
+                                        if (dic == null)
+                                        {
                                             dic = new Dictionary<string, string>();
                                         }
                                         //请求头添加租户号

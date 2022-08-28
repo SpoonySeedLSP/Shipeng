@@ -19,17 +19,17 @@
         /// <summary>
         /// 缓存操作类
         /// </summary>
-        private string cacheKeyOperator = projectPrefix+"_operator_";// +登录者token
-        private string cacheKeyToken = projectPrefix+"_token_";// +登录者token
-        private string cacheKeyError = projectPrefix+"_error_";// + Mark
+        private string cacheKeyOperator = projectPrefix + "_operator_";// +登录者token
+        private string cacheKeyToken = projectPrefix + "_token_";// +登录者token
+        private string cacheKeyError = projectPrefix + "_error_";// + Mark
         /// <summary>
         /// 秘钥
         /// </summary>
-        private string LoginUserToken = projectPrefix+"_Token";
+        private string LoginUserToken = projectPrefix + "_Token";
         /// <summary>
         /// 标记登录的浏览器
         /// </summary>
-        private string LoginUserMarkKey = projectPrefix+"_Mark";
+        private string LoginUserMarkKey = projectPrefix + "_Mark";
         public string GetProvider(string key)
         {
             switch (LoginProvider)
@@ -62,29 +62,29 @@
         }
         public string GetToken()
         {
-			try
-			{
+            try
+            {
                 if (GlobalContext.HttpContext == null)
-				{
+                {
                     return null;
-				}
+                }
                 //查请求头
-                string token =GlobalContext.HttpContext.Request.Headers[GlobalContext.SystemConfig.TokenName].ParseToString();
+                string token = GlobalContext.HttpContext.Request.Headers[GlobalContext.SystemConfig.TokenName].ParseToString();
                 if (!String.IsNullOrEmpty(token)) return token;
 
                 //查参数
-                token =GlobalContext.HttpContext.Request.Query[GlobalContext.SystemConfig.TokenName];
+                token = GlobalContext.HttpContext.Request.Query[GlobalContext.SystemConfig.TokenName];
                 if (!String.IsNullOrEmpty(token)) return token;
 
                 //查cookies
-                string cookie =GlobalContext.HttpContext.Request.Cookies[GlobalContext.SystemConfig.TokenName];
+                string cookie = GlobalContext.HttpContext.Request.Cookies[GlobalContext.SystemConfig.TokenName];
                 return cookie == null ? string.Empty : cookie;
 
             }
             catch (Exception)
-			{
+            {
                 return null;
-			}
+            }
         }
         public void RemoveProvider(string key)
         {

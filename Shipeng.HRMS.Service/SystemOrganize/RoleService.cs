@@ -1,8 +1,8 @@
-﻿using Shipeng.Util;
-using Shipeng.HRMS.Domain.SystemOrganize;
+﻿using Shipeng.HRMS.Domain.SystemOrganize;
 using Shipeng.HRMS.Service.SystemManage;
-using SqlSugar;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemOrganize
 {
@@ -16,13 +16,13 @@ namespace Shipeng.HRMS.Service.SystemOrganize
         /// 缓存操作类
         /// </summary>
         private string authorizecacheKey = GlobalContext.SystemConfig.ProjectPrefix + "_authorizeurldata_";// +权限
-        //获取类名
-        
+                                                                                                           //获取类名
+
         public RoleService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
 
-        public async Task<List<RoleExtend>> GetList( string keyword = "")
+        public async Task<List<RoleExtend>> GetList(string keyword = "")
         {
             var query = GetQuery();
             if (!string.IsNullOrEmpty(keyword))
@@ -43,12 +43,12 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             Dictionary<string, string> messageTypeTemp = new Dictionary<string, string>();
             foreach (var item in setList)
             {
-                messageTypeTemp.Add(item.F_ItemCode,item.F_ItemName);
+                messageTypeTemp.Add(item.F_ItemCode, item.F_ItemName);
             }
             dic.Add("F_Type", messageTypeTemp);
             pagination = ChangeSoulData(dic, pagination);
             //获取数据权限
-            var query =  GetQuery();
+            var query = GetQuery();
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(a => a.F_FullName.Contains(keyword) || a.F_EnCode.Contains(keyword));
@@ -58,7 +58,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
         }
         public async Task<RoleEntity> GetForm(string keyValue)
         {
-            var data =await repository.FindEntity(keyValue);
+            var data = await repository.FindEntity(keyValue);
             return data;
         }
         public async Task<RoleEntity> GetLookForm(string keyValue)
@@ -68,7 +68,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
         }
         private ISugarQueryable<RoleExtend> GetQuery()
         {
-            var query = repository.Db.Queryable<RoleEntity, SystemSetEntity>((a,b)=>new JoinQueryInfos(
+            var query = repository.Db.Queryable<RoleEntity, SystemSetEntity>((a, b) => new JoinQueryInfos(
                 JoinType.Left, a.F_OrganizeId == b.F_Id
                 )).Where(a => a.F_DeleteMark == false && a.F_Category == 1)
                 .Select((a, b) => new RoleExtend
@@ -84,9 +84,9 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                     F_EnabledMark = a.F_EnabledMark,
                     F_EnCode = a.F_EnCode,
                     F_FullName = a.F_FullName,
-                    F_OrganizeId=a.F_OrganizeId,
-                    F_SortCode=a.F_SortCode,
-                    F_Type=a.F_Type,
+                    F_OrganizeId = a.F_OrganizeId,
+                    F_SortCode = a.F_SortCode,
+                    F_Type = a.F_Type,
                     F_CompanyName = b.F_CompanyName,
                 }).MergeTable();
             return query;
@@ -103,7 +103,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             unitofwork.CurrentCommit();
             await CacheHelper.RemoveAsync(authorizecacheKey + repository.Db.CurrentConnectionConfig.ConfigId + "_list");
         }
-        public async Task SubmitForm(RoleEntity roleEntity, string[] permissionIds,string[] permissionfieldsIds, string keyValue)
+        public async Task SubmitForm(RoleEntity roleEntity, string[] permissionIds, string[] permissionfieldsIds, string keyValue)
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
@@ -118,8 +118,8 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                 roleEntity.Create();
 
             }
-            var moduledata =await moduleApp.GetList();
-            var buttondata =await moduleButtonApp.GetList();
+            var moduledata = await moduleApp.GetList();
+            var buttondata = await moduleButtonApp.GetList();
             var fieldsdata = await moduleFieldsApp.GetList();
             List<RoleAuthorizeEntity> roleAuthorizeEntitys = new List<RoleAuthorizeEntity>();
             foreach (var itemId in permissionIds)

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.SystemManage
 {
@@ -9,33 +9,33 @@ namespace Shipeng.HRMS.Domain.SystemManage
     /// 描 述：表单设计实体类
     /// </summary>
     [SugarTable("sys_form")]
-    public class FormEntity : IEntity<FormEntity>,ICreationAudited,IModificationAudited,IDeleteAudited
+    public class FormEntity : IEntity<FormEntity>, ICreationAudited, IModificationAudited, IDeleteAudited
     {
         /// <summary>
         /// 表单模板Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 表单名称
         /// </summary>
         /// <returns></returns>
         [Required(ErrorMessage = "表单名称不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_Name",ColumnDataType = "nvarchar(200)", ColumnDescription = "表单名称", UniqueGroupNameList = new string[] { "sys_form" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Name", ColumnDataType = "nvarchar(200)", ColumnDescription = "表单名称", UniqueGroupNameList = new string[] { "sys_form" })]
         public string F_Name { get; set; }
         /// <summary>
         /// 表单类型，0：默认动态表单；1：Web自定义表单
         /// </summary>
         /// <returns></returns>
         [Required(ErrorMessage = "表单类型不能为空")]
-        [SugarColumn(IsNullable = true,ColumnDescription = "表单类型，0：默认动态表单；1：Web自定义表单")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "表单类型，0：默认动态表单；1：Web自定义表单")]
         public int? F_FrmType { get; set; }
         /// <summary>
         /// 系统页面标识，当表单类型为用Web自定义的表单时，需要标识加载哪个页面
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_WebId",ColumnDataType = "nvarchar(50)", ColumnDescription = "系统页面标识")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_WebId", ColumnDataType = "nvarchar(50)", ColumnDescription = "系统页面标识")]
         public string F_WebId { get; set; }
         /// <summary>
         /// 字段个数
@@ -121,7 +121,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// 内容
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Description",ColumnDataType = "longtext", ColumnDescription = "内容")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Description", ColumnDataType = "longtext", ColumnDescription = "内容")]
         public string F_Description { get; set; }
         /// <summary>
         /// 所属组织
@@ -135,7 +135,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <returns></returns>
         [SugarColumn(IsNullable = true, ColumnName = "F_DbName", ColumnDataType = "nvarchar(50)", ColumnDescription = "数据库名称")]
         public string F_DbName { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         public string F_OrganizeName { get; set; }
     }
 }

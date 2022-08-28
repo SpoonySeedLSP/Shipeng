@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.SystemOrganize;
 using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
 {
@@ -12,7 +12,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
     /// 描 述：系统设置控制器类
     /// </summary>
     [Area("SystemOrganize")]
-    public class SystemSetController :  ControllerBase
+    public class SystemSetController : ControllerBase
     {
 
         public SystemSetService _service { get; set; }
@@ -41,7 +41,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
                 pagination.rows = 99999999;
                 pagination.page = 1;
             }
-            var data = await _service.GetLookList(pagination,keyword);
+            var data = await _service.GetLookList(pagination, keyword);
             return Success(pagination.records, data);
         }
         [HttpGet]
@@ -57,8 +57,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
             else
             {
                 data = data.Where(a => a.F_Id == _service.currentuser.CompanyId).ToList();
-				foreach (var item in data)
-				{
+                foreach (var item in data)
+                {
                     item.F_AdminAccount = null;
                     item.F_AdminPassword = null;
                     item.F_DBProvider = null;

@@ -11,17 +11,17 @@ namespace Shipeng.HRMS.Service.SystemOrganize
         public async Task<List<OrganizeEntity>> GetList()
         {
             var query = repository.IQueryable();
-            return await query.Where(a=>a.F_DeleteMark==false).ToListAsync();
+            return await query.Where(a => a.F_DeleteMark == false).ToListAsync();
         }
         public async Task<List<OrganizeEntity>> GetLookList()
         {
             var query = repository.IQueryable().Where(a => a.F_DeleteMark == false);
-            query = GetDataPrivilege("a","",query);
+            query = GetDataPrivilege("a", "", query);
             return await query.OrderBy(a => a.F_SortCode).ToListAsync();
         }
         public async Task<OrganizeEntity> GetLookForm(string keyValue)
         {
-            var data =await repository.FindEntity(keyValue);
+            var data = await repository.FindEntity(keyValue);
             return GetFieldsFilterData(data);
         }
         public async Task<OrganizeEntity> GetForm(string keyValue)
@@ -37,7 +37,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             }
             else
             {
-                if (await repository.Db.Queryable<UserEntity>().Where(a=>a.F_OrganizeId==keyValue).AnyAsync()|| await repository.Db.Queryable<UserEntity>().Where(a => a.F_DepartmentId == keyValue).AnyAsync())
+                if (await repository.Db.Queryable<UserEntity>().Where(a => a.F_OrganizeId == keyValue).AnyAsync() || await repository.Db.Queryable<UserEntity>().Where(a => a.F_DepartmentId == keyValue).AnyAsync())
                 {
                     throw new Exception("组织使用中，无法删除");
                 }

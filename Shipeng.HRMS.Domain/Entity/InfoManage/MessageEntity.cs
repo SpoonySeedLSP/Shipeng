@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Shipeng.Util;
 using SqlSugar;
-using Shipeng.Util;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.InfoManage
 {
@@ -22,26 +22,26 @@ namespace Shipeng.HRMS.Domain.InfoManage
     DeadLetterExchange = "MessageEntityAdd.dle",
     DeadLetterRoutingKey = "MessageEntityAdd.dle.key"
     )]
-    public class MessageEntity : IEntity<MessageEntity>,ICreationAudited
+    public class MessageEntity : IEntity<MessageEntity>, ICreationAudited
     {
         /// <summary>
         /// 主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 信息类型（通知、私信、处理）
         /// </summary>
         /// <returns></returns>
         [Required(ErrorMessage = "信息类型不能为空")]
-        [SugarColumn(IsNullable = true,  ColumnDescription = "信息类型")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "信息类型")]
         public int? F_MessageType { get; set; }
         /// <summary>
         /// 收件人主键
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ToUserId",ColumnDataType = "longtext", ColumnDescription = "收件人主键")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ToUserId", ColumnDataType = "longtext", ColumnDescription = "收件人主键")]
         public string F_ToUserId { get; set; }
         /// <summary>
         /// 收件人
@@ -54,7 +54,7 @@ namespace Shipeng.HRMS.Domain.InfoManage
         /// </summary>
         /// <returns></returns>
         [Required(ErrorMessage = "内容不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_MessageInfo",ColumnDataType = "longtext", ColumnDescription = "内容")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_MessageInfo", ColumnDataType = "longtext", ColumnDescription = "内容")]
         public string F_MessageInfo { get; set; }
         /// <summary>
         /// 有效
@@ -78,7 +78,7 @@ namespace Shipeng.HRMS.Domain.InfoManage
         /// 创建用户
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserName",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建用户")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserName", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建用户")]
         public string F_CreatorUserName { get; set; }
         /// <summary>
         /// 跳转类型
@@ -104,7 +104,7 @@ namespace Shipeng.HRMS.Domain.InfoManage
         /// <returns></returns>
         [SugarColumn(IsNullable = true, ColumnDescription = "点击已读")]
         public bool? F_ClickRead { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         public string companyId { get; set; }
     }
 }

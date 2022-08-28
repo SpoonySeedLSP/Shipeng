@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.SystemManage
 {
@@ -9,13 +9,13 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 父级Id
         /// </summary>
         [Required(ErrorMessage = "父级不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_ParentId",ColumnDataType = "nvarchar(50)", ColumnDescription = "父级Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ParentId", ColumnDataType = "nvarchar(50)", ColumnDescription = "父级Id")]
         public string F_ParentId { get; set; }
         /// <summary>
         /// 层级
@@ -37,7 +37,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 简拼
         /// </summary>
-        [SugarColumn(IsNullable = false, ColumnName = "F_SimpleSpelling",ColumnDataType = "nvarchar(50)", ColumnDescription = "简拼")]
+        [SugarColumn(IsNullable = false, ColumnName = "F_SimpleSpelling", ColumnDataType = "nvarchar(50)", ColumnDescription = "简拼")]
         public string F_SimpleSpelling { get; set; }
         /// <summary>
         /// 排序
@@ -69,7 +69,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 创建人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
         public string F_CreatorUserId { get; set; }
         /// <summary>
         /// 修改时间
@@ -84,7 +84,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 删除时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "删除时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "删除时间")]
         public DateTime? F_DeleteTime { get; set; }
         /// <summary>
         /// 删除人Id
@@ -92,7 +92,7 @@ namespace Shipeng.HRMS.Domain.SystemManage
         [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
         public string F_DeleteUserId { get; set; }
 
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         //使用懒加载加此字段
         public bool haveChild { get; set; }
     }

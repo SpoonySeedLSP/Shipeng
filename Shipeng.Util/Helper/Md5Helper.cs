@@ -1,5 +1,5 @@
-﻿using System.Text;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using System.Text;
 
 namespace Shipeng.Util.Helper
 {
@@ -49,7 +49,7 @@ namespace Shipeng.Util.Helper
             }
             return EnText.ToString();
         }
-      
+
         /// <summary>
         /// HmacSHA256加密
         /// </summary>

@@ -11,7 +11,7 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 日期
@@ -21,12 +21,12 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// <summary>
         /// 账户
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Account",ColumnDataType = "nvarchar(50)", ColumnDescription = "账户")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Account", ColumnDataType = "nvarchar(50)", ColumnDescription = "账户")]
         public string F_Account { get; set; }
         /// <summary>
         /// 昵称
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_NickName",ColumnDataType = "nvarchar(50)", ColumnDescription = "昵称")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_NickName", ColumnDataType = "nvarchar(50)", ColumnDescription = "昵称")]
         public string F_NickName { get; set; }
         /// <summary>
         /// 类型
@@ -36,7 +36,7 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// <summary>
         /// IP地址
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_IPAddress",ColumnDataType = "nvarchar(50)", ColumnDescription = "IP地址")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_IPAddress", ColumnDataType = "nvarchar(50)", ColumnDescription = "IP地址")]
         public string F_IPAddress { get; set; }
         /// <summary>
         /// IP地址名
@@ -66,7 +66,7 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// <summary>
         /// 创建时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "创建时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "创建时间")]
         public DateTime? F_CreatorTime { get; set; }
         /// <summary>
         /// 创建人Id
@@ -76,22 +76,22 @@ namespace Shipeng.HRMS.Domain.SystemSecurity
         /// <summary>
         /// 
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_KeyValue",ColumnDataType = "longtext")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_KeyValue", ColumnDataType = "longtext")]
         public string F_KeyValue { get; set; }
         /// <summary>
         /// 公司Id
         /// </summary>
         [SugarColumn(IsNullable = true, ColumnName = "F_CompanyId", ColumnDataType = "nvarchar(50)", ColumnDescription = "公司Id")]
         public string F_CompanyId { get; set; }
-        public  LogEntity()
+        public LogEntity()
         {
 
         }
         //重载构造方法
-        public LogEntity(string module,string moduleitem,string optiontype)
+        public LogEntity(string module, string moduleitem, string optiontype)
         {
-            this.F_ModuleName = module+ moduleitem;
-            this.F_Description = moduleitem+"操作,";
+            this.F_ModuleName = module + moduleitem;
+            this.F_Description = moduleitem + "操作,";
             this.F_Type = optiontype;
             this.F_Result = true;
         }

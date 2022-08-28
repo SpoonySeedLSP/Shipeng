@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Shipeng.Util.Helper
+﻿namespace Shipeng.Util.Helper
 {
     /// <summary>
     /// 腾讯地图地址转换（根据详细地址转换经纬度）

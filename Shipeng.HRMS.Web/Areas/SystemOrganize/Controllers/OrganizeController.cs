@@ -1,7 +1,7 @@
-﻿using Shipeng.HRMS.Service.SystemOrganize;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
 {
@@ -20,7 +20,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeSelectJson()
         {
-            var data =await _service.GetList();
+            var data = await _service.GetList();
             var treeList = new List<TreeSelectModel>();
             foreach (OrganizeEntity item in data)
             {
@@ -55,7 +55,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeJson()
         {
-            var data =await _service.GetList();
+            var data = await _service.GetList();
             var treeList = new List<TreeViewModel>();
             foreach (OrganizeEntity item in data)
             {
@@ -74,32 +74,32 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         }
         [HttpGet]
         [HandlerAjaxOnly]
-        public async Task<ActionResult> GetTreeGridJson(string keyword,string ids)
+        public async Task<ActionResult> GetTreeGridJson(string keyword, string ids)
         {
-            var data =await _service.GetLookList();
+            var data = await _service.GetLookList();
             if (!string.IsNullOrEmpty(keyword))
             {
                 data = data.TreeWhere(t => t.F_FullName.Contains(keyword));
             }
-			if (!string.IsNullOrEmpty(ids))
-			{
+            if (!string.IsNullOrEmpty(ids))
+            {
                 var str = ids.Split(',');
-				foreach (var item in str)
-				{
+                foreach (var item in str)
+                {
                     if (data.Where(a => a.F_Id == item).Any())
                     {
                         var temp = data.Find(a => a.F_Id == item);
                         temp.LAY_CHECKED = true;
                     }
-				}
-			}
+                }
+            }
             return Success(data.Count, data);
         }
         [HttpGet]
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
@@ -108,13 +108,13 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         {
             try
             {
-                if (organizeEntity.F_ParentId=="0")
+                if (organizeEntity.F_ParentId == "0")
                 {
                     organizeEntity.F_Layers = 1;
                 }
                 else
                 {
-                    organizeEntity.F_Layers =(await _service.GetForm(organizeEntity.F_ParentId)).F_Layers + 1;
+                    organizeEntity.F_Layers = (await _service.GetForm(organizeEntity.F_ParentId)).F_Layers + 1;
                 }
                 await _service.SubmitForm(organizeEntity, keyValue);
                 return await Success("操作成功。", "", keyValue);

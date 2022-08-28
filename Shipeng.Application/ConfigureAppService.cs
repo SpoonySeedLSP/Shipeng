@@ -1,16 +1,16 @@
-﻿using Shipeng.Application.Contracts;
+﻿using Mapster;
+using Microsoft.Extensions.DependencyInjection;
+using Shipeng.Application.Contracts;
 using Shipeng.Application.Contracts.Dtos;
 using Shipeng.Application.Contracts.Dtos.Node;
 using Shipeng.Domain.Entities;
 using Shipeng.Domain.ReverseProxy;
 using Shipeng.Domain.Shared.Options;
-using Mapster;
-using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 
 namespace Shipeng.Application
 {
-    public class ConfigureAppService: BaseApplicationService,IConfigureAppService
+    public class ConfigureAppService : BaseApplicationService, IConfigureAppService
     {
         private readonly IServiceProvider _serviceProvider;
         public ConfigureAppService(IServiceProvider serviceProvider)

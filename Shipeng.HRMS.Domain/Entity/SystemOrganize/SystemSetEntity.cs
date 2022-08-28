@@ -9,13 +9,13 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
     /// 描 述：系统设置实体类
     /// </summary>
     [SugarTable("sys_systemset")]
-    public class SystemSetEntity : IEntity<SystemSetEntity>,ICreationAudited,IModificationAudited,IDeleteAudited
+    public class SystemSetEntity : IEntity<SystemSetEntity>, ICreationAudited, IModificationAudited, IDeleteAudited
     {
         /// <summary>
         /// 主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// Logo图标
@@ -29,7 +29,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// </summary>
         /// <returns></returns>
         [Required(ErrorMessage = "Logo编号不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_LogoCode",ColumnDataType = "nvarchar(50)", ColumnDescription = "Logo编号")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_LogoCode", ColumnDataType = "nvarchar(50)", ColumnDescription = "Logo编号")]
         public string F_LogoCode { get; set; }
         /// <summary>
         /// 项目名称
@@ -57,13 +57,13 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// </summary>
         /// <returns></returns>
         [Required(ErrorMessage = "系统密码不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_AdminPassword",ColumnDataType = "nvarchar(50)", ColumnDescription = "系统密码")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_AdminPassword", ColumnDataType = "nvarchar(50)", ColumnDescription = "系统密码")]
         public string F_AdminPassword { get; set; }
         /// <summary>
         /// 删除标记
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true,ColumnDescription = "删除标记")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "删除标记")]
         public bool? F_DeleteMark { get; set; }
         /// <summary>
         /// 有效标记
@@ -99,7 +99,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// 修改人Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_LastModifyUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "修改人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_LastModifyUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "修改人Id")]
         public string F_LastModifyUserId { get; set; }
         /// <summary>
         /// 删除时间
@@ -111,7 +111,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// 删除人Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId",ColumnDataType = "longtext", ColumnDescription = "删除人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId", ColumnDataType = "longtext", ColumnDescription = "删除人Id")]
         public string F_DeleteUserId { get; set; }
         /// <summary>
         /// 联系电话
@@ -144,18 +144,18 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// 
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DBProvider",ColumnDataType = "nvarchar(50)")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DBProvider", ColumnDataType = "nvarchar(50)")]
         public string F_DBProvider { get; set; }
         /// <summary>
         /// 域名
         /// </summary>
         [Required(ErrorMessage = "域名不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_HostUrl",ColumnDataType = "longtext", ColumnDescription = "域名")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_HostUrl", ColumnDataType = "longtext", ColumnDescription = "域名")]
         public string F_HostUrl { get; set; }
         /// <summary>
         /// 数据库序号
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DbNumber",ColumnDataType = "nvarchar(50)", ColumnDescription = "数据库序号", UniqueGroupNameList = new string[] { "sys_systemset" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DbNumber", ColumnDataType = "nvarchar(50)", ColumnDescription = "数据库序号", UniqueGroupNameList = new string[] { "sys_systemset" })]
         public string F_DbNumber { get; set; }
     }
 }

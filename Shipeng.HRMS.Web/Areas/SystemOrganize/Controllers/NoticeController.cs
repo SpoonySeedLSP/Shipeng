@@ -1,7 +1,7 @@
-﻿using Shipeng.HRMS.Service.SystemOrganize;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
 {
@@ -27,14 +27,14 @@ namespace Shipeng.HRMS.Web.Areas.SystemOrganize.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetListJson(string keyword)
         {
-            var data =await _service.GetList(keyword);
+            var data = await _service.GetList(keyword);
             return Content(data.ToJson());
         }
         [HttpGet]
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]

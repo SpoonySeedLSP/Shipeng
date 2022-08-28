@@ -1073,7 +1073,7 @@ namespace Shipeng.Util
             //发送消息
             foreach (var item in body)
             {
-                var text = string.IsNullOrEmpty(item)? null: Encoding.UTF8.GetBytes(item);
+                var text = string.IsNullOrEmpty(item) ? null : Encoding.UTF8.GetBytes(item);
                 channel.BasicPublish(exchange, routingKey, props, text);
             }
 
@@ -1401,7 +1401,7 @@ namespace Shipeng.Util
                 //接收消息事件
                 consumer.Received += (sender, ea) =>
                 {
-                    var text= Encoding.UTF8.GetString(ea.Body.ToArray());
+                    var text = Encoding.UTF8.GetString(ea.Body.ToArray());
                     var body = text;
                     var numberOfRetries = 0;
                     Exception exception = null;

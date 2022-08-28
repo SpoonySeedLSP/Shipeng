@@ -17,19 +17,19 @@ namespace Shipeng.HRMS.Service.SystemManage
             }
             return await query.Where(a => a.F_DeleteMark == false && a.F_EnabledMark == true).OrderBy(a => a.F_SortCode).ToListAsync();
         }
-        public async Task<List<AreaEntity>> GetLookList(int layers=0)
+        public async Task<List<AreaEntity>> GetLookList(int layers = 0)
         {
-            var query =repository .IQueryable ().Where(a => a.F_DeleteMark == false && a.F_EnabledMark == true);
-            if (layers!=0)
-            { 
+            var query = repository.IQueryable().Where(a => a.F_DeleteMark == false && a.F_EnabledMark == true);
+            if (layers != 0)
+            {
                 query = query.Where(a => a.F_Layers == layers);
             }
-            query = GetDataPrivilege("a","", query);
+            query = GetDataPrivilege("a", "", query);
             return await query.OrderBy(a => a.F_SortCode).ToListAsync();
         }
         public async Task<AreaEntity> GetLookForm(string keyValue)
         {
-            var data =await repository.FindEntity(keyValue);
+            var data = await repository.FindEntity(keyValue);
             return GetFieldsFilterData(data);
         }
         public async Task<AreaEntity> GetForm(string keyValue)
@@ -45,7 +45,7 @@ namespace Shipeng.HRMS.Service.SystemManage
             }
             else
             {
-               await repository.Delete(a => a.F_Id == keyValue);
+                await repository.Delete(a => a.F_Id == keyValue);
             }
         }
         public async Task SubmitForm(AreaEntity mEntity, string keyValue)

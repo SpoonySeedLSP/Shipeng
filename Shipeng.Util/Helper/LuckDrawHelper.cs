@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Shipeng.Util.Helper
+﻿namespace Shipeng.Util.Helper
 {
     public static class LuckDrawHelper
     {

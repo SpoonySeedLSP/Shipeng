@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
-using Shipeng.Domain.Shared.Options;
 using Shipeng.Domain.Authorization;
+using Shipeng.Domain.Shared.Options;
 
 namespace Shipeng.Hosting.Middlewares
 {
@@ -35,16 +35,16 @@ namespace Shipeng.Hosting.Middlewares
                 return;
             }
             //token验证
-            var tokenResult= await _jwtTokenManager.ValidationTokenAsync(context);
+            var tokenResult = await _jwtTokenManager.ValidationTokenAsync(context);
             if (!tokenResult.Successed)
             {
                 context.Response.StatusCode = 401;
-                await context.Response.WriteAsync(tokenResult?.Message??"");
+                await context.Response.WriteAsync(tokenResult?.Message ?? "");
                 return;
             }
             var claimTypes = new[] { "iat", "nbf", "exp", "iss", "aud" };
             var claims = tokenResult?.Claims?.Where(x => !claimTypes.Contains(x.Name))?.ToList();
-            if (claims!=null && claims.Count>0)
+            if (claims != null && claims.Count > 0)
             {
                 foreach (var claim in claims)
                 {
@@ -54,7 +54,7 @@ namespace Shipeng.Hosting.Middlewares
                         context.Items.Add(claim.Name, System.Net.WebUtility.UrlEncode(claim.Value));
                     }
                 }
-            }           
+            }
             await _next(context);
             return;
         }

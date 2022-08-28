@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SqlSugar;
+﻿using SqlSugar;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.HRMS.Domain.SystemManage
 {
@@ -9,13 +9,13 @@ namespace Shipeng.HRMS.Domain.SystemManage
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 父级Id
         /// </summary>
         [Required(ErrorMessage = "父级不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_ParentId",ColumnDataType = "nvarchar(50)", ColumnDescription = "父级Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ParentId", ColumnDataType = "nvarchar(50)", ColumnDescription = "父级Id")]
         public string F_ParentId { get; set; }
         /// <summary>
         /// 编号

@@ -12,7 +12,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
         [HttpGet]
         public async Task<ActionResult> GetServerDataJson()
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 //windows环境
                 var computer = ComputerHelper.GetComputerInfo();
                 var arm = computer.RAMRate;
@@ -28,7 +29,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemSecurity.Controllers
         [HttpGet]
         public async Task<ActionResult> GetServerData()
         {
-            var data =(await _serverStateService.GetList(2)).OrderBy(a => a.F_Date).ToList() ;
+            var data = (await _serverStateService.GetList(2)).OrderBy(a => a.F_Date).ToList();
             return Content(data.ToJson());
         }
     }

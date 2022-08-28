@@ -7,7 +7,7 @@ namespace Shipeng.Util
     public class ReflectionHelper
     {
         private static ConcurrentDictionary<string, object> dictCache = new ConcurrentDictionary<string, object>();
-        private static List<string> exceptionList=new List<string> { "DataFilterService", "ControllerBase" };
+        private static List<string> exceptionList = new List<string> { "DataFilterService", "ControllerBase" };
 
         #region 得到类里面的属性集合
         /// <summary>
@@ -67,35 +67,35 @@ namespace Shipeng.Util
         /// <param name="count">搜索层级</param>
         /// <param name="prefix">前缀</param>
         /// <returns></returns>
-        public static string GetModuleName(int count = 5,bool isReplace = true, string prefix="Service")
+        public static string GetModuleName(int count = 5, bool isReplace = true, string prefix = "Service")
         {
             try
             {
                 string moduleName = "";
 
                 for (int i = 0; i < count; i++)
-				{
+                {
                     string className = new StackFrame(i, true).GetMethod().DeclaringType.FullName;
                     className = className.Split('+')[0];
                     className = className.Split('.').LastOrDefault();
                     bool skip = false;
-					foreach (var item in exceptionList)
-					{
-						if (className.Contains(item))
-						{
+                    foreach (var item in exceptionList)
+                    {
+                        if (className.Contains(item))
+                        {
                             skip = true;
                             break;
-						}
-					}
-					if (skip)
-					{
+                        }
+                    }
+                    if (skip)
+                    {
                         continue;
                     }
-					if (className.IndexOf(prefix)>-1)
-					{
+                    if (className.IndexOf(prefix) > -1)
+                    {
                         moduleName = className;
                         if (isReplace)
-						{
+                        {
                             moduleName = moduleName.Replace(prefix, "");
                         }
                     }

@@ -11,10 +11,10 @@ namespace Shipeng.HRMS.Web.Areas.FlowManage.Controllers
     /// 描 述：我的流程控制器类
     /// </summary>
     [Area("FlowManage")]
-    public class FlowinstanceController :  ControllerBase
+    public class FlowinstanceController : ControllerBase
     {
 
-        public FlowinstanceService _service {get;set;}
+        public FlowinstanceService _service { get; set; }
 
         /// <summary>
         /// 待处理的流程
@@ -46,7 +46,7 @@ namespace Shipeng.HRMS.Web.Areas.FlowManage.Controllers
         [HttpGet]
         public async Task<ActionResult> QueryHistories(string keyValue)
         {
-            var data =await _service.QueryHistories(keyValue);
+            var data = await _service.QueryHistories(keyValue);
             return Success(data.Count, data);
         }
         [HandlerAjaxOnly]
@@ -109,11 +109,11 @@ namespace Shipeng.HRMS.Web.Areas.FlowManage.Controllers
             try
             {
                 await _service.Verification(entity);
-                return await Success("操作成功。", "", entity.F_FlowInstanceId,DbLogType.Submit);
+                return await Success("操作成功。", "", entity.F_FlowInstanceId, DbLogType.Submit);
             }
             catch (Exception ex)
             {
-                return await Error(ex.Message, "",entity.F_FlowInstanceId, DbLogType.Submit);
+                return await Error(ex.Message, "", entity.F_FlowInstanceId, DbLogType.Submit);
             }
         }
 

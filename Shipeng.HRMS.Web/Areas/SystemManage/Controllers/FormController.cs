@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 using Shipeng.Util.Model;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
@@ -12,10 +12,10 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
     /// 描 述：表单设计控制器类
     /// </summary>
     [Area("SystemManage")]
-    public class FormController :  ControllerBase
+    public class FormController : ControllerBase
     {
 
-        public FormService _service {get;set;}
+        public FormService _service { get; set; }
 
         #region 获取数据
         [HttpGet]
@@ -37,7 +37,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetExtendForm(string keyword)
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 string filePath = GlobalContext.HostingEnvironment.WebRootPath + $@"/form/";
                 DirectoryInfo root = new DirectoryInfo(filePath);
                 List<AppLogEntity> list = new List<AppLogEntity>();

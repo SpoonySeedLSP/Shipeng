@@ -1,9 +1,5 @@
-﻿using Shipeng.Application;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.Application.Contracts;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using Shipeng.Application.Contracts.Dtos;
 
 namespace Shipeng.Hosting.Controllers

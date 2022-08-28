@@ -1,5 +1,5 @@
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service.SystemOrganize
@@ -18,10 +18,10 @@ namespace Shipeng.HRMS.Service.SystemOrganize
         {
             return await repository.FindEntity(keyValue);
         }
-        public async Task RevisePassword(string userPassword,string keyValue)
+        public async Task RevisePassword(string userPassword, string keyValue)
         {
             UserLogOnEntity entity = new UserLogOnEntity();
-            entity = repository.IQueryable().InSingle(keyValue) ;
+            entity = repository.IQueryable().InSingle(keyValue);
             if (entity == null)
             {
                 entity = new UserLogOnEntity();
@@ -42,7 +42,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                 await repository.Update(entity);
             }
             //缓存用户账户信息
-            var userLogOnEntity =await CacheHelper.GetAsync<OperatorUserInfo>(cacheKeyOperator + "info_" + keyValue);
+            var userLogOnEntity = await CacheHelper.GetAsync<OperatorUserInfo>(cacheKeyOperator + "info_" + keyValue);
             if (userLogOnEntity == null)
             {
                 userLogOnEntity = new OperatorUserInfo();

@@ -171,13 +171,13 @@ namespace Shipeng.Util
         public async Task<string> ExecuteAsync(string url, System.Net.Http.HttpMethod method, string requestString, Dictionary<string, string> dicHeaders, int timeoutSecond = 120,
             string accept = "application/json")
         {
-            var client = _httpClientFactory.CreateClient(); 
-            if (url.IndexOf('?')>-1)
-			{
+            var client = _httpClientFactory.CreateClient();
+            if (url.IndexOf('?') > -1)
+            {
                 url += "&v=" + DateTime.Now.ToString("yyyyMMddhhmmss");
             }
-			else
-			{
+            else
+            {
                 url += "?v=" + DateTime.Now.ToString("yyyyMMddhhmmss");
             }
             var request = new HttpRequestMessage(method, url)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.InfoManage;
 using Shipeng.HRMS.Service.InfoManage;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.InfoManage.Controllers
 {
@@ -11,10 +11,10 @@ namespace Shipeng.HRMS.Web.Areas.InfoManage.Controllers
     /// 描 述：通知管理控制器类
     /// </summary>
     [Area("InfoManage")]
-    public class MessageController :  ControllerBase
+    public class MessageController : ControllerBase
     {
 
-        public MessageService _service {get;set;}
+        public MessageService _service { get; set; }
         [HttpGet]
         [HandlerAuthorize]
         public ActionResult OwnerMessage()
@@ -69,7 +69,7 @@ namespace Shipeng.HRMS.Web.Areas.InfoManage.Controllers
                 entity.F_ClickRead = true;
                 entity.F_CreatorUserName = _service.currentuser.UserName;
                 await _service.SubmitForm(entity);
-                return await Success("操作成功。", "","");
+                return await Success("操作成功。", "", "");
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace Shipeng.HRMS.Web.Areas.InfoManage.Controllers
         [HttpPost]
         [HandlerAjaxOnly]
         [IgnoreAntiforgeryToken]
-        public async Task<ActionResult> ReadAllMsgForm(int type=0)
+        public async Task<ActionResult> ReadAllMsgForm(int type = 0)
         {
             try
             {

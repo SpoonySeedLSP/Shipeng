@@ -2,7 +2,7 @@
 
 namespace Shipeng.Util
 {
-	public enum DbLogType
+    public enum DbLogType
     {
         [Description("其他")]
         Other = 0,

@@ -8,19 +8,19 @@ namespace Shipeng.HRMS.Domain.InfoManage
     /// 描 述：信息历史实体类
     /// </summary>
     [SugarTable("oms_messagehis")]
-    public class MessageHistoryEntity : IEntity<MessageHistoryEntity>,ICreationAudited
+    public class MessageHistoryEntity : IEntity<MessageHistoryEntity>, ICreationAudited
     {
         /// <summary>
         /// 主键Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 信息Id
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_MessageId",ColumnDataType = "nvarchar(50)", ColumnDescription = "信息Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_MessageId", ColumnDataType = "nvarchar(50)", ColumnDescription = "信息Id")]
         public string F_MessageId { get; set; }
         /// <summary>
         /// 创建时间
@@ -32,7 +32,7 @@ namespace Shipeng.HRMS.Domain.InfoManage
         /// 创建用户主键
         /// </summary>
         /// <returns></returns>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建用户主键")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建用户主键")]
         public string F_CreatorUserId { get; set; }
         /// <summary>
         /// 创建用户

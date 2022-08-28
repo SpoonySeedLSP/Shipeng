@@ -1,9 +1,9 @@
-﻿using Shipeng.Application.Contracts;
+﻿using Mapster;
+using Shipeng.Application.Contracts;
 using Shipeng.Application.Contracts.Dtos.Node;
 using Shipeng.Domain.Entities;
 using Shipeng.Domain.Node;
 using Volo.Abp.Domain.Repositories;
-using Mapster;
 namespace Shipeng.Application
 {
     public class NodeAppService : BaseApplicationService, INodeAppService
@@ -20,7 +20,7 @@ namespace Shipeng.Application
         public async Task<ShipengResult> CreateAsync(CreateNodeDto createNode)
         {
             createNode.Server = createNode.Server.TrimEnd('/');
-            var model =await _nodeManager.CreateAsync(createNode.NodeName, createNode.Server);
+            var model = await _nodeManager.CreateAsync(createNode.NodeName, createNode.Server);
             TypeAdapter.Adapt(createNode, model);
             await _repository.InsertAsync(model);
             return Ok();
@@ -28,7 +28,7 @@ namespace Shipeng.Application
 
         public async Task<ShipengResult> DeleteAsync(Guid id)
         {
-            await _repository.DeleteAsync(x=>x.Id==id);
+            await _repository.DeleteAsync(x => x.Id == id);
             return Ok();
         }
 
@@ -43,7 +43,7 @@ namespace Shipeng.Application
 
         public async Task<ShipengResult<NodeDto>> GetAsync(Guid id)
         {
-            var result= (await _repository.GetQueryableAsync())
+            var result = (await _repository.GetQueryableAsync())
                 .Where(x => x.Id == id)
                 .ProjectToType<NodeDto>()
                 .FirstOrDefault();
@@ -64,7 +64,7 @@ namespace Shipeng.Application
         public async Task<ShipengResult> UpdateAsync(UpdateNodeDto updateNode)
         {
             updateNode.Server = updateNode.Server.TrimEnd('/');
-            var model =await _nodeManager.UpdateAsync(updateNode.Id, updateNode.NodeName, updateNode.Server);
+            var model = await _nodeManager.UpdateAsync(updateNode.Id, updateNode.NodeName, updateNode.Server);
             TypeAdapter.Adapt(updateNode, model);
             model.Updated = DateTime.Now;
             await _repository.UpdateAsync(model);

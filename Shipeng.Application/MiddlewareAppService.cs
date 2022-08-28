@@ -1,8 +1,8 @@
-﻿using Shipeng.Application.Contracts;
+﻿using Mapster;
+using Shipeng.Application.Contracts;
 using Shipeng.Application.Contracts.Dtos.Middleware;
 using Shipeng.Domain.Entities;
 using Shipeng.Domain.Middlewares;
-using Mapster;
 using Volo.Abp.Domain.Repositories;
 
 namespace Shipeng.Application
@@ -22,7 +22,7 @@ namespace Shipeng.Application
 
         public async Task<ShipengResult> CreateAsync(CreateMiddlewareDto middlewareDto)
         {
-            var model =await _middlewareManager.CreateAsync(middlewareDto.Name, middlewareDto.Server);
+            var model = await _middlewareManager.CreateAsync(middlewareDto.Name, middlewareDto.Server);
             TypeAdapter.Adapt(middlewareDto, model);
             await _repository.InsertAsync(model);
             return Ok();
@@ -58,7 +58,7 @@ namespace Shipeng.Application
 
         public async Task<ShipengResult> UpdateAsync(UpdateMiddlewareDto middlewareDto)
         {
-            var model =await _middlewareManager.UpdateAsync(middlewareDto.Id, middlewareDto.Name, middlewareDto.Server);
+            var model = await _middlewareManager.UpdateAsync(middlewareDto.Id, middlewareDto.Name, middlewareDto.Server);
             TypeAdapter.Adapt(middlewareDto, model);
             model.Updated = DateTime.Now;
             await _repository.UpdateAsync(model);
@@ -67,7 +67,7 @@ namespace Shipeng.Application
 
         public async Task<ShipengResult> UpdateUseStateAsync(Guid id, bool useState)
         {
-            var model = await _repository.FirstOrDefaultAsync(x=>x.Id==id);
+            var model = await _repository.FirstOrDefaultAsync(x => x.Id == id);
             model.UseState = useState;
             model.Updated = DateTime.Now;
             await _repository.UpdateAsync(model);

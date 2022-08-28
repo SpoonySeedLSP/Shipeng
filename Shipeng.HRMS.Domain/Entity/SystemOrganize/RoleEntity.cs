@@ -12,7 +12,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 主键Id 
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 公司Id
@@ -29,7 +29,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// 编号
         /// </summary>
         [Required(ErrorMessage = "编号不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_EnCode",ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_role" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_EnCode", ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_role" })]
         public string F_EnCode { get; set; }
         /// <summary>
         /// 名称
@@ -77,22 +77,22 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 创建时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "创建时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "创建时间")]
         public DateTime? F_CreatorTime { get; set; }
         /// <summary>
         /// 创建人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
         public string F_CreatorUserId { get; set; }
         /// <summary>
         /// 修改时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "修改时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "修改时间")]
         public DateTime? F_LastModifyTime { get; set; }
         /// <summary>
         /// 修改人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_LastModifyUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "修改人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_LastModifyUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "修改人Id")]
         public string F_LastModifyUserId { get; set; }
         /// <summary>
         /// 删除时间
@@ -102,9 +102,9 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 删除人Id 
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
         public string F_DeleteUserId { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         //tablecheck字段
         public bool LAY_CHECKED { get; set; }
     }

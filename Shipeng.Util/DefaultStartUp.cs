@@ -1,25 +1,25 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Autofac;
+using CSRedis;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Autofac;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Models;
 using Shipeng.Util.Model;
-using CSRedis;
-using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
-using Microsoft.AspNetCore.DataProtection;
 using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Microsoft.OpenApi.Models;
 
 namespace Shipeng.Util
 {
     public class DefaultStartUp
-	{
+    {
         protected IConfiguration Configuration { get; }
         protected IWebHostEnvironment WebHostEnvironment { get; set; }
         public DefaultStartUp(IConfiguration configuration, IWebHostEnvironment env)
@@ -101,12 +101,12 @@ namespace Shipeng.Util
         /// <param name="controller">控制器</param>
         /// <param name="IService">服务接口</param>
         /// <param name="program">程序</param>
-        public void AutofacConfigureContainer(ContainerBuilder builder,List<string> projects,Type controller,Type IService,Type program)
-		{
+        public void AutofacConfigureContainer(ContainerBuilder builder, List<string> projects, Type controller, Type IService, Type program)
+        {
             if (projects == null)
             {
                 projects = new List<string>();
-                projects.Add("WaterCloud.Service");
+                projects.Add("Shipeng.HRMS.Service");
             }
             foreach (var item in projects)
             {
@@ -162,7 +162,7 @@ namespace Shipeng.Util
     /// StartUp扩展
     /// </summary>
     public static class StartUpExtends
-	{
+    {
         /// <summary>
         /// 默认MVC配置
         /// </summary>
@@ -200,13 +200,16 @@ namespace Shipeng.Util
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDefaultSwaggerGen(this IServiceCollection services,string name)
+        public static IServiceCollection AddDefaultSwaggerGen(this IServiceCollection services, string name)
         {
             services.AddSwaggerGen(config =>
             {
-				foreach (var item in GlobalContext.SystemConfig.DocumentSettings.GroupOpenApiInfos)
-				{
-                    config.SwaggerDoc($"{item.Group}", new OpenApiInfo { Title = item.Title,Version=item.Version,Description=item.Description });
+                if (GlobalContext.SystemConfig.DocumentSettings != null)
+                {
+                    foreach (var item in GlobalContext.SystemConfig.DocumentSettings.GroupOpenApiInfos)
+                    {
+                        config.SwaggerDoc($"{item.Group}", new OpenApiInfo { Title = item.Title, Version = item.Version, Description = item.Description });
+                    }
                 }
                 var xmlFile = $"{name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -220,16 +223,16 @@ namespace Shipeng.Util
                     Type = SecuritySchemeType.ApiKey,//设置类型
                     BearerFormat = ""
                 });
-				config.AddSecurityRequirement(new OpenApiSecurityRequirement
-				{
-					{
-						new OpenApiSecurityScheme
-						{
-							Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = GlobalContext.SystemConfig.TokenName }
-						},
-						new List<string>()
-					}
-				});
+                config.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = GlobalContext.SystemConfig.TokenName }
+                        },
+                        new List<string>()
+                    }
+                });
             });
             return services;
         }
@@ -247,11 +250,13 @@ namespace Shipeng.Util
             app.UseSwaggerUI(c =>
             {
                 c.RoutePrefix = "api-doc";
-                foreach (var item in GlobalContext.SystemConfig.DocumentSettings.GroupOpenApiInfos)
+                if (GlobalContext.SystemConfig.DocumentSettings != null)
                 {
-                    c.SwaggerEndpoint($"{item.Group}/swagger.json", $"{item.Title}"); 
+                    foreach (var item in GlobalContext.SystemConfig.DocumentSettings.GroupOpenApiInfos)
+                    {
+                        c.SwaggerEndpoint($"{item.Group}/swagger.json", $"{item.Title}");
+                    }
                 }
-                
             });
             return app;
         }

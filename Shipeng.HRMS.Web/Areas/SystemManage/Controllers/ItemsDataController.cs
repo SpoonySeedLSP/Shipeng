@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
 {
@@ -14,14 +14,14 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetGridJson(string itemId, string keyword)
         {
-            var data =await _service.GetLookList(itemId, keyword);
+            var data = await _service.GetLookList(itemId, keyword);
             return Success(data.Count, data);
         }
         [HttpGet]
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetSelectJson(string enCode)
         {
-            var data =await _service.GetItemList(enCode);
+            var data = await _service.GetItemList(enCode);
             List<object> list = new List<object>();
             foreach (ItemsDetailEntity item in data)
             {
@@ -33,7 +33,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]

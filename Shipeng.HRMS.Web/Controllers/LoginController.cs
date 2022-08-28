@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shipeng.HRMS.Service.SystemSecurity;
+using Shipeng.HRMS.Domain.SystemOrganize;
 using Shipeng.HRMS.Domain.SystemSecurity;
 using Shipeng.HRMS.Service.SystemOrganize;
-using Shipeng.HRMS.Domain.SystemOrganize;
-using SqlSugar;
+using Shipeng.HRMS.Service.SystemSecurity;
 using Shipeng.Util;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Web.Controllers
 {
@@ -45,7 +45,7 @@ namespace Shipeng.HRMS.Web.Controllers
         public async Task<ActionResult> GetListJsonByLogin(string keyword)
         {
             var data = await _setService.GetList(keyword);
-            data = data.OrderBy(a=>a.F_DbNumber).ToList();
+            data = data.OrderBy(a => a.F_DbNumber).ToList();
             foreach (var item in data)
             {
                 item.F_AdminAccount = null;
@@ -55,7 +55,7 @@ namespace Shipeng.HRMS.Web.Controllers
                 item.F_PrincipalMan = null;
                 item.F_MobilePhone = null;
                 item.F_CompanyName = null;
-                item.F_LogoCode= null;
+                item.F_LogoCode = null;
             }
             return Content(data.ToJson());
         }
@@ -99,7 +99,7 @@ namespace Shipeng.HRMS.Web.Controllers
                     return Content(new AlwaysResult { state = ResultType.error.ToString() }.ToJson());
                 }
                 //登录检测      
-                if ((await OperatorProvider.Provider.IsOnLine("pc_")).stateCode<=0)
+                if ((await OperatorProvider.Provider.IsOnLine("pc_")).stateCode <= 0)
                 {
                     await OperatorProvider.Provider.EmptyCurrent("pc_");
                     return Content(new AlwaysResult { state = ResultType.error.ToString() }.ToJson());
@@ -127,19 +127,19 @@ namespace Shipeng.HRMS.Web.Controllers
         [HttpPost]
         [HandlerAjaxOnly]
         [IgnoreAntiforgeryToken]
-        public async Task<ActionResult> CheckLogin(string username, string password,string localurl)
+        public async Task<ActionResult> CheckLogin(string username, string password, string localurl)
         {
             //根据域名判断租户
             LogEntity logEntity = new LogEntity();
-            logEntity.F_ModuleName ="系统登录";
+            logEntity.F_ModuleName = "系统登录";
             logEntity.F_Type = DbLogType.Login.ToString();
-            if (GlobalContext.SystemConfig.SqlMode==Define.SQL_MORE)
+            if (GlobalContext.SystemConfig.SqlMode == Define.SQL_MORE)
             {
                 localurl = "";
             }
             try
             {
-                UserEntity userEntity =await _userService.CheckLogin(username, password, localurl);
+                UserEntity userEntity = await _userService.CheckLogin(username, password, localurl);
                 OperatorModel operatorModel = new OperatorModel();
                 operatorModel.UserId = userEntity.F_Id;
                 operatorModel.UserCode = userEntity.F_Account;
@@ -176,7 +176,7 @@ namespace Shipeng.HRMS.Web.Controllers
                     operatorModel.IsSuperAdmin = false;
                 }
                 //缓存保存用户信息
-                await OperatorProvider.Provider.AddLoginUser(operatorModel, "","pc_");
+                await OperatorProvider.Provider.AddLoginUser(operatorModel, "", "pc_");
                 //防重复token
                 string token = Utils.GuId();
                 HttpContext.Response.Cookies.Append("pc_" + GlobalContext.SystemConfig.TokenName, token);
@@ -188,7 +188,7 @@ namespace Shipeng.HRMS.Web.Controllers
                 await _logService.WriteDbLog(logEntity);
                 //验证回退路由是否有权限，没有就删除
                 await CheckReturnUrl(operatorModel.UserId);
-                return Content(new AlwaysResult { state = ResultType.success.ToString(), message = "登录成功。"}.ToJson());
+                return Content(new AlwaysResult { state = ResultType.success.ToString(), message = "登录成功。" }.ToJson());
             }
             catch (Exception ex)
             {
@@ -209,7 +209,7 @@ namespace Shipeng.HRMS.Web.Controllers
             {
                 WebHelper.RemoveCookie("wc_realreturnurl");
             }
-            if (!string.IsNullOrEmpty(url) && !await _roleAuthServuce.CheckReturnUrl(userId,url))
+            if (!string.IsNullOrEmpty(url) && !await _roleAuthServuce.CheckReturnUrl(userId, url))
             {
                 WebHelper.RemoveCookie("wc_returnurl");
             }

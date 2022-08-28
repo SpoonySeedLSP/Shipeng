@@ -1,7 +1,7 @@
 ﻿
 namespace Shipeng.HRMS.Domain
 {
-    public interface IDeleteAudited 
+    public interface IDeleteAudited
     {
         /// <summary>
         /// 逻辑删除标记
@@ -16,6 +16,6 @@ namespace Shipeng.HRMS.Domain
         /// <summary>
         /// 删除实体时间
         /// </summary>
-        DateTime? F_DeleteTime { get; set; } 
+        DateTime? F_DeleteTime { get; set; }
     }
 }

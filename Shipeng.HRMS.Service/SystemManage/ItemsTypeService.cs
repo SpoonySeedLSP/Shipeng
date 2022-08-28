@@ -3,7 +3,7 @@ using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service.SystemManage
 {
-    public class ItemsTypeService : DataFilterService<ItemsEntity>,IDenpendency
+    public class ItemsTypeService : DataFilterService<ItemsEntity>, IDenpendency
     {
         public ItemsTypeService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -16,7 +16,7 @@ namespace Shipeng.HRMS.Service.SystemManage
         public async Task<List<ItemsEntity>> GetLookList()
         {
             var query = repository.IQueryable().Where(a => a.F_DeleteMark == false);
-            query = GetDataPrivilege("a","",query);
+            query = GetDataPrivilege("a", "", query);
             return await query.OrderBy(a => a.F_SortCode).ToListAsync();
         }
         public async Task<ItemsEntity> GetLookForm(string keyValue)

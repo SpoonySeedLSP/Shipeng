@@ -1,10 +1,10 @@
-﻿using Shipeng.Util;
+﻿using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
 using Shipeng.HRMS.Domain.ViewModel;
 using Shipeng.HRMS.Service.SystemManage;
-using Shipeng.HRMS.Domain.SystemManage;
-using SqlSugar;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemOrganize
 {
@@ -34,24 +34,24 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             var data = new List<ModuleEntity>();
             if (currentuser.IsAdmin)
             {
-                data =await moduleApp.GetList();
-                data = data.Where(a => a.F_IsMenu == true&&a.F_EnabledMark==true).ToList();
+                data = await moduleApp.GetList();
+                data = data.Where(a => a.F_IsMenu == true && a.F_EnabledMark == true).ToList();
             }
             else
             {
                 var rolelist = roleId.Split(',');
-                var moduledata =await moduleApp.GetList();
+                var moduledata = await moduleApp.GetList();
                 moduledata = moduledata.Where(a => a.F_IsMenu == true && a.F_EnabledMark == true).ToList();
-                var role =repository.Db.Queryable<RoleEntity>().Where(a=>rolelist.Contains(a.F_Id)&&a.F_EnabledMark==true).ToList();
-                if (role.Count==0)
+                var role = repository.Db.Queryable<RoleEntity>().Where(a => rolelist.Contains(a.F_Id) && a.F_EnabledMark == true).ToList();
+                if (role.Count == 0)
                 {
                     return data;
                 }
                 var authorizedata = repository.IQueryable().Where(a => rolelist.Contains(a.F_ObjectId) && a.F_ItemType == 1).Distinct().ToList();
                 foreach (var item in authorizedata)
                 {
-                    ModuleEntity moduleEntity = moduledata.Find(a => a.F_Id == item.F_ItemId && a.F_IsPublic==false);
-                    if (moduleEntity != null && data.Find(a=>a.F_Id==moduleEntity.F_Id)==null)
+                    ModuleEntity moduleEntity = moduledata.Find(a => a.F_Id == item.F_ItemId && a.F_IsPublic == false);
+                    if (moduleEntity != null && data.Find(a => a.F_Id == moduleEntity.F_Id) == null)
                     {
                         data.Add(moduleEntity);
                     }
@@ -116,7 +116,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             }
             return data.OrderByDescending(a => a.F_CreatorTime).ToList();
         }
-        public async Task<bool> ActionValidate(string action,bool isAuthorize=false)
+        public async Task<bool> ActionValidate(string action, bool isAuthorize = false)
         {
             var user = await userApp.GetForm(currentuser.UserId);
             var temps = isAuthorize ? action.Split(',') : new string[0];
@@ -125,7 +125,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                 return false;
             }
             var authorizeurldata = new List<AuthorizeActionModel>();
-            var cachedata =await CacheHelper.GetAsync<Dictionary<string,List<AuthorizeActionModel>>>(cacheKey +repository.Db.CurrentConnectionConfig.ConfigId+ "_list");
+            var cachedata = await CacheHelper.GetAsync<Dictionary<string, List<AuthorizeActionModel>>>(cacheKey + repository.Db.CurrentConnectionConfig.ConfigId + "_list");
             if (cachedata == null)
             {
                 cachedata = new Dictionary<string, List<AuthorizeActionModel>>();
@@ -140,7 +140,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                 return false;
             }
             else
-			{
+            {
                 var rolelist = user.F_RoleId.Split(',');
                 foreach (var roles in rolelist)
                 {
@@ -197,23 +197,23 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                 }
             }
             var module = authorizeurldata.Find(a => a.F_UrlAddress == action || temps.Contains(a.F_Authorize));
-            if (module!=null)
+            if (module != null)
             {
                 return true;
             }
             return false;
         }
 
-        public async Task<bool> CheckReturnUrl(string userId, string url, bool isAll=false)
+        public async Task<bool> CheckReturnUrl(string userId, string url, bool isAll = false)
         {
             var user = await userApp.GetForm(userId);
-            if (isAll == false &&(user == null || user.F_EnabledMark == false))
+            if (isAll == false && (user == null || user.F_EnabledMark == false))
             {
                 return false;
             }
             if (isAll == true || user.F_IsAdmin == true)
             {
-                if (unitofwork.GetDbClient().Queryable<ModuleEntity>().Where(a=>a.F_UrlAddress==url).Any()|| unitofwork.GetDbClient().Queryable<ModuleButtonEntity>().Where(a => a.F_UrlAddress == url).Any())
+                if (unitofwork.GetDbClient().Queryable<ModuleEntity>().Where(a => a.F_UrlAddress == url).Any() || unitofwork.GetDbClient().Queryable<ModuleButtonEntity>().Where(a => a.F_UrlAddress == url).Any())
                 {
                     return true;
                 }
@@ -302,10 +302,10 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             {
                 return false;
             }
-			if (user.F_IsAdmin == true)
-			{
+            if (user.F_IsAdmin == true)
+            {
                 return true;
-			}
+            }
             var authorizeurldata = new List<AuthorizeActionModel>();
             var rolelist = user.F_RoleId.Split(',');
             var cachedata = await CacheHelper.GetAsync<Dictionary<string, List<AuthorizeActionModel>>>(cacheKey + repository.Db.CurrentConnectionConfig.ConfigId + "_list");
@@ -366,7 +366,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                     authorizeurldata.AddRange(cachedata[roles]);
                 }
             }
-            if (authorizeurldata.Count>0)
+            if (authorizeurldata.Count > 0)
             {
                 return true;
             }

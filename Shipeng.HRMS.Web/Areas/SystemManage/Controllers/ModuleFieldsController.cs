@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Shipeng.Util;
 using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
 {
@@ -11,7 +11,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
     /// 描 述：字段管理控制器类
     /// </summary>
     [Area("SystemManage")]
-    public class ModuleFieldsController :  ControllerBase
+    public class ModuleFieldsController : ControllerBase
     {
 
         public ModuleFieldsService _service { get; set; }

@@ -1,7 +1,7 @@
-﻿using Shipeng.HRMS.Service.SystemManage;
-using Shipeng.Util;
+﻿using Microsoft.AspNetCore.Mvc;
 using Shipeng.HRMS.Domain.SystemManage;
-using Microsoft.AspNetCore.Mvc;
+using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
 
 namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
 {
@@ -16,8 +16,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeSelectJson()
         {
-            var data =await _service.GetList();
-            data = data.Where(a => a.F_Target == "expand"&&a.F_IsExpand==true).ToList();
+            var data = await _service.GetList();
+            data = data.Where(a => a.F_Target == "expand" && a.F_IsExpand == true).ToList();
             var treeList = new List<TreeSelectModel>();
             foreach (ModuleEntity item in data)
             {
@@ -32,7 +32,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetTreeGridJson(string keyword)
         {
-            var data =await _service.GetLookList();
+            var data = await _service.GetLookList();
             if (!string.IsNullOrEmpty(keyword))
             {
                 data = data.TreeWhere(t => t.F_FullName.Contains(keyword));
@@ -68,7 +68,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetSelectMunuJson(string keyword)
         {
-            var data = (await _service.GetList()).Where(a => a.F_Target=="iframe").ToList();
+            var data = (await _service.GetList()).Where(a => a.F_Target == "iframe").ToList();
             if (!string.IsNullOrEmpty(keyword))
             {
                 data = data.Where(a => a.F_FullName.Contains(keyword)).ToList();
@@ -100,7 +100,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
         [HandlerAjaxOnly]
         public async Task<ActionResult> GetFormJson(string keyValue)
         {
-            var data =await _service.GetLookForm(keyValue);
+            var data = await _service.GetLookForm(keyValue);
             return Content(data.ToJson());
         }
         [HttpPost]
@@ -117,12 +117,12 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
             }
             else
             {
-                if (keyValue==moduleEntity.F_ParentId)
+                if (keyValue == moduleEntity.F_ParentId)
                 {
                     throw new Exception("父级不能是自身");
                 }
                 //前端传值为null，更新的时候null不更新
-                if (moduleEntity.F_Icon==null)
+                if (moduleEntity.F_Icon == null)
                 {
                     moduleEntity.F_Icon = "";
                 }
@@ -135,7 +135,7 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
                 }
                 else
                 {
-                    moduleEntity.F_Layers =(await _service.GetForm(moduleEntity.F_ParentId)).F_Layers + 1;
+                    moduleEntity.F_Layers = (await _service.GetForm(moduleEntity.F_ParentId)).F_Layers + 1;
                 }
                 if (!string.IsNullOrEmpty(moduleEntity.F_UrlAddress))
                 {
@@ -144,8 +144,8 @@ namespace Shipeng.HRMS.Web.Areas.SystemManage.Controllers
                     {
                         templist = templist.Where(a => a.F_Id != keyValue).ToList();
                     }
-                    if(templist.Find(a=>a.F_UrlAddress==moduleEntity.F_UrlAddress)!=null)
-                    throw new Exception("菜单地址不能重复！");
+                    if (templist.Find(a => a.F_UrlAddress == moduleEntity.F_UrlAddress) != null)
+                        throw new Exception("菜单地址不能重复！");
                 }
                 else
                 {

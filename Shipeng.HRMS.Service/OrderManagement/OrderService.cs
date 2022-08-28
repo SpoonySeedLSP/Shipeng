@@ -1,7 +1,7 @@
-﻿using Shipeng.Util;
-using SqlSugar;
-using Shipeng.HRMS.Domain.OrderManagement;
+﻿using Shipeng.HRMS.Domain.OrderManagement;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.OrderManagement
 {
@@ -60,13 +60,15 @@ namespace Shipeng.HRMS.Service.OrderManagement
 
         private ISugarQueryable<OrderEntity> IQuery()
         {
-            var details = repository.Db.Queryable<OrderDetailEntity>().GroupBy(a => a.F_OrderId).Select<Object>(a => new {
+            var details = repository.Db.Queryable<OrderDetailEntity>().GroupBy(a => a.F_OrderId).Select<Object>(a => new
+            {
                 a.F_OrderId,
                 F_NeedNum = SqlFunc.AggregateSum(a.F_NeedNum),
                 F_ActualNum = SqlFunc.AggregateSum(a.F_ActualNum),
             });
             var order = repository.Db.Queryable<OrderEntity>();
-            var query = repository.Db.Queryable(order, details, JoinType.Inner, (a, b) => a.F_Id == SqlFunc.MappingColumn(default(string), "b.F_OrderId")).Select((a, b) => new OrderEntity {
+            var query = repository.Db.Queryable(order, details, JoinType.Inner, (a, b) => a.F_Id == SqlFunc.MappingColumn(default(string), "b.F_OrderId")).Select((a, b) => new OrderEntity
+            {
                 F_Id = a.F_Id,
                 F_ActualTime = a.F_ActualTime,
                 F_CreatorTime = a.F_CreatorTime,
@@ -145,7 +147,7 @@ namespace Shipeng.HRMS.Service.OrderManagement
                 dataList.Add(item);
             }
             entity.F_OrderState = isdone ? 1 : 0;
-            entity.F_ActualTime = isdone ?dataList.Max(a=>a.F_ActualTime):null;
+            entity.F_ActualTime = isdone ? dataList.Max(a => a.F_ActualTime) : null;
             unitOfWork.CurrentBeginTrans();
             if (string.IsNullOrEmpty(keyValue))
             {
@@ -163,10 +165,11 @@ namespace Shipeng.HRMS.Service.OrderManagement
         public async Task DeleteForm(string keyValue)
         {
             var ids = keyValue.Split(',');
-            await repository.Update(a => ids.Contains(a.F_Id),a=>new OrderEntity { 
-                F_DeleteMark=true,
-                F_DeleteTime=DateTime.Now,
-                F_DeleteUserId=currentuser.UserId
+            await repository.Update(a => ids.Contains(a.F_Id), a => new OrderEntity
+            {
+                F_DeleteMark = true,
+                F_DeleteTime = DateTime.Now,
+                F_DeleteUserId = currentuser.UserId
             });
         }
         #endregion

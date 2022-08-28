@@ -9,20 +9,20 @@ namespace Shipeng.Application.Contracts.Dtos.Node
         /// </summary>
         [Required]
         public bool IsReloadAuthentication { get; set; }
-        
+
         /// <summary>
         /// 是否重新加载白名单数据
         /// </summary>
         [Required]
         public bool IsReloadWhitelist { get; set; }
-        
-        
+
+
         /// <summary>
         /// 是否重新加载中间件数据
         /// </summary>
         [Required]
         public bool IsReloadMiddleware { get; set; }
-        
+
         /// <summary>
         /// 是否重新加载Yarp相关数据
         /// </summary>

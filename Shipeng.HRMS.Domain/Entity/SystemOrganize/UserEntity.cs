@@ -12,24 +12,24 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 账户
         /// </summary>
         [Required(ErrorMessage = "账户不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_Account",ColumnDataType = "nvarchar(50)", ColumnDescription = "账户", UniqueGroupNameList = new string[] { "sys_user" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Account", ColumnDataType = "nvarchar(50)", ColumnDescription = "账户", UniqueGroupNameList = new string[] { "sys_user" })]
         public string F_Account { get; set; }
         /// <summary>
         /// 姓名
         /// </summary>
         [Required(ErrorMessage = "姓名不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_RealName",ColumnDataType = "nvarchar(50)", ColumnDescription = "姓名")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_RealName", ColumnDataType = "nvarchar(50)", ColumnDescription = "姓名")]
         public string F_RealName { get; set; }
         /// <summary>
         /// 昵称
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_NickName",ColumnDataType = "nvarchar(50)", ColumnDescription = "昵称")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_NickName", ColumnDataType = "nvarchar(50)", ColumnDescription = "昵称")]
         public string F_NickName { get; set; }
         /// <summary>
         /// 头像
@@ -40,7 +40,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// 性别
         /// </summary>
         [Required(ErrorMessage = "性别不能为空")]
-        [SugarColumn(IsNullable = true,ColumnDescription = "性别")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "性别")]
         public bool? F_Gender { get; set; }
         /// <summary>
         /// 生日
@@ -55,17 +55,17 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 邮箱
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Email",ColumnDataType = "nvarchar(50)", ColumnDescription = "邮箱")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Email", ColumnDataType = "nvarchar(50)", ColumnDescription = "邮箱")]
         public string F_Email { get; set; }
         /// <summary>
         /// 微信号
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_WeChat",ColumnDataType = "nvarchar(50)", ColumnDescription = "微信号")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_WeChat", ColumnDataType = "nvarchar(50)", ColumnDescription = "微信号")]
         public string F_WeChat { get; set; }
         /// <summary>
         /// 管理Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ManagerId",ColumnDataType = "nvarchar(50)", ColumnDescription = "管理Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ManagerId", ColumnDataType = "nvarchar(50)", ColumnDescription = "管理Id")]
         public string F_ManagerId { get; set; }
         /// <summary>
         /// 安全级别
@@ -75,46 +75,46 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 个性签名
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Signature",ColumnDataType = "longtext", ColumnDescription = "个性签名")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Signature", ColumnDataType = "longtext", ColumnDescription = "个性签名")]
         public string F_Signature { get; set; }
         /// <summary>
         /// 公司Id
         /// </summary> 
         [Required(ErrorMessage = "公司不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_OrganizeId",ColumnDataType = "nvarchar(50)", ColumnDescription = "公司Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_OrganizeId", ColumnDataType = "nvarchar(50)", ColumnDescription = "公司Id")]
         public string F_OrganizeId { get; set; }
         /// <summary>
         /// 部门Id
         /// </summary>
         [Required(ErrorMessage = "部门不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_DepartmentId",ColumnDataType = "longtext", ColumnDescription = "部门Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DepartmentId", ColumnDataType = "longtext", ColumnDescription = "部门Id")]
         public string F_DepartmentId { get; set; }
         /// <summary>
         /// 角色Id
         /// </summary>
         [Required(ErrorMessage = "角色不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_RoleId",ColumnDataType = "longtext", ColumnDescription = "角色Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_RoleId", ColumnDataType = "longtext", ColumnDescription = "角色Id")]
         public string F_RoleId { get; set; }
         /// <summary>
         /// 岗位Id
         /// </summary>
         [Required(ErrorMessage = "职位不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_DutyId",ColumnDataType = "longtext", ColumnDescription = "岗位Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DutyId", ColumnDataType = "longtext", ColumnDescription = "岗位Id")]
         public string F_DutyId { get; set; }
         /// <summary>
         /// 是否管理员
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "是否管理员")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "是否管理员")]
         public bool? F_IsAdmin { get; set; }
         /// <summary>
         /// 是否老板
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "是否老板")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "是否老板")]
         public bool? F_IsBoss { get; set; }
         /// <summary>
         /// 是否高管
         /// </summary>
-        [SugarColumn(IsNullable = true,  ColumnDescription = "是否高管")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "是否高管")]
         public bool? F_IsSenior { get; set; }
         /// <summary>
         /// 是否部门领导
@@ -124,7 +124,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 排序码
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "排序码")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "排序码")]
         public int? F_SortCode { get; set; }
         /// <summary>
         /// 删除标记
@@ -154,7 +154,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 修改时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "修改时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "修改时间")]
         public DateTime? F_LastModifyTime { get; set; }
         /// <summary>
         /// 修改人Id
@@ -164,12 +164,12 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 删除时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "删除时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "删除时间")]
         public DateTime? F_DeleteTime { get; set; }
         /// <summary>
         /// 删除人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
         public string F_DeleteUserId { get; set; }
 
         // 拓展字段，2019-03-03
@@ -196,7 +196,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 微信昵称
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_WxNickName",ColumnDataType = "nvarchar(50)", ColumnDescription = "微信昵称")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_WxNickName", ColumnDataType = "nvarchar(50)", ColumnDescription = "微信昵称")]
         public string F_WxNickName { get; set; }
         /// <summary>
         /// 微信头像
@@ -204,16 +204,16 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         [SugarColumn(IsNullable = true, ColumnName = "F_HeadImgUrl", ColumnDataType = "nvarchar(100)", ColumnDescription = "微信头像")]
         public string F_HeadImgUrl { get; set; }
 
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         //多选显示字段
         public string F_DepartmentName { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         //多选显示字段
         public string F_RoleName { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         //tablecheck字段
         public bool LAY_CHECKED { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         //tablecheck字段
         public int MsgCout { get; set; }
     }

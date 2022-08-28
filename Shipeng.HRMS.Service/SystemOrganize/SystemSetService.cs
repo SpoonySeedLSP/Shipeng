@@ -1,10 +1,10 @@
-﻿using Shipeng.Util;
+﻿using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
+using Shipeng.HRMS.Service.SystemManage;
+using Shipeng.Util;
+using Shipeng.Util.DataBase;
 using SqlSugar;
 using System.Reflection;
-using Shipeng.HRMS.Service.SystemManage;
-using Shipeng.HRMS.Domain.SystemManage;
-using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service.SystemOrganize
 {
@@ -68,7 +68,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
             return data;
         }
 
-        public async Task<List<SystemSetEntity>> GetLookList(Pagination pagination,string keyword = "")
+        public async Task<List<SystemSetEntity>> GetLookList(Pagination pagination, string keyword = "")
         {
             var query = repository.IQueryable().Where(a => a.F_DeleteMark == false && a.F_DbNumber != "0");
             if (!string.IsNullOrEmpty(keyword))
@@ -135,7 +135,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                         }
                     }
                     //排除租户
-                    modules.AddRange(moduledata.Where(a => a.F_IsPublic == true && a.F_EnabledMark == true && a.F_DeleteMark == false && a.F_EnCode!= "SystemSet"));
+                    modules.AddRange(moduledata.Where(a => a.F_IsPublic == true && a.F_EnabledMark == true && a.F_DeleteMark == false && a.F_EnCode != "SystemSet"));
                     modulebtns.AddRange(buttondata.Where(a => a.F_IsPublic == true && a.F_EnabledMark == true && a.F_DeleteMark == false));
                 }
                 if (permissionfieldsIds != null)
@@ -158,16 +158,16 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                     modulefileds.AddRange(fieldsdata.Where(a => a.F_IsPublic == true && a.F_EnabledMark == true && a.F_DeleteMark == false));
                 }
                 //新建租户权限
-                if (roleAuthorizeEntitys.Count>0)
-				{
+                if (roleAuthorizeEntitys.Count > 0)
+                {
                     await repository.Db.Insertable(roleAuthorizeEntitys).ExecuteCommandAsync();
                 }
                 //新建数据库和表
                 using (var db = new SqlSugarClient(DBContexHelper.Contex(entity.F_DbString, entity.F_DBProvider)))
-				{
+                {
                     //判断数据库有没有被使用
                     db.DbMaintenance.CreateDatabase();
-                    if (db.DbMaintenance.GetTableInfoList(false).Where(a=>a.Name.ToLower()== "sys_module").Any())
+                    if (db.DbMaintenance.GetTableInfoList(false).Where(a => a.Name.ToLower() == "sys_module").Any())
                         throw new Exception("数据库已存在,请重新设置数据库");
                     var path = AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory;
                     //反射取指定前后缀的dll
@@ -272,8 +272,8 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                         }
                     }
                 }
-                if (roleAuthorizeEntitys.Count>0)
-				{
+                if (roleAuthorizeEntitys.Count > 0)
+                {
                     await repository.Db.Deleteable<RoleAuthorizeEntity>(a => a.F_ObjectId == entity.F_Id).ExecuteCommandAsync();
                     await repository.Db.Insertable(roleAuthorizeEntitys).ExecuteCommandAsync();
                 }
@@ -290,7 +290,7 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                 }
                 //更新租户库
                 if (GlobalContext.SystemConfig.SqlMode == Define.SQL_TENANT)
-				{
+                {
                     var tenant = await unitofwork.GetDbClient().Queryable<SystemSetEntity>().InSingleAsync(entity.F_Id);
                     unitofwork.GetDbClient().ChangeDatabase(tenant.F_DbNumber);
                     var user = unitofwork.GetDbClient().Queryable<UserEntity>().First(a => a.F_OrganizeId == entity.F_Id && a.F_IsAdmin == true);
@@ -323,8 +323,8 @@ namespace Shipeng.HRMS.Service.SystemOrganize
                     await unitofwork.GetDbClient().Insertable(itemsTypes).ExecuteCommandAsync();
                     await unitofwork.GetDbClient().Insertable(itemsDetails).ExecuteCommandAsync();
                 }
-				else
-				{
+                else
+                {
                     var user = repository.Db.Queryable<UserEntity>().First(a => a.F_OrganizeId == entity.F_Id && a.F_IsAdmin == true);
                     var userinfo = repository.Db.Queryable<UserLogOnEntity>().First(a => a.F_UserId == user.F_Id);
                     userinfo.F_UserSecretkey = Md5.md5(Utils.CreateNo(), 16).ToLower();
@@ -352,10 +352,11 @@ namespace Shipeng.HRMS.Service.SystemOrganize
 
         public async Task DeleteForm(string keyValue)
         {
-            await repository.Update(a => a.F_Id == keyValue,a=>new SystemSetEntity { 
-                F_DeleteMark=true,
-                F_EnabledMark=false,
-                F_DeleteUserId=currentuser.UserId
+            await repository.Update(a => a.F_Id == keyValue, a => new SystemSetEntity
+            {
+                F_DeleteMark = true,
+                F_EnabledMark = false,
+                F_DeleteUserId = currentuser.UserId
             });
         }
         #endregion

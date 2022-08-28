@@ -10,15 +10,16 @@ namespace Shipeng.Util
             sb.Append(TreeGridJson(data, "0"));
             return sb.ToString();
         }
-        private static string TreeGridJson(List<TreeGridModel> data,  string parentId)
+        private static string TreeGridJson(List<TreeGridModel> data, string parentId)
         {
             StringBuilder sb = new StringBuilder();
             var ChildNodeList = data.FindAll(t => t.parentId == parentId);
             sb.Append("[");
-            if (ChildNodeList.Count > 0) {
+            if (ChildNodeList.Count > 0)
+            {
                 foreach (TreeGridModel entity in ChildNodeList)
                 {
-                    string strJson = entity.ToJson()+",";
+                    string strJson = entity.ToJson() + ",";
                     strJson = strJson.Insert(1, "\"children\":" + TreeGridJson(data, entity.id) + ",");
                     sb.Append(strJson);
                 }

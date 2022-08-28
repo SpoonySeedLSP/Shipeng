@@ -1,10 +1,10 @@
-﻿using Shipeng.Util;
-using Shipeng.HRMS.Domain.FlowManage;
+﻿using Shipeng.HRMS.Domain.FlowManage;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
 
 namespace Shipeng.HRMS.Service.FlowManage
 {
-    public class FormTestService : DataFilterService<FormTestEntity>, IDenpendency,ICustomerForm
+    public class FormTestService : DataFilterService<FormTestEntity>, IDenpendency, ICustomerForm
     {
         public FormTestService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {

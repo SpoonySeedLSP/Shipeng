@@ -12,13 +12,13 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 主键Id
         /// </summary>
-        [SugarColumn(ColumnName ="F_Id", IsPrimaryKey = true,ColumnDescription ="主键Id")]
+        [SugarColumn(ColumnName = "F_Id", IsPrimaryKey = true, ColumnDescription = "主键Id")]
         public string F_Id { get; set; }
         /// <summary>
         /// 父级Id
         /// </summary>
         [Required(ErrorMessage = "父级不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_ParentId",ColumnDataType = "nvarchar(50)", ColumnDescription = "父级Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ParentId", ColumnDataType = "nvarchar(50)", ColumnDescription = "父级Id")]
         public string F_ParentId { get; set; }
         /// <summary>
         /// 层级
@@ -29,7 +29,7 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// 编号
         /// </summary>
         [Required(ErrorMessage = "编号不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_EnCode",ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_organize" })]
+        [SugarColumn(IsNullable = true, ColumnName = "F_EnCode", ColumnDataType = "nvarchar(50)", ColumnDescription = "编号", UniqueGroupNameList = new string[] { "sys_organize" })]
         public string F_EnCode { get; set; }
         /// <summary>
         /// 全名称
@@ -40,23 +40,23 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 简称
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ShortName",ColumnDataType = "nvarchar(50)", ColumnDescription = "简称")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ShortName", ColumnDataType = "nvarchar(50)", ColumnDescription = "简称")]
         public string F_ShortName { get; set; }
         /// <summary>
         /// 类型
         /// </summary>
         [Required(ErrorMessage = "类型不能为空")]
-        [SugarColumn(IsNullable = true, ColumnName = "F_CategoryId",ColumnDataType = "nvarchar(50)", ColumnDescription = "类型")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CategoryId", ColumnDataType = "nvarchar(50)", ColumnDescription = "类型")]
         public string F_CategoryId { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_ManagerId",ColumnDataType = "nvarchar(50)")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_ManagerId", ColumnDataType = "nvarchar(50)")]
         public string F_ManagerId { get; set; }
         /// <summary>
         /// 电话
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_TelePhone",ColumnDataType = "nvarchar(20)", ColumnDescription = "电话")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_TelePhone", ColumnDataType = "nvarchar(20)", ColumnDescription = "电话")]
         public string F_TelePhone { get; set; }
         /// <summary>
         /// 手机
@@ -71,17 +71,17 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 传真号
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Fax",ColumnDataType = "nvarchar(20)", ColumnDescription = "传真号")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Fax", ColumnDataType = "nvarchar(20)", ColumnDescription = "传真号")]
         public string F_Fax { get; set; }
         /// <summary>
         /// 邮箱
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_Email",ColumnDataType = "nvarchar(50)", ColumnDescription = "邮箱")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_Email", ColumnDataType = "nvarchar(50)", ColumnDescription = "邮箱")]
         public string F_Email { get; set; }
         /// <summary>
         /// 区域Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_AreaId",ColumnDataType = "nvarchar(50)", ColumnDescription = "区域Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_AreaId", ColumnDataType = "nvarchar(50)", ColumnDescription = "区域Id")]
         public string F_AreaId { get; set; }
         /// <summary>
         /// 地址
@@ -123,12 +123,12 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 创建时间
         /// </summary>
-        [SugarColumn(IsNullable = true,ColumnDescription = "创建时间")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "创建时间")]
         public DateTime? F_CreatorTime { get; set; }
         /// <summary>
         /// 创建人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_CreatorUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "创建人Id")]
         public string F_CreatorUserId { get; set; }
         /// <summary>
         /// 修改时间
@@ -148,9 +148,9 @@ namespace Shipeng.HRMS.Domain.SystemOrganize
         /// <summary>
         /// 删除人Id
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId",ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
+        [SugarColumn(IsNullable = true, ColumnName = "F_DeleteUserId", ColumnDataType = "nvarchar(50)", ColumnDescription = "删除人Id")]
         public string F_DeleteUserId { get; set; }
-        [SugarColumn(IsIgnore=true)]
+        [SugarColumn(IsIgnore = true)]
         //tablecheck字段
         public bool LAY_CHECKED { get; set; }
     }

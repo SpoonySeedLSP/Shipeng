@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Shipeng.Domain.Shared.Enums;
+﻿using Shipeng.Domain.Shared.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shipeng.Application.Contracts.Dtos.ReverseProxy
 {

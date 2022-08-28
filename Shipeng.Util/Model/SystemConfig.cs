@@ -43,7 +43,7 @@ namespace Shipeng.Util.Model
         /// 数据库备份路径
         /// </summary>
         public string DBBackup { get; set; }
-        
+
         public string CacheProvider { get; set; }
         public string HandleLogProvider { get; set; }
         public string RedisConnectionString { get; set; }
@@ -65,7 +65,7 @@ namespace Shipeng.Util.Model
         /// 是否重置密码
         /// </summary>
 		public bool? ReviseSystem { get; set; }
-		public int? LoginErrorCount { get; set; }
+        public int? LoginErrorCount { get; set; }
         /// <summary>
         /// 多数据库组
         /// </summary>

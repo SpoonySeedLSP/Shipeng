@@ -1,9 +1,9 @@
-﻿using Shipeng.Util;
-using SqlSugar;
+﻿using Shipeng.HRMS.Domain.FlowManage;
 using Shipeng.HRMS.Domain.SystemManage;
 using Shipeng.HRMS.Domain.SystemOrganize;
-using Shipeng.HRMS.Domain.FlowManage;
+using Shipeng.Util;
 using Shipeng.Util.DataBase;
+using SqlSugar;
 
 namespace Shipeng.HRMS.Service.SystemManage
 {
@@ -29,7 +29,7 @@ namespace Shipeng.HRMS.Service.SystemManage
             var list = currentuser.DepartmentId?.Split(',');
             if (list.Any())
             {
-                return await query.Where(a => a.F_DeleteMark == false && (a.F_OrganizeId == "" || a.F_OrganizeId == null || list.Contains(a.F_OrganizeId))).OrderBy(a => a.F_Id,OrderByType.Desc).ToListAsync();
+                return await query.Where(a => a.F_DeleteMark == false && (a.F_OrganizeId == "" || a.F_OrganizeId == null || list.Contains(a.F_OrganizeId))).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
             }
             return await query.Where(a => a.F_DeleteMark == false && a.F_OrganizeId == "" || a.F_OrganizeId == null).OrderBy(a => a.F_Id, OrderByType.Desc).ToListAsync();
         }
@@ -45,18 +45,18 @@ namespace Shipeng.HRMS.Service.SystemManage
             {
                 query = query.Where(a => a.F_SchemeCode.Contains(keyword) || a.F_SchemeName.Contains(keyword));
             }
-            query = GetDataPrivilege("a","", query);
-            return await query.OrderBy(a => a.F_CreatorTime,OrderByType.Desc).ToListAsync();
+            query = GetDataPrivilege("a", "", query);
+            return await query.OrderBy(a => a.F_CreatorTime, OrderByType.Desc).ToListAsync();
         }
 
-        public async Task<List<FlowschemeEntity>> GetLookList(Pagination pagination,string keyword = "")
+        public async Task<List<FlowschemeEntity>> GetLookList(Pagination pagination, string keyword = "")
         {
             var query = repository.IQueryable().Where(a => a.F_DeleteMark == false);
             if (!string.IsNullOrEmpty(keyword))
             {
                 query = query.Where(a => a.F_SchemeCode.Contains(keyword) || a.F_SchemeName.Contains(keyword));
             }
-            query = GetDataPrivilege("a","", query);
+            query = GetDataPrivilege("a", "", query);
             return await query.ToPageListAsync(pagination);
         }
 
@@ -131,14 +131,14 @@ namespace Shipeng.HRMS.Service.SystemManage
         {
             if (string.IsNullOrEmpty(keyValue))
             {
-                    //此处需修改
+                //此处需修改
                 entity.Create();
                 await repository.Insert(entity);
             }
             else
             {
-                    //此处需修改
-                entity.Modify(keyValue); 
+                //此处需修改
+                entity.Modify(keyValue);
                 await repository.Update(entity);
             }
         }

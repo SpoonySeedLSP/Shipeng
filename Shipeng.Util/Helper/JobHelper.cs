@@ -1,8 +1,6 @@
 ﻿using Quartz;
 using Quartz.Impl;
-using System;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
 
 namespace Shipeng.Util
 {

@@ -1,7 +1,5 @@
 ﻿using Aspose.Cells;
-using System;
 using System.Data;
-using System.IO;
 using System.Text;
 
 namespace Shipeng.Util

@@ -32,7 +32,7 @@ namespace Shipeng.HRMS.Service.SystemSecurity
         }
         public async Task<FilterIPEntity> GetLookForm(string keyValue)
         {
-            var data =await repository.FindEntity(keyValue);
+            var data = await repository.FindEntity(keyValue);
             return GetFieldsFilterData(data);
         }
         public async Task<FilterIPEntity> GetForm(string keyValue)
@@ -47,7 +47,8 @@ namespace Shipeng.HRMS.Service.SystemSecurity
         }
         public async Task<bool> CheckIP(string ip)
         {
-            return await Task.Run(() => {
+            return await Task.Run(() =>
+            {
                 var list = repository.IQueryable().Where(a => a.F_EnabledMark == true && a.F_DeleteMark == false && a.F_Type == false && a.F_EndTime > DateTime.Now).ToList();
                 long ipAddress = IP2Long(ip);
                 foreach (var item in list)
@@ -73,7 +74,7 @@ namespace Shipeng.HRMS.Service.SystemSecurity
                     }
                 }
                 return true;
-            });        
+            });
         }
         public static long IP2Long(string ip)
         {

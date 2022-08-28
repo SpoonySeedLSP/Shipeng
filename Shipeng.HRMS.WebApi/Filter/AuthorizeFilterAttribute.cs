@@ -1,8 +1,8 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Shipeng.Util;
 using Shipeng.HRMS.Service.SystemOrganize;
+using Shipeng.Util;
+using System.Diagnostics;
 
 namespace Shipeng.HRMS.WebApi
 {
