@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using System;
 
 namespace Shipeng.Util
 {
@@ -22,6 +22,35 @@ namespace Shipeng.Util
         };
 
         /// <summary>
+        /// 把数组转为逗号连接的字符串
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="Str"></param>
+        /// <returns></returns>
+        public static string ArrayToString(dynamic data, string Str)
+        {
+            string resStr = Str;
+            foreach (var item in data)
+            {
+                if (resStr != "")
+                {
+                    resStr += ",";
+                }
+
+                if (item is string)
+                {
+                    resStr += item;
+                }
+                else
+                {
+                    resStr += item.Value;
+
+                }
+            }
+            return resStr;
+        }
+
+        /// <summary>
         /// 将对象序列化成Json字符串
         /// </summary>
         /// <param name="obj"> 需要序列化的对象 </param>
@@ -29,6 +58,16 @@ namespace Shipeng.Util
         public static string ToJson(this object obj)
         {
             return JsonConvert.SerializeObject(obj);
+        }
+
+        public static string ToJson(this object obj, string dateFormat = "yyyy/MM/dd HH:mm:ss")
+        {
+            return obj == null ? string.Empty : JsonConvert.SerializeObject(obj, new IsoDateTimeConverter { DateTimeFormat = dateFormat });
+        }
+
+        public static object ToObject(this string Json)
+        {
+            return string.IsNullOrEmpty(Json) ? null : JsonConvert.DeserializeObject(Json);
         }
 
         /// <summary>
@@ -39,7 +78,8 @@ namespace Shipeng.Util
         /// <returns> </returns>
         public static T ToObject<T>(this string jsonStr)
         {
-            return JsonConvert.DeserializeObject<T>(jsonStr);
+            jsonStr = jsonStr.Replace("&nbsp;", "");
+            return jsonStr == null ? default(T) : JsonConvert.DeserializeObject<T>(jsonStr);
         }
 
         /// <summary>

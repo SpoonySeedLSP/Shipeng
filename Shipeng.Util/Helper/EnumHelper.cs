@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     public static class EnumHelper
     {
@@ -136,6 +132,37 @@ namespace Shipeng.Util
             TimeSpan ts = timeA - timeB;	//计算时间差
             int time = (int)ts.TotalHours;	//将时间差转换为小时
             return time;
+        }
+
+        /// <summary>
+        /// 获取枚举列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Dictionary<int, string> EnumToDic<T>()
+        {
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            foreach (var e in System.Enum.GetValues(typeof(T)))
+            {
+                list.Add(Convert.ToInt32(e), e.GetDescriptionByEnum<T>());
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 获取枚举列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static List<string> EnumToList<T>()
+        {
+            List<string> list = new List<string>();
+
+            foreach (var e in System.Enum.GetValues(typeof(T)))
+            {
+                list.Add(e.GetDescriptionByEnum<T>());
+            }
+            return list;
         }
     }
 }

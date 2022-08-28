@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 
@@ -13,6 +9,13 @@ namespace Shipeng.Util
     /// </summary>
     public static partial class Extention
     {
+        public static Exception GetOriginalException(this Exception ex)
+        {
+            if (ex.InnerException == null) return ex;
+
+            return ex.InnerException.GetOriginalException();
+        }
+
         /// <summary>
         /// byte[]转string 注：默认使用UTF8编码
         /// </summary>
