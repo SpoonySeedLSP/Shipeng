@@ -1,0 +1,463 @@
+﻿@using PearAdmin.AbpTemplate.Admin.Views
+@using PearAdmin.AbpTemplate.Authorization
+@using PearAdmin.AbpTemplate.TaskCenter.DailyTasks
+@{
+    ViewBag.CurrentPageName = AbpTemplatePageName.DailyTask;
+}
+@section styles{
+    <link href="~/libs/fullcalendar/main.css" rel="stylesheet" asp-append-version="true" />
+    <style type="text/css">
+        .fc-button {
+            background-color: #2D8CF0 !important;
+            border: 1px solid #dcdfe6 !important;
+        }
+    </style>
+}
+
+<div class="layui-row layui-col-space10">
+    <div class="layui-col-md9">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form form-search" action="">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">日常任务</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="name" placeholder="" class="layui-input">
+                        </div>
+                        <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="dailyTask-query">
+                            <i class="layui-icon layui-icon-search"></i>
+                            查询
+                        </button>
+                        <button type="reset" class="pear-btn pear-btn-md">
+                            <i class="layui-icon layui-icon-refresh"></i>
+                            重置
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="layui-card">
+            <div class="layui-card-header">
+                <div class="layui-form">
+                    <div class="layui-form-item">
+                        <div class="layui-inline" style="float:right;">
+                            <div class="layui-input-inline" style="width:70px;">
+                                <input type="checkbox" lay-skin="switch" lay-text="列表|总览" checked lay-filter="instantlyRefresh">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card-body">
+                <div class="layui-tab" lay-filter="test1">
+                    <ul class="layui-tab-title" style="display:none;">
+                        <li class="layui-this" lay-id="111">文章列表</li>
+                        <li lay-id="222">日历</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <table id="dailyTask-table" lay-filter="dailyTask-table"></table>
+                        </div>
+                        <div class="layui-tab-item">
+                            <div id="eCalendarTable"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-md3">
+        <div class="layui-card">
+            <div class="layui-card-header">最近更新</div>
+            <div class="layui-card-body">
+                <ul class="list">
+                    <li class="list-item"><span class="title">优化代码格式</span><span class="footer">2020-06-04 11:28</span></li>
+                    <li class="list-item"><span class="title">新增消息组件</span><span class="footer">2020-06-01 04:23</span></li>
+                    <li class="list-item"><span class="title">移动端兼容</span><span class="footer">2020-05-22 21:38</span></li>
+                    <li class="list-item"><span class="title">系统布局优化</span><span class="footer">2020-05-15 14:26</span></li>
+                    <li class="list-item"><span class="title">兼容多系统菜单模式</span><span class="footer">2020-05-13 16:32</span></li>
+                    <li class="list-item"><span class="title">兼容多标签页切换</span><span class="footer">2019-12-9 14:58</span></li>
+                    <li class="list-item"><span class="title">扩展下拉组件</span><span class="footer">2019-12-7 9:06</span></li>
+                    <li class="list-item"><span class="title">扩展卡片样式</span><span class="footer">2019-12-1 10:26</span></li>
+                    <li class="list-item"><span class="title">兼容多标签页切换</span><span class="footer">2019-12-9 14:58</span></li>
+                    <li class="list-item"><span class="title">扩展下拉组件</span><span class="footer">2019-12-7 9:06</span></li>
+                    <li class="list-item"><span class="title">扩展卡片样式</span><span class="footer">2019-12-1 10:26</span></li>
+                    <li class="list-item"><span class="title">兼容多标签页切换</span><span class="footer">2019-12-9 14:58</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-card">
+            <div class="layui-card-header">最近更新</div>
+            <div class="layui-card-body">
+                <ul class="list">
+                    <li class="list-item"><span class="title">优化代码格式</span><span class="footer">2020-06-04 11:28</span></li>
+                    <li class="list-item"><span class="title">新增消息组件</span><span class="footer">2020-06-01 04:23</span></li>
+                    <li class="list-item"><span class="title">移动端兼容</span><span class="footer">2020-05-22 21:38</span></li>
+                    <li class="list-item"><span class="title">系统布局优化</span><span class="footer">2020-05-15 14:26</span></li>
+                    <li class="list-item"><span class="title">兼容多系统菜单模式</span><span class="footer">2020-05-13 16:32</span></li>
+                    <li class="list-item"><span class="title">兼容多标签页切换</span><span class="footer">2019-12-9 14:58</span></li>
+                    <li class="list-item"><span class="title">扩展下拉组件</span><span class="footer">2019-12-7 9:06</span></li>
+                    <li class="list-item"><span class="title">扩展卡片样式</span><span class="footer">2019-12-1 10:26</span></li>
+                    <li class="list-item"><span class="title">兼容多标签页切换</span><span class="footer">2019-12-9 14:58</span></li>
+                    <li class="list-item"><span class="title">扩展下拉组件</span><span class="footer">2019-12-7 9:06</span></li>
+                    <li class="list-item"><span class="title">扩展卡片样式</span><span class="footer">2019-12-1 10:26</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="dailyTask-toolbar">
+    @if (await PermissionChecker.IsGrantedAsync(AppPermissionNames.Pages_TaskCenter_DailyTasks_Create))
+    {
+        <button class="pear-btn pear-btn-primary pear-btn-md" lay-event="add">
+            <i class="layui-icon layui-icon-add-1"></i>新增
+        </button>
+    }
+    @if (await PermissionChecker.IsGrantedAsync(AppPermissionNames.Pages_TaskCenter_DailyTasks_Delete))
+    {
+        <button class="pear-btn pear-btn-danger pear-btn-md" lay-event="batchRemove">
+            <i class="layui-icon layui-icon-delete"></i>删除
+        </button>
+    }
+</script>
+
+<script type="text/html" id="dailyTask-bar">
+    @if (await PermissionChecker.IsGrantedAsync(AppPermissionNames.Pages_TaskCenter_DailyTasks_Update))
+    {
+        <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="edit">
+            <i class="layui-icon layui-icon-edit"></i>
+        </button>
+    }
+    @if (await PermissionChecker.IsGrantedAsync(AppPermissionNames.Pages_TaskCenter_DailyTasks_Delete))
+    {
+        <button class="pear-btn pear-btn-danger pear-btn-sm" lay-event="remove">
+            <i class="layui-icon layui-icon-delete"></i>
+        </button>
+    }
+    <button class="pear-btn pear-btn-primary pear-btn-sm" lay-event="more" id="more{{d.id}}">
+        <i class="layui-icon layui-icon-triangle-d"></i>
+    </button>
+</script>
+
+<!--时间段-->
+<script type="text/html" id="dailyTask-dateRange">
+    {{#
+        var dateTimeConvertString = function(dateTime){
+            return layui.util.toDateString(dateTime,'yyyy-MM-dd');
+        };
+    }}
+    <div>
+        {{dateTimeConvertString(d.startTime)}} - {{dateTimeConvertString(d.endTime)}}
+    </div>
+</script>
+
+@section scripts{
+    <script src="~/libs/fullcalendar/main.js" asp-append-version="true"></script>
+    <script src="~/libs/fullcalendar/zh-cn.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        layui.use(['abp', 'form', 'table', 'dropdown', 'element', 'fullcalendar'], function () {
+            var $ = layui.$;
+            var abp = layui.abp;
+            var form = layui.form;
+            var table = layui.table;
+            var dropdown = layui.dropdown;
+            var element = layui.element;
+            var fullcalendar = layui.fullcalendar;
+
+		    table.render({
+		        elem: '#dailyTask-table',
+                url: '@Url.Action("GetDailyTaskList", "DailyTask", new { area= "TaskCenter" })',
+                height: 'full-205',
+                page: true,
+                parseData: function (res) {
+                    return {
+                        "code": res.result.code, //解析接口状态
+                        "msg": res.result.msg, //解析提示文本
+                        "count": res.result.count, //解析数据长度
+                        "data": res.result.data //解析数据列表
+                    };
+                },
+                response: {
+                    statusCode: 200 //规定成功的状态码，默认：0
+                },
+		        cols: [
+		            [
+                        { type: 'checkbox' },
+                        { title: '任务名', field: 'name', align: 'left', width: 150 },
+                        { title: '备注', field: 'remark', align: 'left' },
+                        { title: '时间段', field: 'dateRange', align: 'left', width: 180, templet: '#dailyTask-dateRange' },
+                        { title: '状态', field: 'taskStateTypeName', align: 'center', width: 100 },
+                        { title: '操作', toolbar: '#dailyTask-bar', align: 'left', width: 170 }
+		            ]
+		        ],
+		        skin: 'line',
+		        toolbar: '#dailyTask-toolbar',
+		        defaultToolbar: [{
+		            layEvent: 'refresh',
+		            icon: 'layui-icon-refresh',
+                }, 'filter', 'print', 'exports'],
+                done: function (res) {
+                    for (var i = 0; i < res.data.length; i++) {
+                        if (res.data[i].triggers.length == 0) {
+                            $("#more" + res.data[i].id).hide();
+                            continue;
+                        }
+                    }
+                }
+		    });
+
+            var calendar = fullcalendar.init(document.getElementById('eCalendarTable'), {
+                initialDate: '2021-01-01',
+                locale: 'zh-cn',
+                height: '605px',
+                expandRows: true,
+                slotMinTime: '08:00',
+                slotMaxTime: '20:00',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                initialView: 'dayGridMonth',
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                selectable: true,
+                nowIndicator: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: [
+                    {
+                        title: 'All Day Event',
+                        start: '2021-01-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2021-01-07',
+                        end: '2021-01-10'
+                    },
+                    {
+                        groupId: 999,
+                        title: 'Repeating Event',
+                        start: '2021-01-09T16:00:00'
+                    },
+                    {
+                        groupId: 999,
+                        title: 'Repeating Event',
+                        start: '2021-01-16T16:00:00'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2021-01-11',
+                        end: '2021-01-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2021-01-12T10:30:00',
+                        end: '2021-01-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2021-01-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2021-01-12T14:30:00'
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: '2021-01-12T17:30:00'
+                    },
+                    {
+                        title: 'Dinner',
+                        start: '2021-01-12T20:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2021-01-13T07:00:00'
+                    },
+                    {
+                        title: 'Click for Google',
+                        url: 'http://google.com/',
+                        start: '2021-01-28'
+                    }
+                ]
+            });
+
+            form.on('switch(instantlyRefresh)', function (data) {
+                if (data.elem.checked) {
+                    element.tabChange('test1', '111');
+                }
+                else {
+                    element.tabChange('test1', '222');
+                    calendar.render();
+                }
+            });
+
+            table.on('tool(dailyTask-table)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'remove') {
+                    window.remove([{ "id": data.id }]);
+                } else if (obj.event === 'edit') {
+                    window.edit(data);
+                } else if (obj.event === 'batchRemove') {
+                    let checkData = table.checkStatus(obj.config.id).data;
+                    if (checkData.length === 0) {
+                        parent.layer.msg("未选中数据", {
+                            icon: 3,
+                            time: 1000
+                        });
+                        return false;
+                    }
+                    var ids = checkData.map(function (d) { return { "id": d.id }; });
+                    window.remove(ids);
+                } else if (obj.event === 'more') {
+                    dropdown.render({
+                        elem: '#more' + data.id,
+                        show: true,
+                        data: data.triggers.map(function (d) {
+                            return {
+                                "title": d.name,
+                                "id": d.name
+                            };
+                        }),
+                        click: function (dropData, othis) {
+                            if (dropData.id === "@TaskOperateTrigger.Progress.Name") {
+                                window.trigger({
+                                    "id": data.id,
+                                    "url": "@Url.Action("ProgressDailyTask", "DailyTask", new { area= "TaskCenter" })"
+                                });
+                            } else if (dropData.id === "@TaskOperateTrigger.Resolve.Name") {
+                                window.trigger({
+                                    "id": data.id,
+                                    "url": "@Url.Action("ResolveDailyTask", "DailyTask", new { area= "TaskCenter" })"
+                                });
+                            } else if (dropData.id === "@TaskOperateTrigger.Reopen.Name") {
+                                window.trigger({
+                                    "id": data.id,
+                                    "url": "@Url.Action("ReopenDailyTask", "DailyTask", new { area= "TaskCenter" })"
+                                });
+                            } else if (dropData.id === "@TaskOperateTrigger.Qualify.Name") {
+                                window.trigger({
+                                    "id": data.id,
+                                    "url": "@Url.Action("QualifyDailyTask", "DailyTask", new { area= "TaskCenter" })"
+                                });
+                            } else if (dropData.id === "@TaskOperateTrigger.Pend.Name") {
+                                window.trigger({
+                                    "id": data.id,
+                                    "url": "@Url.Action("PendDailyTask", "DailyTask", new { area= "TaskCenter" })"
+                                });
+                            } else if (dropData.id === "@TaskOperateTrigger.Close.Name") {
+                                window.trigger({
+                                    "id": data.id,
+                                    "url": "@Url.Action("CloseDailyTask", "DailyTask", new { area= "TaskCenter" })"
+                                });
+                            } else {
+                                layer.msg('下拉菜单 id：' + dropData.id);
+                            }
+                        }
+                    });
+                }
+		    });
+
+		    table.on('toolbar(dailyTask-table)', function(obj){
+                if (obj.event === 'add') {
+                    window.add();
+                } else if (obj.event === 'refresh') {
+                    window.refresh();
+                }
+		    });
+
+		    form.on('submit(dailyTask-query)', function(data){
+                table.reload('dailyTask-table', {
+                    where: data.field,
+					page: {
+                        curr: 1
+                    }
+                })
+		        return false;
+            });
+
+			window.saveCallback = function (data) {
+                parent.layer.close(data.index);
+                abp.notify.success(data.msg);
+                table.reload("dailyTask-table");
+            }
+
+			window.add = function () {
+				parent.layer.open({
+                    type: 2,
+                    title: "添加日常任务",
+                    content: "@Url.Action("CreateOrUpdateDailyTask", "DailyTask", new { area= "TaskCenter" })",
+                    area: ["710px","606px"],
+                    shade: 0.1,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        parent.window['layui-layer-iframe'+ index].submitForm();
+                    }
+                });
+            }
+
+		    window.edit = function(data){
+		        parent.layer.open({
+                    type: 2,
+                    title: "编辑日常任务",
+                    content: "@Url.Action("CreateOrUpdateDailyTask", "DailyTask", new { area= "TaskCenter" })" + abp.utils.formatString("?id={0}", data.id),
+                    area: ["710px","606px"],
+                    shade: 0.1,
+                    btn: ['确定', '取消'],
+                    yes: function (index, layero) {
+                        parent.window['layui-layer-iframe'+ index].submitForm();
+                    }
+                });
+		    }
+
+            window.trigger = function (data) {
+                let waitIndex = parent.layer.load(2);
+                abp.ajax({
+                    url: data.url,
+                    data: JSON.stringify({ "id": data.id }),
+					abpHandleError: false
+                }).done(function (data) {
+                    if (data.code == 200) {
+                        abp.notify.success(data.msg);
+                        table.reload('dailyTask-table');
+                    }
+                }).fail(function (jqXHR) {
+                    parent.layer.msg(jqXHR.message, { icon: 5 });
+                }).always(function () {
+                    parent.layer.close(waitIndex);
+                });
+            }
+
+            window.remove = function (data) {
+                parent.layer.confirm('确定删除吗?', {
+					icon: 3,
+					title: '提示'
+                }, function (index) {
+                    parent.layer.close(index);
+                    let waitIndex = parent.layer.load(2);
+                    abp.ajax({
+                        url: "@Url.Action("DeleteDailyTask", "DailyTask", new { area= "TaskCenter" })",
+                        data: JSON.stringify(data),
+						abpHandleError: false
+                    }).done(function (data) {
+                        if (data.code == 200) {
+                            abp.notify.success(data.msg);
+                            table.reload('dailyTask-table');
+                        }
+                    }).fail(function (jqXHR) {
+                        parent.layer.msg(jqXHR.message, { icon: 5 });
+                    }).always(function () {
+                        parent.layer.close(waitIndex);
+                    });
+                });
+		    }
+
+		    window.refresh = function(param){
+		        table.reload('dailyTask-table');
+		    }
+        });
+    </script>
+}

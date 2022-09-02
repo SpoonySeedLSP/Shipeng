@@ -1,0 +1,117 @@
+﻿using System.IO;
+using Abp.AspNetCore;
+using Abp.AspNetCore.SignalR;
+using Abp.Configuration.Startup;
+using Abp.Dependency;
+using Abp.Hangfire;
+using Abp.Hangfire.Configuration;
+using Abp.MailKit;
+using Abp.Modules;
+using Abp.Reflection.Extensions;
+using Abp.Zero.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.Extensions.Configuration;
+using PearAdmin.AbpTemplate.Admin.Configuration;
+using PearAdmin.AbpTemplate.Admin.Filter;
+using PearAdmin.AbpTemplate.Admin.Views;
+using PearAdmin.AbpTemplate.EntityFrameworkCore;
+using PearAdmin.AbpTemplate.ExternalAuth;
+using PearAdmin.AbpTemplate.Gateway;
+using PearAdmin.AbpTemplate.MiniProgram;
+
+namespace PearAdmin.AbpTemplate.Admin
+{
+    [DependsOn(
+        typeof(AbpTemplateApplicationModule),
+        typeof(AbpTemplateEntityFrameworkModule),
+        typeof(AbpTemplateGatewayModule),
+        typeof(AbpAspNetCoreModule),
+        typeof(AbpAspNetCoreSignalRModule),
+        typeof(AbpHangfireAspNetCoreModule),
+        typeof(AbpTemplateMiniProgramModule),
+        typeof(AbpMailKitModule)
+        )]
+    public class AbpTemplateAdminModule : AbpModule
+    {
+        private readonly IWebHostEnvironment _env;
+        private readonly IConfigurationRoot _appConfiguration;
+
+        public AbpTemplateAdminModule(
+            IWebHostEnvironment env,
+            AbpTemplateEntityFrameworkModule abpProjectNameEntityFrameworkModule)
+        {
+            _env = env;
+            _appConfiguration = env.GetAppConfiguration();
+            
+            // 是否跳过种子数据初始化
+            //abpProjectNameEntityFrameworkModule.SkipDbSeed = true;
+        }
+
+        public override void PreInitialize()
+        {
+            // 链接字符串设置
+            Configuration.DefaultNameOrConnectionString = _appConfiguration.GetConnectionString(AbpTemplateCoreConsts.ConnectionStringName);
+
+            // 本地化内容存储到数据库
+            Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
+
+            // 显示所有错误信息到客户端
+            Configuration.Modules.AbpWebCommon().SendAllExceptionsToClients = false;
+
+            // 菜单栏设置
+            Configuration.Navigation.Providers.Add<AbpTemplateNavigationProvider>();
+
+            // 后台任务使用Hangfire
+            Configuration.BackgroundJobs.UseHangfire();
+        }
+
+        public override void Initialize()
+        {
+            IocManager.RegisterAssemblyByConvention(typeof(AbpTemplateAdminModule).GetAssembly());
+            RegisterInterceptors();
+        }
+
+        private void RegisterInterceptors()
+        {            
+            IocManager.Register(typeof(AbpAsyncDeterminationInterceptor<AuthorizationInterceptor>), DependencyLifeStyle.Transient);
+            AuthorizationInterceptorRegistrar.Initialize(IocManager);
+        }
+
+        public override void PostInitialize()
+        {
+            SetAppFolders();
+            IocManager.Resolve<ApplicationPartManager>()
+                .AddApplicationPartsIfNotAddedBefore(typeof(AbpTemplateAdminModule).Assembly);
+
+            ConfigureExternalAuthProviders();
+        }
+
+        private void SetAppFolders()
+        {
+            var appFolders = IocManager.Resolve<AppFolders>();
+
+            appFolders.WebLogsFolder = Path.Combine(_env.ContentRootPath, $"App_Data{Path.DirectorySeparatorChar}Logs");
+        }
+
+        private void ConfigureExternalAuthProviders()
+        {
+            var externalAuthConfiguration = IocManager.Resolve<ExternalAuthConfiguration>();
+
+            if (bool.Parse(_appConfiguration["Authentication:WeChatMiniProgram:IsEnabled"]))
+            {
+                externalAuthConfiguration.Providers.Add(
+                        new MiniProgramExternalLoginInfoProvider(
+                            _appConfiguration["Authentication:WeChatMiniProgram:AppId"],
+                            _appConfiguration["Authentication:WeChatMiniProgram:AppSecret"]
+                        )
+                    );
+            }
+        }
+
+        public override void Shutdown()
+        {
+            base.Shutdown();
+        }
+    }
+}

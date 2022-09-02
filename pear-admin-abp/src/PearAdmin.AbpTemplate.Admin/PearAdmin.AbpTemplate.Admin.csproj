@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <AssemblyName>PearAdmin.AbpTemplate.Admin</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>PearAdmin.AbpTemplate.Admin</PackageId>
+    <UserSecretsId>PearAdmin-AbpTemplate-56C2EF2F-ABD6-4EFC-AAF2-2E81C34E8FB1</UserSecretsId>
+    <RootNamespace>PearAdmin.AbpTemplate.Admin</RootNamespace>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\module\PearAdmin.AbpTemplate.MiniProgram\PearAdmin.AbpTemplate.MiniProgram.csproj" />
+    <ProjectReference Include="..\..\module\PearAdmin.AbpTemplate.NLog\PearAdmin.AbpTemplate.NLog.csproj" />
+    <ProjectReference Include="..\PearAdmin.AbpTemplate.Application\PearAdmin.AbpTemplate.Application.csproj" />
+    <ProjectReference Include="..\PearAdmin.AbpTemplate.EntityFrameworkCore\PearAdmin.AbpTemplate.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\PearAdmin.AbpTemplate.Gateway\PearAdmin.AbpTemplate.Gateway.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.AspNetCore" Version="7.3.0" />
+    <PackageReference Include="Abp.AspNetCore.SignalR" Version="7.3.0" />
+    <PackageReference Include="Abp.HangFire.AspNetCore" Version="7.3.0" />
+    <PackageReference Include="Abp.MailKit" Version="7.3.0" />
+    <PackageReference Include="Abp.Net.Sms" Version="1.0.0" />
+    <PackageReference Include="Abp.ZeroCore" Version="7.3.0" />
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
+    <PackageReference Include="HangFire.Redis.StackExchange" Version="1.8.5" />
+    <PackageReference Include="LogDashboard" Version="1.4.8" />
+	<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.2" />
+    <PackageReference Include="Abp.RedisCache" Version="7.3.0" />
+  </ItemGroup>
+</Project>

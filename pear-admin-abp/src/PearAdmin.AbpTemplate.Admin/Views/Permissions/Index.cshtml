@@ -1,0 +1,108 @@
+﻿@using PearAdmin.AbpTemplate.Admin.Views
+@using PearAdmin.AbpTemplate.Authorization
+@using PearAdmin.AbpTemplate.Authorization.Roles.Dto
+@model GetRoleForEditOutput
+@{
+    ViewBag.CurrentPageName = AbpTemplatePageName.Permissions;
+}
+
+<div class="layui-card">
+    <div class="layui-card-body">
+@*        <form class="layui-form form-search" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="permissionName" placeholder="" class="layui-input">
+                </div>
+                <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="permission-query">
+                    <i class="layui-icon layui-icon-search"></i>
+                    查询
+                </button>
+                <button type="reset" class="pear-btn pear-btn-md">
+                    <i class="layui-icon layui-icon-refresh"></i>
+                    重置
+                </button>
+            </div>
+        </form>*@
+    </div>
+</div>
+
+<div class="layui-card">
+    <div class="layui-card-body">
+        <table id="permission-table" lay-filter="permission-table"></table>
+    </div>
+</div>
+
+<script type="text/html" id="permission-toolbar">
+	<button class="pear-btn pear-btn-success pear-btn-md" lay-event="expandAll">
+	    <i class="layui-icon layui-icon-spread-left"></i>
+	    展开
+	</button>
+	<button class="pear-btn pear-btn-success pear-btn-md" lay-event="foldAll">
+	    <i class="layui-icon layui-icon-shrink-right"></i>
+	    折叠
+	</button>
+</script>
+
+@section scripts{
+    <script type="text/javascript">
+        layui.use(['abp', 'form','table', 'treetable'], function () {
+            let $ = layui.$;
+            let abp = layui.abp;
+            let form = layui.form;
+            let table = layui.table;
+            let treetable = layui.treetable;
+
+
+        window.render = function(){
+            treetable.render({
+                treeColIndex: 1,
+                treeSpid: 0,
+                treeIdName: 'id',
+                treePidName: 'parentId',
+                skin:'line',
+                treeDefaultClose: true,
+                toolbar:'#permission-toolbar',
+                elem: '#permission-table',
+                url:"@Url.Action("GetPermissions", "Permissions")",
+                page: false,
+                parseData: function (res) {
+                    return {
+                        "code": res.result.code, //解析接口状态
+                        "msg": res.result.msg, //解析提示文本
+                        "count": res.result.count, //解析数据长度
+                        "data": res.result.data //解析数据列表
+                    };
+                },
+                response: {                    
+                    statusCode: 200 //规定成功的状态码，默认：0
+                },
+                cols: [
+                    [
+                    {type: 'checkbox'},
+                    {field: 'name', title: '权限名称'},
+                    {field: 'parentId', title: '父级权限'},
+                    {field: 'description', title: '描述'}
+                    ]
+                ]
+            });
+        }
+
+        render();
+
+        table.on('toolbar(permission-table)', function(obj){
+           if(obj.event === 'expandAll'){
+				 treetable.expandAll("#permission-table");
+			} else if(obj.event === 'foldAll'){
+				 treetable.foldAll("#permission-table");
+			}
+        });
+
+
+              
+
+           
+        });
+    </script>
+}
+

@@ -1,0 +1,235 @@
+﻿@using PearAdmin.AbpTemplate.Admin.Views
+@using PearAdmin.AbpTemplate.Admin.Views.Shared.Components.RightNavbarUserArea
+@using PearAdmin.AbpTemplate.Admin.Views.Shared.Components.SideBarMenu
+@{
+    ViewBag.Title = L("HomePage");
+    ViewBag.CurrentPageName = AbpTemplatePageName.Home;
+}
+
+@section styles{
+<link rel="stylesheet" href="~/css/loader.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+}
+
+<!-- 布局框架 -->
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">
+            <img class="logo" src="" />
+            <span class="title"></span>
+        </div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="collapse layui-nav-item"><a href="#" class="layui-icon layui-icon-shrink-right"></a></li>
+            <li class="refresh layui-nav-item"><a href="#" class="layui-icon layui-icon-refresh-1" loading=600></a></li>
+        </ul>
+        <div id="control" class="layui-layout-control"></div>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide-xs">
+                <a class="social">
+                    <i class="layui-icon layui-icon-dialogue"></i>
+                    <span id="headerMessage"></span>
+                </a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs"><a href="#" class="fullScreen layui-icon layui-icon-screen-full"></a></li>
+            <li class="layui-nav-item layui-hide-xs"><a href="https://gitee.com/pear-admin/pear-admin-abp" class="layui-icon layui-icon-website"></a></li>
+            <li class="layui-nav-item layui-hide-xs">
+                <a class="notice">
+                    <i class="layui-icon layui-icon-notice"></i>
+                    <span id="headerNotice"></span>
+                </a>
+            </li>
+            @await Component.InvokeAsync(typeof(RightNavbarUserAreaViewComponent))
+            <li class="layui-nav-item setting"><a href="#" class="layui-icon layui-icon-more-vertical"></a></li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-logo">
+            <img class="logo" src="" />
+            <span class="title"></span>
+        </div>
+        @await Component.InvokeAsync(typeof(SideBarMenuViewComponent))
+    </div>
+    <div class="layui-body">
+        <div id="content"></div>
+    </div>
+
+    <!-- 遮盖层 -->
+    <div class="pear-cover"></div>
+    <!-- 加载动画-->
+    <div class="loader-main">
+        <div class="loader"></div>
+    </div>
+</div>
+<!-- 移 动 端 便 捷 操 作 -->
+<div class="pear-collapsed-pe collapse">
+    <a href="#" class="layui-icon layui-icon-shrink-right"></a>
+</div>
+
+@section scripts{
+<script type="text/javascript">
+    layui.use(['admin', 'layer', 'encrypt', 'abp', 'abpsignalrclient', 'abpsignalrchat'], function () {
+        var admin = layui.admin;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var encrypt = layui.encrypt;
+        var abp = layui.abp;
+        var currMessageIndex = "";
+
+        var config = {
+            logo: {
+                title: "PearAdmin Abp",
+                image: "/images/logo.png"
+            },
+            menu: {
+                control: false,
+                accordion: true,
+                collaspe: false,
+                async: false,
+                select: encrypt.md5("@Url.Action(AbpSession.TenantId.HasValue ? "TenantConsole" : "HostConsole", "WorkSpace")").toUpperCase()
+            },
+            tab: {
+                enable: true,
+                keepState: true,
+                session: false,
+                max: 20,
+                index: {
+                    id: encrypt.md5("@Url.Action(AbpSession.TenantId.HasValue ? "TenantConsole": "HostConsole", "WorkSpace")").toUpperCase(),
+                    href: '@Url.Action(AbpSession.TenantId.HasValue ? "TenantConsole" : "HostConsole", "WorkSpace")',
+                    title: "@Html.Raw(L(AbpSession.TenantId.HasValue ? "TenantConsole": "HostConsole"))"
+                }
+            },
+            theme: {
+                defaultColor: "3",
+                defaultMenu: "dark-theme",
+                defaultHeader: "light-theme",
+                allowCustom: true,
+                banner: false
+            },
+            colors: [
+                {
+                    id: "1",
+                    color: "#2d8cf0",
+                    second: "#ecf5ff"
+                },
+                {
+                    id: "2",
+                    color: "#36b368",
+                    second: "#f0f9eb"
+                },
+                {
+                    id: "3",
+                    color: "#f6ad55",
+                    second: "#fdf6ec"
+                },
+                {
+                    id: "4",
+                    color: "#f56c6c",
+                    second: "#fef0f0"
+                },
+                {
+                    id: "5",
+                    color: "3963bc",
+                    second: "#ecf5ff"
+                },
+                {
+                    id: "6",
+                    color: "#f7cfea",
+                    second: "#ecf5ff"
+                }
+            ],
+            other: {
+                keepLoad: false,
+                autoHead: false,
+                footer: false
+            },
+            header: {
+                message: false
+            }
+        };
+        admin.render(config);
+
+        window.selectedWindow = function () {
+            return $(".layui-body .layui-tab-content .layui-show")[0].children[0].contentWindow;
+        }
+
+        function loadUnreadNotificationCount() {
+            abp.ajax({
+                url: "@Url.Action("GetUnreadNotificationCount", "Notifications")",
+                type: "Get",
+                abpHandleError: false
+            }).done(function (data) {
+                if (data.code == 200 && data.data > 0) {
+                    notificationUnread();
+                }
+            }).fail(function (jqXHR) {
+                layer.msg(jqXHR.message, { icon: 5 });
+            });
+        }
+
+        function loadUnreadMessageCount() {
+            abp.ajax({
+                url: "@Url.Action("GetUnreadMessageCount", "Chat")",
+                type: "Get",
+                abpHandleError: false
+            }).done(function (data) {
+                if (data.code == 200 && data.data > 0) {
+                    messageUnread();
+                }
+            }).fail(function (jqXHR) {
+                layer.msg(jqXHR.message, { icon: 5 });
+            });
+        }
+
+        $(".social").click(function () {
+            currMessageIndex = layer.open({
+                type: 2,
+                title: "传音",
+                content: "@Url.Action("Index", "Chat")",
+                area: ["1000px","645px"],
+                shade: 0.3,
+                maxmin: true,
+                shadeClose: true,
+                resize: true,
+                end: function () {
+                    currMessageIndex = "";
+                }
+            });
+        });
+
+        $(".notice").click(function () {
+            layer.open({
+                type: 2,
+                title: "消息通知",
+                content: "@Url.Action("Index", "Notifications")",
+                area: ["800px","600px"],
+                shade: 0.1
+            });
+        });
+
+        abp.event.on('app.chat.messageReceived', function (message) {
+            if (currMessageIndex == "") {
+                messageUnread();
+            }
+        });
+
+        abp.event.on('abp.notifications.received', function (userNotification) {
+            abp.notifications.showUiNotifyForUserNotification(userNotification);
+            notificationUnread();
+        });
+
+        function notificationUnread() {
+            $("#headerNotice").addClass("layui-badge-dot");
+        }
+
+        function messageUnread() {
+            $("#headerMessage").addClass("layui-badge-dot");
+        }
+
+        var init = function () {
+            loadUnreadNotificationCount();
+            loadUnreadMessageCount();
+        };
+        init();
+    });
+</script>
+}

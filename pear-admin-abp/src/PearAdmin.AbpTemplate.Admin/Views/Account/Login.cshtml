@@ -1,0 +1,123 @@
+﻿@using Abp.Authorization.Users
+@model PearAdmin.AbpTemplate.Admin.Models.Account.LoginFormViewModel
+@{
+    ViewBag.Title = L("LogIn");
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/css/views/login.css" asp-append-version="true" />
+}
+
+<div class="user-login">
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md7 layui-col-sm6 layui-hide-xs">
+                <img src="~/images/guoqing.jpg" />
+            </div>
+            <div class="layui-col-sm6 layui-col-md5 layui-col-xs12">
+                <form class="layui-form" action="javascript:void(0);">
+                    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+                    <input type="hidden" name="returnUrlHash" />
+                    <div class="layui-form-item">
+                        <img class="logo" src="~/images/logo.png" />
+                        <div class="title">AbpTemplate</div>
+                        <div class="desc">
+                            一 万 年 太 久，只 争 朝 夕
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="text" name="usernameOrEmailAddress" placeholder="@L("UserNameOrEmail"): admin" hover class="layui-input" required autofocus maxlength="@AbpUserBase.MaxEmailAddressLength" />
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="password" name="password" placeholder="@L("Password"): 123qwe" hover class="layui-input" required maxlength="@AbpUserBase.MaxPlainPasswordLength" />
+                    </div>
+                    <div class="layui-form-item">
+				     @*   <label class="layui-icon layui-icon-vercode" id="icon-vercode" for="captcha"></label>*@
+                        <div class="code">
+                            <input id="captcha" type="text" name="captcha" lay-verify="required|captcha" placeholder="图形验证码" autocomplete="off" class="layui-input verification captcha" style="padding-left:36px;">
+                            <canvas id="canvas" width="100" height="43"></canvas>
+                        </div>
+			        </div>
+                    <div class="layui-form-item">
+                        <input type="checkbox" name="rememberMe" title="@L("RememberMe")" lay-skin="primary" checked>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="pear-btn pear-btn-primary login" lay-submit lay-filter="LAY-user-login-submit">@L("LogIn")</button>
+                    </div>
+                    <div class="external-login">
+                        <img src="~/images/miniprogram.png" title="小程序登录" alt="小程序登录" class="wx-logo">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="user-login-foot">
+    © <a target="_blank" href="https://gitee.com/pear-admin/pear-admin-abp.git">PearAdminAbp @System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription</a>
+    <a target="_blank" href="http://www.pearadmin.com">关于我们</a>
+</div>
+
+<script src="~/libs/jquery/dist/jquery.min.js"></script>
+<script src="~/js/view/login.js"></script>
+@section scripts{
+    <script type="text/javascript">
+    layui.use(['abp', 'form', 'element','jquery'], function () {
+        var $ = layui.jquery;
+            var abp = layui.abp;
+            var form = layui.form;
+            var element = layui.element;
+            var show_num = [];
+
+            draw(show_num);
+
+            abp.multiTenancy.setTenantIdCookie(@ViewBag.TenantId);
+            form.render();
+
+            if(window !=top){
+                top.location.href=location.href;
+            }
+            
+            //验证码点击事件
+             $("#canvas").click(function () {
+                 draw(show_num);
+             });
+
+            form.on('submit(LAY-user-login-submit)', function (data) {
+                data.field.rememberMe = data.field.rememberMe == "on";//默认值是on
+                var field = data.field; //获取提交的字段
+
+                if (field.username == '') {
+                        layer.msg('用户名不能为空');
+                        return false;
+                 }
+                 if (field.password == '') {
+                        layer.msg('密码不能为空');
+                        return false;
+                 }
+                var num = show_num.join("");
+                if (field.captcha == '') {
+                        layer.msg('验证码不能为空');
+                        return false;
+                    }
+                else if (num != field.captcha.toLowerCase()) {
+                        layer.msg('验证码错误');
+                        draw(show_num)
+                        return false;
+                }
+
+                var waitIndex = layer.load(2);
+                abp.ajax({
+                    url: "@Url.Action("Login", "Account")",
+                    data: JSON.stringify(field),
+                    abpHandleError: false
+                }).fail(function (jqXHR) {
+                    layer.msg(jqXHR.message, { icon: 5 });
+                }).always(function () {
+                    layer.close(waitIndex);
+                });
+
+                return false;
+            });
+        })      
+    </script>
+}
