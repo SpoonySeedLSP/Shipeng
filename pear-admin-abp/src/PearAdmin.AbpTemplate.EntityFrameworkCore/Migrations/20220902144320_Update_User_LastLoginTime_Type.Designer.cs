@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PearAdmin.AbpTemplate.EntityFrameworkCore;
 
@@ -11,9 +12,10 @@ using PearAdmin.AbpTemplate.EntityFrameworkCore;
 namespace PearAdmin.AbpTemplate.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(AbpTemplateDbContext))]
-    partial class AbpTemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220902144320_Update_User_LastLoginTime_Type")]
+    partial class Update_User_LastLoginTime_Type
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -93,6 +93,7 @@ namespace PearAdmin.AbpTemplate.Admin
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(AbpAuthorizationFilter));//权限过滤器
+                options.Filters.Add(typeof(AbpExceptionFilter));//异常拦截过滤器
             });
             #endregion
 

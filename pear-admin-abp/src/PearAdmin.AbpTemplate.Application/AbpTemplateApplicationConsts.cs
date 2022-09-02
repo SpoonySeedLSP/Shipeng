@@ -3,27 +3,27 @@
     public class AbpTemplateApplicationConsts
     {
         /// <summary>
-        /// Default pass phrase for SimpleStringCipher decrypt/encrypt operations
+        /// SimpleStringCipher解密/加密操作的默认密码短语
         /// </summary>
         public const string DefaultPassPhrase = "gsKxGZ012HLL3MI5";
 
         /// <summary>
-        /// Default page size
+        /// 默认的页面大小
         /// </summary>
         public const int DefaultPageSize = 10;
 
         /// <summary>
-        /// Max page size
+        /// 最大页面大小
         /// </summary>
         public const int MaxPageSize = 1000;
 
         /// <summary>
-        /// Default password
+        /// 默认密码
         /// </summary>
         public const string DefaultPassword = "123qwe";
 
         /// <summary>
-        /// Default tenant id
+        /// 默认租户id
         /// </summary>
         public const int DefaultTenantId = 1;
 

@@ -64,6 +64,8 @@ namespace PearAdmin.AbpTemplate.Auditing
 
             var resultCount = await query.CountAsync();
 
+            input.Sorting = input.Sorting ?? "ExecutionTime DESC";
+            var result = await query.PageBy(input).ToListAsync();
             var results = await query
                 .OrderBy(input.Sorting)
                 .PageBy(input)
