@@ -37,7 +37,11 @@ namespace PearAdmin.AbpTemplate.Admin.Filter
         // AspNetCore 相关的配置信息
         private readonly IAbpAspNetCoreConfiguration _configuration;
 
-        // 注入并初始化内部成员对象
+        /// <summary>
+        /// 注入并初始化内部成员对象
+        /// </summary>
+        /// <param name="errorInfoBuilder">错误信息构建器</param>
+        /// <param name="configuration">AspNetCore 相关的配置信息</param>
         public AbpExceptionFilter(IErrorInfoBuilder errorInfoBuilder, IAbpAspNetCoreConfiguration configuration)
         {
             _errorInfoBuilder = errorInfoBuilder;
@@ -47,7 +51,10 @@ namespace PearAdmin.AbpTemplate.Admin.Filter
             EventBus = NullEventBus.Instance;
         }
 
-        // 异常触发时会调用此方法
+        /// <summary>
+        /// 异常触发时会调用此方法
+        /// </summary>
+        /// <param name="context"></param>
         public void OnException(ExceptionContext context)
         {
             // 判断是否由控制器触发，如果不是则不做任何处理
@@ -76,7 +83,10 @@ namespace PearAdmin.AbpTemplate.Admin.Filter
             }
         }
 
-        // 处理并包装异常
+        /// <summary>
+        /// 根据不同的异常类型返回不同的 HTTP 错误码
+        /// </summary>
+        /// <param name="context"></param>
         private void HandleAndWrapException(ExceptionContext context)
         {
             // 判断被调用接口的返回值是否符合标准，不符合则直接返回
@@ -103,27 +113,31 @@ namespace PearAdmin.AbpTemplate.Admin.Filter
             context.Exception = null; //Handled!
         }
 
-        // 根据不同的异常类型返回不同的 HTTP 错误码
+        /// <summary>
+        /// 根据不同的异常类型返回不同的 HTTP 错误码
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         protected virtual int GetStatusCode(ExceptionContext context)
         {
             if (context.Exception is AbpAuthorizationException)
-            {
+            {               
                 return context.HttpContext.User.Identity.IsAuthenticated
-                    ? (int)HttpStatusCode.Forbidden
-                    : (int)HttpStatusCode.Unauthorized;
+                    ? (int)HttpStatusCode.Forbidden//如果用户已登录，则返回403（禁止）
+                    : (int)HttpStatusCode.Unauthorized;//401如果用户尚未登录，则返回（未经授权）
             }
 
             if (context.Exception is AbpValidationException)
             {
-                return (int)HttpStatusCode.BadRequest;
+                return (int)HttpStatusCode.BadRequest;//400（错误请求）
             }
 
             if (context.Exception is EntityNotFoundException)
             {
-                return (int)HttpStatusCode.NotFound;
+                return (int)HttpStatusCode.NotFound;//404（未找到）
             }
 
-            return (int)HttpStatusCode.InternalServerError;
+            return (int)HttpStatusCode.InternalServerError;//500（内部服务器错误）
         }
     }
 }

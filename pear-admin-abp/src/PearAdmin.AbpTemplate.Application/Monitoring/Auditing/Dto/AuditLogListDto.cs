@@ -9,6 +9,10 @@ namespace PearAdmin.AbpTemplate.Auditing.Dto
 
         public string UserName { get; set; }
 
+        public string Name { get; set; }
+
+        public string PhoneNumber { get; set; }
+
         public int? ImpersonatorTenantId { get; set; }
 
         public long? ImpersonatorUserId { get; set; }
@@ -30,6 +34,8 @@ namespace PearAdmin.AbpTemplate.Auditing.Dto
         public string BrowserInfo { get; set; }
 
         public string Exception { get; set; }
+
+        public string ExceptionMessage { get; set; }
 
         public string CustomData { get; set; }
     }

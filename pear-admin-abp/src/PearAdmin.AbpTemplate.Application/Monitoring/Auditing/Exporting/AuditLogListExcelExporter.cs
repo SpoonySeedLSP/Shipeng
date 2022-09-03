@@ -51,6 +51,8 @@ namespace PearAdmin.AbpTemplate.Auditing.Exporting
                         sheet, 2, auditLogListDtos,
                         _ => _timeZoneConverter.Convert(_.ExecutionTime, _abpSession.TenantId, _abpSession.GetUserId()),
                         _ => _.UserName,
+                        _ => _.Name,
+                        _ => _.PhoneNumber,
                         _ => _.ServiceName,
                         _ => _.MethodName,
                         _ => _.Parameters,
@@ -58,7 +60,8 @@ namespace PearAdmin.AbpTemplate.Auditing.Exporting
                         _ => _.ClientIpAddress,
                         _ => _.ClientName,
                         _ => _.BrowserInfo,
-                        _ => _.Exception.IsNullOrEmpty() ? L("Success") : _.Exception
+                        _ => _.Exception.IsNullOrEmpty() ? L("Success") : _.Exception,
+                        _ => _.ExceptionMessage.IsNullOrEmpty() ? L("") : _.ExceptionMessage
                         );
 
                     //Formatting cells
