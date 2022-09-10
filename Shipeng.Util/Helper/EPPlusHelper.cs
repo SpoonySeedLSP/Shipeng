@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Shipeng.Util.Helper
+namespace Shipeng.Util
 {
     /// <summary>
     /// 基于EPPlus的excel操作类,仅支持xlsx格式的excel文件
