@@ -10,7 +10,7 @@ using PearAdmin.AbpTemplate.MultiTenancy;
 namespace PearAdmin.AbpTemplate
 {
     /// <summary>
-    /// Derive your application services from this class.
+    /// 从这个类派生应用程序服务
     /// </summary>
     public abstract class AbpTemplateApplicationServiceBase : ApplicationService
     {
@@ -28,7 +28,7 @@ namespace PearAdmin.AbpTemplate
             var user = await UserManager.FindByIdAsync(AbpSession.GetUserId().ToString());
             if (user == null)
             {
-                throw new Exception("There is no current user!");
+                throw new Exception("没有当前用户!");
             }
 
             return user;

@@ -37,6 +37,9 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
 
         public JsonResult GetPermissions()
         {
+            /* 得到所有权限
+             * tenancyFilter:可以传递false来禁用租户过滤器
+             */
             var permissions = PermissionManager.GetAllPermissions();
             List<RolePermissionDto> permissionData = permissions
                 .Select(p => new RolePermissionDto()

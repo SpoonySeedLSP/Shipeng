@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace PearAdmin.AbpTemplate.Authorization.Users.Profile
 {
+    /// <summary>
+    /// 文件应用服务
+    /// </summary>
     public interface IProfileAppService
     {
         Task ChangePhoneNumber(ChangePhoneNumberDto input);

@@ -13,9 +13,10 @@ namespace PearAdmin.AbpTemplate.Admin.Views
         public override void SetNavigation(INavigationProviderContext context)
         {
             context.Manager.MainMenu
+            #region 工作空间
                 .AddItem(
                     new MenuItemDefinition(
-                        AbpTemplatePageName.WorkSpace,
+                        AbpTemplatePageName.WorkSpace,//工作空间
                         L("WorkSpace"),
                         icon: "layui-icon-console",
                         permissionDependency: new SimplePermissionDependency(AppPermissionNames.Pages_WorkSpace)
@@ -36,9 +37,13 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                             permissionDependency: new SimplePermissionDependency(AppPermissionNames.Pages_WorkSpace_HostConsole)
                         )
                     )
-                ).AddItem(
+                )
+            #endregion
+
+            #region 任务中心
+                .AddItem(
                     new MenuItemDefinition(
-                        AbpTemplatePageName.TaskCenter,
+                        AbpTemplatePageName.TaskCenter,//任务中心
                         L("TaskCenter"),
                         icon: "layui-icon-read",
                         permissionDependency: new SimplePermissionDependency(AppPermissionNames.Pages_TaskCenter)
@@ -51,30 +56,38 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                             permissionDependency: new SimplePermissionDependency(AppPermissionNames.Pages_TaskCenter_DailyTasks)
                         )
                     )
-                ).AddItem(
+                )
+            #endregion
+
+            #region 资源管理
+                .AddItem(
                     new MenuItemDefinition(
-                        AbpTemplatePageName.ResourceManagement,
+                        AbpTemplatePageName.ResourceManagement,//资源管理
                         L("ResourceManagement"),
                         icon: "layui-icon-engine",
                         permissionDependency: new SimplePermissionDependency(AppPermissionNames.Pages_ResourceManagement)
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.DataDictionary,
+                            AbpTemplatePageName.DataDictionary,//数据字典
                             L("DataDictionary"),
                             url: "/Resource/DataDictionary",
                             icon: "layui-icon-console",
                             permissionDependency: new SimplePermissionDependency(AppPermissionNames.Pages_ResourceManagement_DataDictionary)
                         )
                     )
-                ).AddItem(
+                )
+            #endregion
+
+            #region 系统管理
+                .AddItem(
                     new MenuItemDefinition(
-                        AbpTemplatePageName.SystemManagement,
+                        AbpTemplatePageName.SystemManagement,//系统管理
                         L("SystemManagement"),
                         icon: "layui-icon-set-fill",
                         permissionDependency: new SimplePermissionDependency(AppPermissionNames.Pages_SystemManagement)
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.OrganizationUnits,
+                            AbpTemplatePageName.OrganizationUnits,//组织管理
                             L("OrganizationUnitManagement"),
                             url: "OrganizationUnits",
                             icon: "layui-icon-console",
@@ -82,7 +95,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.Users,
+                            AbpTemplatePageName.Users,//用户管理
                             L("UserManagement"),
                             url: "Users",
                             icon: "layui-icon-console",
@@ -90,7 +103,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.Roles,
+                            AbpTemplatePageName.Roles,//角色管理
                             L("RoleManagement"),
                             url: "Roles",
                             icon: "layui-icon-console",
@@ -98,7 +111,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.Permissions,
+                            AbpTemplatePageName.Permissions,//权限管理
                             L("PermissionManagement"),
                             url: "Permissions",
                             icon: "layui-icon-console",
@@ -106,7 +119,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.AuditLogs,
+                            AbpTemplatePageName.AuditLogs,//审计日志
                             L("AuditLogs"),
                             url: "AuditLogs",
                             icon: "layui-icon-console",
@@ -114,7 +127,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.Editions,
+                            AbpTemplatePageName.Editions,//版本管理
                             L("EditionManagement"),
                             url: "Editions",
                             icon: "layui-icon-console",
@@ -122,7 +135,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.Tenants,
+                            AbpTemplatePageName.Tenants,//租户管理
                             L("TenantManagement"),
                             url: "Tenants",
                             icon: "layui-icon-console",
@@ -130,7 +143,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.TenantSettings,
+                            AbpTemplatePageName.TenantSettings,//租户设置
                             L("TenantSettings"),
                             url: "TenantSettings",
                             icon: "layui-icon-console",
@@ -138,7 +151,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.HostSettings,
+                            AbpTemplatePageName.HostSettings,//宿主设置
                             L("HostSettings"),
                             url: "HostSettings",
                             icon: "layui-icon-console",
@@ -146,7 +159,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     ).AddItem(
                         new MenuItemDefinition(
-                            AbpTemplatePageName.Maintenance,
+                            AbpTemplatePageName.Maintenance,//系统维护
                             L("Maintenance"),
                             url: "Maintenance",
                             icon: "layui-icon-console",
@@ -154,6 +167,7 @@ namespace PearAdmin.AbpTemplate.Admin.Views
                         )
                     )
                 );
+            #endregion
         }
 
         private static ILocalizableString L(string name)

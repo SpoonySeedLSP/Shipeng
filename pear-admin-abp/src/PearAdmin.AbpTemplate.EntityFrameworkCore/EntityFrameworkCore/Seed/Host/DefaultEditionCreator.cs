@@ -6,6 +6,9 @@ using PearAdmin.AbpTemplate.Editions;
 
 namespace PearAdmin.AbpTemplate.EntityFrameworkCore.Seed.Host
 {
+    /// <summary>
+    /// 默认的版本的创造者
+    /// </summary>
     public class DefaultEditionCreator
     {
         private readonly AbpTemplateDbContext _context;

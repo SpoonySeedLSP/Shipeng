@@ -18,6 +18,11 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries.Dto
         public string Name { get; set; }
 
         /// <summary>
+        /// 描述
+        /// </summary>
+        public string Describe { get; set; }
+
+        /// <summary>
         /// 字典Id
         /// </summary>
         public int DataDictionaryId { get; set; }

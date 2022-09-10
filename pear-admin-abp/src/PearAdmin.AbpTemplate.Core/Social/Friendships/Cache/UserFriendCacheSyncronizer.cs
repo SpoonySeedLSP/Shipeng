@@ -7,6 +7,9 @@ using PearAdmin.AbpTemplate.Social.Chat;
 
 namespace PearAdmin.AbpTemplate.Social.Friendships.Cache
 {
+    /// <summary>
+    /// 用户好友缓存同步器
+    /// </summary>
     public class UserFriendCacheSyncronizer :
         IEventHandler<EntityCreatedEventData<Friendship>>,
         IEventHandler<EntityDeletedEventData<Friendship>>,

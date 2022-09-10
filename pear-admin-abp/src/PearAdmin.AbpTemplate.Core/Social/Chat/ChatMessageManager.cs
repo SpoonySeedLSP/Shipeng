@@ -13,6 +13,9 @@ using PearAdmin.AbpTemplate.Social.Friendships.Cache;
 
 namespace PearAdmin.AbpTemplate.Social.Chat
 {
+    /// <summary>
+    /// 聊天信息管理器
+    /// </summary>
     [AbpAuthorize]
     public class ChatMessageManager : AbpTemplateCoreServiceBase, IChatMessageManager
     {

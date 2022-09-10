@@ -20,7 +20,9 @@
         /// <summary>
         /// 默认密码
         /// </summary>
-        public const string DefaultPassword = "123qwe";
+        public const string DefaultPassword = "admin@123456";
+
+        public const int HostId = 1;//宿主id
 
         /// <summary>
         /// 默认租户id

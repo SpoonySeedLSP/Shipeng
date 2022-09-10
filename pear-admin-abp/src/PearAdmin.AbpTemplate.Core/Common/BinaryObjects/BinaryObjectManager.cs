@@ -5,6 +5,9 @@ using Abp.Domain.Repositories;
 
 namespace PearAdmin.AbpTemplate.BinaryObjects
 {
+    /// <summary>
+    /// 二进制文件对象管理器
+    /// </summary>
     public class BinaryObjectManager : IBinaryObjectManager, ITransientDependency
     {
         private readonly IRepository<BinaryObject, Guid> _binaryObjectRepository;

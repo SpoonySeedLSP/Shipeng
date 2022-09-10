@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace PearAdmin.AbpTemplate.EntityFrameworkCore.Seed.Tenants
 {
+    /// <summary>
+    /// 默认的租户构建器
+    /// </summary>
     public class DefaultTenantBuilder
     {
         private readonly AbpTemplateDbContext _context;

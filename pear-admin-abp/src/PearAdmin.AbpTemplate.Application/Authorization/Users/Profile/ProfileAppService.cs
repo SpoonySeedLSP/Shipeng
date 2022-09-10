@@ -12,6 +12,9 @@ using PearAdmin.AbpTemplate.BinaryObjects;
 
 namespace PearAdmin.AbpTemplate.Authorization.Users.Profile
 {
+    /// <summary>
+    /// 文件应用服务的实现
+    /// </summary>
     [AbpAuthorize]
     public class ProfileAppService : AbpTemplateApplicationServiceBase, IProfileAppService
     {

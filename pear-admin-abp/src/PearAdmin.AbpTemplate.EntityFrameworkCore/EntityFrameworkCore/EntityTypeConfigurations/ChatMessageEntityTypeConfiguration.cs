@@ -4,6 +4,9 @@ using PearAdmin.AbpTemplate.Social.Chat;
 
 namespace PearAdmin.AbpTemplate.EntityFrameworkCore.EntityTypeConfigurations
 {
+    /// <summary>
+    /// 聊天消息实体类型配置
+    /// </summary>
     public class ChatMessageEntityTypeConfiguration : IEntityTypeConfiguration<ChatMessage>
     {
         public void Configure(EntityTypeBuilder<ChatMessage> builder)

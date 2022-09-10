@@ -58,6 +58,11 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
+            //获取当前用户id或null,如果没有用户登录，则可以为空
+            if (!AbpSession.UserId.HasValue)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View();
         }
 

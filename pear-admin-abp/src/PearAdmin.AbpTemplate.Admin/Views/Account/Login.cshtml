@@ -20,16 +20,20 @@
                     <input type="hidden" name="returnUrlHash" />
                     <div class="layui-form-item">
                         <img class="logo" src="~/images/logo.png" />
-                        <div class="title">AbpTemplate</div>
-                        <div class="desc">
-                            一 万 年 太 久，只 争 朝 夕
-                        </div>
+                        <div class="title">企业信息化管理系统</div>
+                       @* <div class="desc">
+                           <select name="login-user" id="login-user" lay-filter="login-user">
+                                 <option value="host">宿主</option>
+                                 <option value="tenant">租户</option>
+                                 <option value="tenantUser" selected="selected">租户用户</option>
+                           </select>
+                        </div>*@
                     </div>
                     <div class="layui-form-item">
                         <input type="text" name="usernameOrEmailAddress" placeholder="@L("UserNameOrEmail"): admin" hover class="layui-input" required autofocus maxlength="@AbpUserBase.MaxEmailAddressLength" />
                     </div>
                     <div class="layui-form-item">
-                        <input type="password" name="password" placeholder="@L("Password"): 123qwe" hover class="layui-input" required maxlength="@AbpUserBase.MaxPlainPasswordLength" />
+                        <input type="password" name="password" placeholder="@L("Password"): admin@123456" hover class="layui-input" required maxlength="@AbpUserBase.MaxPlainPasswordLength" />
                     </div>
                     <div class="layui-form-item">
 				     @*   <label class="layui-icon layui-icon-vercode" id="icon-vercode" for="captcha"></label>*@
@@ -44,17 +48,17 @@
                     <div class="layui-form-item">
                         <button class="pear-btn pear-btn-primary login" lay-submit lay-filter="LAY-user-login-submit">@L("LogIn")</button>
                     </div>
-                    <div class="external-login">
+                  @*  <div class="external-login">
                         <img src="~/images/miniprogram.png" title="小程序登录" alt="小程序登录" class="wx-logo">
-                    </div>
+                    </div>*@
                 </form>
             </div>
         </div>
     </div>
 </div>
 <div class="user-login-foot">
-    © <a target="_blank" href="https://gitee.com/pear-admin/pear-admin-abp.git">PearAdminAbp @System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription</a>
-    <a target="_blank" href="http://www.pearadmin.com">关于我们</a>
+ @*   © <a target="_blank" href="https://gitee.com/pear-admin/pear-admin-abp.git">PearAdminAbp @System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription</a>
+    <a target="_blank" href="http://www.pearadmin.com">关于我们</a>*@
 </div>
 
 <script src="~/libs/jquery/dist/jquery.min.js"></script>
@@ -82,9 +86,36 @@
                  draw(show_num);
              });
 
+            //var loginUserType = "";
+            // layui.form.on('select(login-user)', function (data) {
+            //     loginUserType = data.value;
+            //     var index = layer.load(2);
+            //     if(loginUserType == "host"){
+            //          abp.ajax({
+            //             url: "@Url.Action("HostLogin", "Account")",
+            //             abpHandleError: false
+            //          }).fail(function (data) {
+            //             layer.msg("切换成功", { icon: 1 });
+            //          }).always(function () {
+            //             layer.close(index);
+            //          });
+            //     }
+            //    else{
+            //        abp.ajax({
+            //             url: "@Url.Action("Login", "Account")",
+            //             abpHandleError: false
+            //          }).fail(function (data) {
+            //             layer.msg("切换成功", { icon: 1 });
+            //          }).always(function () {
+            //             layer.close(index);
+            //          });
+            //    }
+            // })
+
             form.on('submit(LAY-user-login-submit)', function (data) {
                 data.field.rememberMe = data.field.rememberMe == "on";//默认值是on
                 var field = data.field; //获取提交的字段
+                //field.loginUserType = loginUserType;
 
                 if (field.username == '') {
                         layer.msg('用户名不能为空');

@@ -9,16 +9,22 @@ namespace PearAdmin.AbpTemplate.EntityFrameworkCore
     {
         public static void Configure(DbContextOptionsBuilder<AbpTemplateDbContext> builder, string connectionString)
         {
-            //builder.UseMySql(connectionString, MySqlServerVersion.LatestSupportedServerVersion);
             builder.UseSqlServer(connectionString)
                 .ReplaceService<MigrationsSqlGenerator, AbpSqlserverMigrationsSqlGenerator>();//自定义数据库备注
+
+            //builder.UseMySql(connectionString, MySqlServerVersion.LatestSupportedServerVersion);//MySQL
+            //builder.UseNpgsql(connectionString);//PostgreSQL
+            //builder.UseOracle(connectionString);//Oracle
         }
 
         public static void Configure(DbContextOptionsBuilder<AbpTemplateDbContext> builder, DbConnection connection)
         {
-            //builder.UseMySql(connection, MySqlServerVersion.LatestSupportedServerVersion);
             builder.UseSqlServer(connection)
                 .ReplaceService<MigrationsSqlGenerator, AbpSqlserverMigrationsSqlGenerator>();//自定义数据库备注
+
+            //builder.UseMySql(connection, MySqlServerVersion.LatestSupportedServerVersion);//MySQL
+            //builder.UseNpgsql(connection);//PostgreSQL
+            //builder.UseOracle(connection);//Oracle
         }
     }
 }

@@ -17,5 +17,7 @@ namespace PearAdmin.AbpTemplate.Admin.Models.Account
         public string ReturnUrl { get; set; } = "";
 
         public string ReturnUrlHash { get; set; } = "";
+
+        public string LoginUserType { get; set; }
     }
 }

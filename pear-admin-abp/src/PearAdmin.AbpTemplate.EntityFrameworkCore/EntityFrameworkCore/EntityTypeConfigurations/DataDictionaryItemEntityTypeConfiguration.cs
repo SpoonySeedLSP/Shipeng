@@ -4,6 +4,9 @@ using PearAdmin.AbpTemplate.Resource.DataDictionaries;
 
 namespace PearAdmin.AbpTemplate.EntityFrameworkCore.EntityTypeConfigurations
 {
+    /// <summary>
+    /// 数据字典项信息实体模型映射
+    /// </summary>
     public class DataDictionaryItemEntityTypeConfiguration : IEntityTypeConfiguration<DataDictionaryItem>
     {
         public void Configure(EntityTypeBuilder<DataDictionaryItem> builder)
@@ -17,6 +20,10 @@ namespace PearAdmin.AbpTemplate.EntityFrameworkCore.EntityTypeConfigurations
             builder.Property(b => b.Name)
                 .HasMaxLength(DataDictionaryItem.MaxNameLength)
                 .IsRequired();
+
+            builder.Property(b => b.Describe)
+                .HasMaxLength(DataDictionaryItem.MaxDescribeLength)
+                .IsRequired(false);
         }
     }
 }

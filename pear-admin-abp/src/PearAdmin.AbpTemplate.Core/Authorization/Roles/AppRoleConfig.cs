@@ -3,12 +3,14 @@ using Abp.Zero.Configuration;
 
 namespace PearAdmin.AbpTemplate.Authorization.Roles
 {
+    /// <summary>
+    /// 角色配置
+    /// </summary>
     public static class AppRoleConfig
     {
         public static void Configure(IRoleManagementConfig roleManagementConfig)
         {
-            // Static host roles
-
+            // 静态主机角色
             roleManagementConfig.StaticRoles.Add(
                 new StaticRoleDefinition(
                     StaticRoleNames.Host.Admin,
@@ -16,8 +18,7 @@ namespace PearAdmin.AbpTemplate.Authorization.Roles
                 )
             );
 
-            // Static tenant roles
-
+            //静态租户的角色
             roleManagementConfig.StaticRoles.Add(
                 new StaticRoleDefinition(
                     StaticRoleNames.Tenants.Admin,

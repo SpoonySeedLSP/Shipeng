@@ -1,15 +1,7 @@
 ﻿using Abp.AutoMapper;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
-using PearAdmin.AbpTemplate.Authorization;
-using PearAdmin.AbpTemplate.Monitoring;
-using PearAdmin.AbpTemplate.MultiTenancy;
-using PearAdmin.AbpTemplate.Notifications;
-using PearAdmin.AbpTemplate.Organizations;
-using PearAdmin.AbpTemplate.Resource;
-using PearAdmin.AbpTemplate.Social;
 using PearAdmin.AbpTemplate.Storage.Minio;
-using PearAdmin.AbpTemplate.TaskCenter;
 
 namespace PearAdmin.AbpTemplate
 {
@@ -31,7 +23,7 @@ namespace PearAdmin.AbpTemplate
             IocManager.RegisterAssemblyByConvention(thisAssembly);
 
             Configuration.Modules.AbpAutoMapper().Configurators.Add(
-                // Scan the assembly for classes which inherit from AutoMapper.Profile
+                //扫描程序集查找继承自AutoMapper的类  配置文件
                 cfg => cfg.AddMaps(thisAssembly)
             );
         }

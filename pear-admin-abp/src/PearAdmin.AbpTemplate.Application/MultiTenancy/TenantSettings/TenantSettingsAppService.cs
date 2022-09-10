@@ -77,11 +77,18 @@ namespace PearAdmin.AbpTemplate.MultiTenancy.TenantSetting
 
         private async Task<CompanySettingsEditDto> GetCompanySettingsAsync()
         {
-            return new CompanySettingsEditDto()
-            {
-                CompanyName = await SettingManager.GetSettingValueForApplicationAsync(AppSettingNames.TenantManagement.CompanyName),
-                CompanyAddress = await SettingManager.GetSettingValueForApplicationAsync(AppSettingNames.TenantManagement.CompanyAddress)
-            };
+            /* 获取租户级别设置的当前值
+             * 它获取设置值，由给定的租户重写
+             * name:设置的唯一名称
+             * tenantId:租户id
+             * 返回：设置的当前值
+             */
+            var companySettings = new CompanySettingsEditDto();
+            companySettings.CompanyName = await SettingManager
+                .GetSettingValueForTenantAsync(AppSettingNames.TenantManagement.CompanyName, (int)AbpSession.TenantId);
+            companySettings.CompanyAddress = await SettingManager
+                .GetSettingValueForTenantAsync(AppSettingNames.TenantManagement.CompanyAddress, (int)AbpSession.TenantId);
+            return companySettings;
         }
 
         private async Task<GeneralSettingsEditDto> GetGeneralSettingsAsync()
@@ -115,6 +122,11 @@ namespace PearAdmin.AbpTemplate.MultiTenancy.TenantSetting
             await UpdateEmailSettingsAsync(input.Email);
         }
 
+        /// <summary>
+        /// 更新通用设置
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         private async Task UpdateGeneralSettingsAsync(TenantSettingsEditDto input)
         {
             if (Clock.SupportsMultipleTimezone)
@@ -136,12 +148,28 @@ namespace PearAdmin.AbpTemplate.MultiTenancy.TenantSetting
             }
         }
 
+        /// <summary>
+        /// 更新公司设置
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         private async Task UpdateCompanySettingsAsync(CompanySettingsEditDto input)
         {
-            await SettingManager.ChangeSettingForApplicationAsync(AppSettingNames.HostManagement.CompanyName, input.CompanyName);
-            await SettingManager.ChangeSettingForApplicationAsync(AppSettingNames.HostManagement.CompanyAddress, input.CompanyAddress);
+            /* 更改租户的设置
+             * tenantId:租户id
+             * name:设置的唯一名称
+             * value:设置值
+             */
+            int tenantId = AbpSession.GetTenantId();
+            await SettingManager.ChangeSettingForTenantAsync(tenantId,AppSettingNames.TenantManagement.CompanyName, input.CompanyName);
+            await SettingManager.ChangeSettingForTenantAsync(tenantId,AppSettingNames.TenantManagement.CompanyAddress, input.CompanyAddress);
         }
 
+        /// <summary>
+        /// 更新电子邮件设置
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         private async Task UpdateEmailSettingsAsync(TenantEmailSettingsEditDto input)
         {
             if (_multiTenancyConfig.IsEnabled && !AbpTemplateCoreConsts.AllowTenantsToChangeEmailSettings)

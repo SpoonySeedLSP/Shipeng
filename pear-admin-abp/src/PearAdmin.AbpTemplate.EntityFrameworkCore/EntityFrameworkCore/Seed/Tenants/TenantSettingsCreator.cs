@@ -6,6 +6,9 @@ using PearAdmin.AbpTemplate.Settings;
 
 namespace PearAdmin.AbpTemplate.EntityFrameworkCore.Seed.Common
 {
+    /// <summary>
+    /// 租户设置创造者
+    /// </summary>
     public class TenantSettingsCreator
     {
         private readonly AbpTemplateDbContext _context;

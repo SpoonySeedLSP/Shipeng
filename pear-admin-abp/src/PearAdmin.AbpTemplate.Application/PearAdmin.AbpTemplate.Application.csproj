@@ -11,11 +11,10 @@
     <RootNamespace>PearAdmin.AbpTemplate</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PearAdmin.AbpTemplate.Core\PearAdmin.AbpTemplate.Core.csproj" />
-    <ProjectReference Include="..\..\module\PearAdmin.AbpTemplate.Storage.Minio\PearAdmin.AbpTemplate.Storage.Minio.csproj" />
+    <PackageReference Include="Shipeng.Util" Version="3.1.2" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="EPPlus" Version="6.0.6" />
-    <PackageReference Include="Shipeng.Util" Version="2.0.0" />
+    <ProjectReference Include="..\PearAdmin.AbpTemplate.Core\PearAdmin.AbpTemplate.Core.csproj" />
+    <ProjectReference Include="..\..\module\PearAdmin.AbpTemplate.Storage.Minio\PearAdmin.AbpTemplate.Storage.Minio.csproj" />
   </ItemGroup>
 </Project>

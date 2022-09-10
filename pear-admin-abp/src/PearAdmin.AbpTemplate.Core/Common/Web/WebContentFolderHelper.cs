@@ -6,8 +6,8 @@ using Abp.Reflection.Extensions;
 namespace PearAdmin.AbpTemplate.Web
 {
     /// <summary>
-    /// This class is used to find root path of the web project in;
-    /// unit tests (to find views) and entity framework core command line commands (to find conn string).
+    /// 这个类用于查找web项目的根路径
+    /// 单元测试(查找视图)和实体框架核心命令行命令(查找conn string)
     /// </summary>
     public static class WebContentDirectoryFinder
     {
@@ -16,7 +16,7 @@ namespace PearAdmin.AbpTemplate.Web
             var coreAssemblyDirectoryPath = Path.GetDirectoryName(typeof(AbpTemplateCoreModule).GetAssembly().Location);
             if (coreAssemblyDirectoryPath == null)
             {
-                throw new Exception("Could not find location of PearAdmin.AbpTemplate.Core assembly!");
+                throw new Exception("找不到PearAdmin.AbpTemplate.Core程序集的位置!");
             }
 
             var directoryInfo = new DirectoryInfo(coreAssemblyDirectoryPath);
@@ -24,7 +24,7 @@ namespace PearAdmin.AbpTemplate.Web
             {
                 if (directoryInfo.Parent == null)
                 {
-                    throw new Exception("Could not find content root folder!");
+                    throw new Exception("找不到内容根文件夹!");
                 }
 
                 directoryInfo = directoryInfo.Parent;
@@ -36,7 +36,7 @@ namespace PearAdmin.AbpTemplate.Web
                 return webMvcFolder;
             }
 
-            throw new Exception("Could not find root folder of the web project!");
+            throw new Exception("找不到web项目的根文件夹!");
         }
 
         private static bool DirectoryContains(string directory, string fileName)

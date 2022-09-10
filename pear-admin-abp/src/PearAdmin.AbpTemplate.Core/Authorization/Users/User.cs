@@ -7,7 +7,8 @@ namespace PearAdmin.AbpTemplate.Authorization.Users
 {
     public class User : AbpUser<User>
     {
-        public const string DefaultPassword = "123qwe";
+        //默认密码
+        public const string DefaultPassword = "abp@123456";
         public const int MaxMobilePhoneLength = 11;
         public const int MobileCodeLength = 6;
 
@@ -22,8 +23,8 @@ namespace PearAdmin.AbpTemplate.Authorization.Users
             {
                 TenantId = tenantId,
                 UserName = AdminUserName,
-                Name = AdminUserName,
-                Surname = AdminUserName,
+                Name = AdminUserName,//用户名
+                Surname = AdminUserName,//用户的姓
                 EmailAddress = emailAddress,
                 Roles = new List<UserRole>()
             };

@@ -13,6 +13,9 @@ using PearAdmin.AbpTemplate.Social.Friendships.Dto;
 
 namespace PearAdmin.AbpTemplate.Admin.SignalR
 {
+    /// <summary>
+    /// SignalR聊天沟通服务的实现
+    /// </summary>
     public class SignalRChatCommunicator : IChatCommunicator, ITransientDependency
     {
         public ILogger Logger { get; set; }

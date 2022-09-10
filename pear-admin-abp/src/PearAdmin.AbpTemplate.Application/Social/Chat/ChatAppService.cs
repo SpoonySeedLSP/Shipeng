@@ -9,16 +9,16 @@ using Abp.Authorization;
 using Abp.Linq.Extensions;
 using Abp.RealTime;
 using Abp.Runtime.Session;
-using Abp.Timing;
 using Microsoft.EntityFrameworkCore;
 using PearAdmin.AbpTemplate.Social.Friendships.Cache;
 using PearAdmin.AbpTemplate.Social.Chat.Dto;
-using PearAdmin.AbpTemplate.Social.Friendships.Dto;
-using PearAdmin.AbpTemplate.Authorization.Users.Dto;
 using PearAdmin.AbpTemplate.Authorization.Users;
 
 namespace PearAdmin.AbpTemplate.Social.Chat
 {
+    /// <summary>
+    /// 聊天应用的服务
+    /// </summary>
     [AbpAuthorize]
     public class ChatAppService : AbpTemplateApplicationServiceBase, IChatAppService
     {

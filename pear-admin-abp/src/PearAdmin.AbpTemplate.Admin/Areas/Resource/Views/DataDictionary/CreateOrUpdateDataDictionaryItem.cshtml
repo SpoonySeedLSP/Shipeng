@@ -2,19 +2,35 @@
 @using PearAdmin.AbpTemplate.Resource.DataDictionaries.Dto
 @model DataDictionaryItemDto
 
+<style type="text/css">
+        #describe {
+            border: 0;
+            outline: none;
+            width: -webkit-fill-available;
+            padding-left:10px;
+            padding-top:10px;
+           /* background-color: rgba(0, 0, 0, 0);*//*透明背景*/
+        }
+ </style>
 <form class="layui-form" lay-filter="dataDictionaryItem-form" style="padding: 15px 0 0 0;">
     <input type="hidden" name="id" />
     <input type="hidden" name="dataDictionaryId" />
     <div class="layui-form-item">
-        <label class="layui-form-label">代码</label>
+        <label class="layui-form-label layui-required">代码</label>
         <div class="layui-input-block">
             <input type="text" name="code" lay-verify="required" placeholder="请输入代码" autocomplete="off" class="layui-input @(Model.Id >0 ? "layui-disabled" : "")" @(Model.Id > 0 ? "readonly" : "")>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">名称</label>
+        <label class="layui-form-label layui-required">名称</label>
         <div class="layui-input-block">
-            <input type="text" name="name" placeholder="请输入名称" autocomplete="off" class="layui-input">
+            <input type="text" name="name" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <textarea type="layui-textarea" rows="5" name="describe" id="describe" placeholder="请输入描述" autocomplete="off"></textarea>
         </div>
     </div>
     <div class="layui-form-item">

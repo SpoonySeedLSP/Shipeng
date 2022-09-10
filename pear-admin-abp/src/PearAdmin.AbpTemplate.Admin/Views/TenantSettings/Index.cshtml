@@ -9,53 +9,178 @@
             line-height: 35px;
             width: 180px;
         }
+        .layui-form .layui-form-item .layui-form-label {
+          float: left;
+          width: 112px;
+          margin-right: 10px;
+          text-align:left;
+        }
+       .layui-form .layui-form-item .layui-input-inline {
+          float: left;
+          width: 463px;
+          margin-right: 10px;
+        }
     </style>
 }
 
 <div class="layui-card">
-    <div class="layui-card-body">
-        <div class="layui-btn-container">
-            @if (await PermissionChecker.IsGrantedAsync(AppPermissionNames.Pages_SystemManagement_TenantSettings))
-            {
-                <button class="pear-btn pear-btn-primary pear-btn-md tenantsetting" data-type="saveAllSettings">保存更改</button>
-            }
-        </div>
-        <div class="layui-tab layui-tab-brief">
-            <ul class="layui-tab-title">
-                <li class="layui-this">公司设置</li>
-            </ul>
+    @*<div class="layui-card-body">    *@    
+        <div class="layui-tab layui-tab-brief" lay-filter="companyTabBrief">
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
                     <form class="layui-form" lay-filter="companySettings" id="companySettings">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">公司名称</label>
-                            <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="companyName" autocomplete="off" />
+                            <label class="layui-form-label layui-required">统一社会信用代码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="creditCode" lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
+                            <label class="layui-form-label layui-required">公司名称</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="companyName" lay-verify="required"  autocomplete="off" class="layui-input">
+                            </div>                           
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">组织机构代码</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="companyCode" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">法定代表人</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="legalRepresentative" autocomplete="off" class="layui-input">
+                            </div>                           
+                        </div>
+                         <div class="layui-form-item">
+                            <label class="layui-form-label">登记状态</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="registrationStatus" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">成立日期</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="registerDate" id="registerDate" lay-verify="date" autocomplete="off" class="layui-input">
+                            </div>                           
+                        </div>
+                         <div class="layui-form-item">
+                            <label class="layui-form-label">注册资本</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="registeredCapital" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">实缴资本</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="contributedCapital" autocomplete="off" class="layui-input">
+                            </div>                           
+                        </div>
+                         <div class="layui-form-item">
+                            <label class="layui-form-label">工商注册号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="registeredCode" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">纳税人识别号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="taxpayerIdentificationNumber" autocomplete="off" class="layui-input">
+                            </div>                           
+                        </div>
+                         <div class="layui-form-item">
+                            <label class="layui-form-label">企业类型</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="enterpriseType" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">所属行业</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="industry" autocomplete="off" class="layui-input">
+                            </div>                           
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">营业期限</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="businessTerm" id="businessTerm" lay-verify="date" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">纳税人资质</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="qualificationTaxpayer" autocomplete="off" class="layui-input" value="-">
+                            </div>                           
+                        </div>
+                         <div class="layui-form-item">
+                            <label class="layui-form-label">所属地区</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="eachDistrict" autocomplete="off" class="layui-input">
+                            </div>
+                            <label class="layui-form-label">登记机关</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="registrationAuthority" autocomplete="off" class="layui-input">
+                            </div>                           
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">公司地址</label>
                             <div class="layui-input-block">
-                                <input type="text" class="layui-input" name="companyAddress" autocomplete="off" />
+                                <input type="text" class="layui-input" name="companyAddress" autocomplete="off" style="width:93.1%" />
+                            </div>
+                        </div>
+                          <div class="layui-form-item">
+                            <label class="layui-form-label">经营范围</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" name="scopeBusiness" autocomplete="off" style="width:93.1%"></textarea>
+                            </div>
+                        </div>
+                         <div class="layui-form-item">
+                            <label class="layui-form-label">公司简介</label>
+                            <div class="layui-input-block">
+                                <textarea class="layui-textarea" name="companyProfile" autocomplete="off" style="width:93.1%"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">公司信息</label>
+                            <div class="layui-card-body">
+                               <textarea name="companyInformation" id="companyInformation" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+            @if (await PermissionChecker.IsGrantedAsync(AppPermissionNames.Pages_SystemManagement_TenantSettings))
+            {
+                <button class="pear-btn pear-btn-primary pear-btn-md tenantsetting" data-type="saveAllSettings">保存更改</button>
+            }
         </div>
-    </div>
+    @*</div>*@
 </div>
+
+<script src="~/libs/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js"></script>
 
 @section scripts{
     <script type="text/javascript">
-        layui.use(['abp', 'form', 'element'], function () {
+        layui.use(['abp','laydate', 'form', 'tinymce'], function () {
             var $ = layui.$;
             var abp = layui.abp;
             var form = layui.form;
+            var laydate = layui.laydate;
+            var tinymce = layui.tinymce
+
+            laydate.render({
+                elem: '#registerDate',//需显示日期的元素选择器
+                type:'date',
+                format: 'yyyy-MM-dd', //日期格式
+                istime: false//是否开启时间选择        
+            });
+           laydate.render({
+             elem: '#businessTerm',
+             format: 'yyyy-MM-dd',//格式
+             type: 'date',
+             range:'至'//设置启用日期范围
+        });
+
+            //富文本编辑器
+             var edit = tinymce.render({
+					elem: "#companyInformation",
+					height: 400
+				});
+                edit.getContent()
 
             //初始化公司设置
-            form.val("companySettings",@Html.Raw(JsonExtensions.ToJsonString(Model.CompanySettings,true,false)));
-            form.render();
+            var companySettings = @Html.Raw(JsonExtensions.ToJsonString(Model.CompanySettings,true,false));
+            form.val("companySettings",companySettings);
+            $("#registerDate").val(vertDate(companySettings.registerDate));
+            form.render();          
 
             //将表单序列化
             $.fn.serializeObject = function () {
@@ -81,7 +206,7 @@
                         companySettings: $("#companySettings").serializeObject(),
                         email: $("#emailSettings").serializeObject()
                     };
-
+                    field.companySettings.registerDate = new Date(field.companySettings.registerDate);
                     var waitIndex = parent.layer.load(2);
                     abp.ajax({
                         url: "@Url.Action("UpdateAllSettings", "TenantSettings")",

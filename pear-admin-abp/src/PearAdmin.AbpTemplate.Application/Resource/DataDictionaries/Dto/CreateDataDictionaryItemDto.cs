@@ -21,5 +21,10 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries.Dto
         /// </summary>
         [Required]
         public string Name { get; set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string Describe { get; set; } = "";
     }
 }

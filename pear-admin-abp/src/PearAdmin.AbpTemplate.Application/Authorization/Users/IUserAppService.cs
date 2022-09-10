@@ -26,6 +26,13 @@ namespace PearAdmin.AbpTemplate.Authorization.Users
         Task<GetUserForEditOutput> GetUserForEdit(NullableIdDto<long> input);
 
         /// <summary>
+        /// 根据用户id集合获取用户信息数据
+        /// </summary>
+        /// <param name="userIds">用户id集合</param>
+        /// <returns></returns>
+        Task<List<UserDto>> GetUserListByIdsAsync(List<long> userIds);
+
+        /// <summary>
         /// 创建用户
         /// </summary>
         /// <param name="input">用户信息、加入的组织机构信息、选择的角色信息</param>

@@ -20,7 +20,7 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
         /// <summary>
         /// 根据字典类型名称获取数据字典集合
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">根据字典类型名称获取数据字典详细信息</param>
         /// <returns></returns>
         Task<ListResultDto<DataDictionaryDto>> GetDataDictionaryListByTypeNames(GetDataDictionaryListByTypeNamesInput input);
 
@@ -60,7 +60,7 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
         /// <summary>
         /// 根据字典类型和字典项名称获取字典项值
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">根据字典类型或业务代码获取字典项展示值</param>
         /// <returns></returns>
         Task<GetDataDictionaryItemNameOutput> GetDataDictionaryItemName(GetDataDictionaryItemNameInput input);
     }

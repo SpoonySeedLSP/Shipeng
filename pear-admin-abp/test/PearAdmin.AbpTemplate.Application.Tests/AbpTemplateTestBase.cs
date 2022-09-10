@@ -17,6 +17,9 @@ using PearAdmin.AbpTemplate.MultiTenancy;
 
 namespace PearAdmin.AbpTemplate.Tests
 {
+    /// <summary>
+    /// Abp模板测试基地
+    /// </summary>
     public abstract class AbpTemplateTestBase : AbpIntegratedTestBase<AbpTemplateTestModule>
     {
         protected AbpTemplateTestBase()

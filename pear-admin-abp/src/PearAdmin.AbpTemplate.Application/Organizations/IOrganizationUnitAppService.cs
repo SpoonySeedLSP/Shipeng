@@ -25,6 +25,20 @@ namespace PearAdmin.AbpTemplate.Organizations
         Task<PagedResultDto<OrganizationUnitDto>> GetPagedOrganizationUnit(GetPagedOrganizationUnitInput input);
 
         /// <summary>
+        /// 获取当前用户所属组织
+        /// </summary>
+        /// <param name="userId">当前登录用户id</param>
+        /// <returns></returns>
+        Task<List<OrganizationUnitDto>> GetOrganizationUnitListByUserIdAsync(long userId);
+
+        /// <summary>
+        /// 根据组织id集合获取组织信息数据
+        /// </summary>
+        /// <param name="ids">组织id集合</param>
+        /// <returns></returns>
+        Task<List<OrganizationUnitDto>> GetOrganizationUnitListByIdsAsync(List<long> ids);
+
+        /// <summary>
         /// 获取组织机构编辑
         /// </summary>
         /// <returns></returns>

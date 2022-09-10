@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PearAdmin.AbpTemplate.EntityFrameworkCore.Seed.Common
 {
+    /// <summary>
+    /// 默认语言的创造者
+    /// </summary>
     public class DefaultLanguagesCreator
     {
         private readonly AbpTemplateDbContext _context;

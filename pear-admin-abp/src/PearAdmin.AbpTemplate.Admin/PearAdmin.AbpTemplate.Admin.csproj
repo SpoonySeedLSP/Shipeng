@@ -32,12 +32,17 @@
     <PackageReference Include="HangFire.Redis.StackExchange" Version="1.8.5" />
     <PackageReference Include="LogDashboard" Version="1.4.8" />
 	<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.8" />
+	<PackageReference Include="Microsoft.Azure.Management.Storage.Fluent" Version="1.38.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-preview.7.22375.6" />
     <PackageReference Include="PaulMiami.AspNetCore.Mvc.Recaptcha" Version="1.2.2" />
     <PackageReference Include="Abp.RedisCache" Version="7.3.0" />
+    <PackageReference Include="Polly" Version="7.2.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\FileManage\" />
   </ItemGroup>
 </Project>

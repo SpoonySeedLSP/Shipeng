@@ -6,6 +6,9 @@ using PearAdmin.AbpTemplate.Social.Friendships;
 
 namespace PearAdmin.AbpTemplate.Social.Chat
 {
+    /// <summary>
+    /// 空聊天通讯器
+    /// </summary>
     public class NullChatCommunicator : IChatCommunicator
     {
         public async Task SendMessageToClient(IReadOnlyList<IOnlineClient> clients, ChatMessage message)

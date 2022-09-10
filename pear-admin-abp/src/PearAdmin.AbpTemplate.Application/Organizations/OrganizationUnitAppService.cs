@@ -30,12 +30,21 @@ namespace PearAdmin.AbpTemplate.Organizations
             _userOrganizationUnitRepository = userOrganizationUnitRepository;
         }
 
+        /// <summary>
+        /// 获取组织机构（树形结构数据）
+        /// </summary>
+        /// <returns></returns>
         public async Task<ListResultDto<OrganizationUnitDto>> GetAllOrganizationUnitTree()
         {
             var organizationUnits = await _organizationUnitRepository.GetAllListAsync();
             return new ListResultDto<OrganizationUnitDto>(ObjectMapper.Map<List<OrganizationUnitDto>>(organizationUnits));
         }
 
+        /// <summary>
+        /// 获取子级组织机构及每个组织机构下的用户数量（树形结构数据）
+        /// </summary>
+        /// <param name="input">父级组织机构</param>
+        /// <returns></returns>
         public async Task<PagedResultDto<OrganizationUnitDto>> GetPagedOrganizationUnit(GetPagedOrganizationUnitInput input)
         {
             var query = _organizationUnitRepository.GetAll()
@@ -69,6 +78,37 @@ namespace PearAdmin.AbpTemplate.Organizations
                 }).ToList());
         }
 
+        /// <summary>
+        /// 获取当前用户所属组织
+        /// </summary>
+        /// <param name="userId">当前登录用户id</param>
+        /// <returns></returns>
+        public async Task<List<OrganizationUnitDto>> GetOrganizationUnitListByUserIdAsync(long userId)
+        {
+            //获取当前登录用户所属组织
+            var user = await UserManager.GetUserByIdAsync(userId);
+            var organizationUnits = await UserManager.GetOrganizationUnitsAsync(user);
+            if (organizationUnits == null || organizationUnits.Count <= 0) return null;
+            return ObjectMapper.Map<List<OrganizationUnitDto>>(organizationUnits);
+        }
+
+        /// <summary>
+        /// 根据组织id集合获取组织信息数据
+        /// </summary>
+        /// <param name="ids">组织id集合</param>
+        /// <returns></returns>
+        public async Task<List<OrganizationUnitDto>> GetOrganizationUnitListByIdsAsync(List<long> ids)
+        {
+            var organizationUnits = await _organizationUnitRepository.GetAllListAsync(r=>ids.Contains(r.Id));
+            if (organizationUnits == null || organizationUnits.Count <= 0) return null;
+            return ObjectMapper.Map<List<OrganizationUnitDto>>(organizationUnits);
+        }
+
+        /// <summary>
+        /// 获取组织机构编辑
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<OrganizationUnitDto> GetOrganizationUnitForEdit(NullableIdDto<long> input)
         {
             if (input.Id.HasValue && input.Id.Value > 0)
@@ -83,6 +123,11 @@ namespace PearAdmin.AbpTemplate.Organizations
             }
         }
 
+        /// <summary>
+        /// 创建组织机构
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissionNames.Pages_SystemManagement_OrganizationUnits_Create)]
         public async Task CreateOrganizationUnit(CreateOrganizationUnitDto input)
         {
@@ -91,6 +136,11 @@ namespace PearAdmin.AbpTemplate.Organizations
             await CurrentUnitOfWork.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// 更新组织机构
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissionNames.Pages_SystemManagement_OrganizationUnits_Update)]
         public async Task UpdateOrganizationUnit(UpdateOrganizationUnitDto input)
         {
@@ -101,6 +151,11 @@ namespace PearAdmin.AbpTemplate.Organizations
             await _organizationUnitManager.UpdateAsync(organizationUnit);
         }
 
+        /// <summary>
+        /// 删除组织机构
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissionNames.Pages_SystemManagement_OrganizationUnits_Update)]
         public async Task<OrganizationUnitDto> MoveOrganizationUnit(MoveOrganizationUnitInput input)
         {
@@ -113,6 +168,11 @@ namespace PearAdmin.AbpTemplate.Organizations
             return dto;
         }
 
+        /// <summary>
+        /// 将目标组织机构移入到指定组织机构
+        /// </summary>
+        /// <param name="inputs"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissionNames.Pages_SystemManagement_OrganizationUnits_Delete)]
         public async Task DeleteOrganizationUnit(List<EntityDto<long>> inputs)
         {

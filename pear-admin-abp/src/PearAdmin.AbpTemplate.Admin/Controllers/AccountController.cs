@@ -68,14 +68,13 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
         #region 添加短信验证码登录(动态密码登录)
         #endregion
 
+
         #region Login / Logout
 
         /// <summary>
         /// 宿主登录
         /// </summary>
-        /// <param name="userNameOrEmailAddress"></param>
         /// <param name="returnUrl"></param>
-        /// <param name="successMessage"></param>
         /// <returns></returns>
         public ActionResult HostLogin(string returnUrl)
         {
@@ -89,18 +88,17 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
             return View("Login", new LoginFormViewModel
             {
                 ReturnUrl = returnUrl,
-                IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled,
-                IsSelfRegistrationAllowed = IsSelfRegistrationEnabled(),
-                MultiTenancySide = AbpSession.MultiTenancySide
+                IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled,//是否启用多租户
+                IsSelfRegistrationAllowed = IsSelfRegistrationEnabled(),//是否已启用宿主注册
+                MultiTenancySide = AbpSession.MultiTenancySide//获取当前的多租户端
             });
         }
 
         /// <summary>
         /// 租户登录
+        /// 基于abp实施的identityserver4授权中心，多租户登录时必须指定当前租户ID，以便将当前租户ID包含在令牌中
         /// </summary>
-        /// <param name="userNameOrEmailAddress"></param>
         /// <param name="returnUrl"></param>
-        /// <param name="successMessage"></param>
         /// <returns></returns>
         public ActionResult Login(string returnUrl)
         {
@@ -109,17 +107,22 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
                 returnUrl = GetAppHomeUrl();
             }
 
-            ViewBag.TenantId = AbpTemplateApplicationConsts.DefaultTenantId;
+            ViewBag.TenantId = AbpTemplateApplicationConsts.DefaultTenantId;//租户id
 
             return View(new LoginFormViewModel
             {
                 ReturnUrl = returnUrl,
-                IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled,
-                IsSelfRegistrationAllowed = IsSelfRegistrationEnabled(),
-                MultiTenancySide = AbpSession.MultiTenancySide
+                IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled,//是否启用多租户
+                IsSelfRegistrationAllowed = IsSelfRegistrationEnabled(),//是否已启用宿主注册
+                MultiTenancySide = AbpSession.MultiTenancySide//获取当前的多租户端
             });
         }
 
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="loginModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [UnitOfWork]
         public virtual async Task<JsonResult> Login([FromBody] LoginViewModel loginModel)
@@ -135,15 +138,27 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
             await _signInManager.SignInAsync(loginResult.Identity, loginModel.RememberMe);
             await UnitOfWorkManager.Current.SaveChangesAsync();
 
-            return Json(new AjaxResponse { TargetUrl = GetAppHomeUrl() });
+            return Json(new AjaxResponse { TargetUrl = GetAppHomeUrl() });//目标Url
         }
 
+        /// <summary>
+        /// 注销
+        /// </summary>
+        /// <returns></returns>
         public async Task<ActionResult> Logout()
         {
+            //将当前用户签出应用程序
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
 
+        /// <summary>
+        /// 获取登录结果
+        /// </summary>
+        /// <param name="usernameOrEmailAddress">用户名或者邮箱</param>
+        /// <param name="password">密码</param>
+        /// <param name="tenancyName">租户名称</param>
+        /// <returns></returns>
         private async Task<AbpLoginResult<Tenant, User>> GetLoginResultAsync(string usernameOrEmailAddress, string password, string tenancyName)
         {
             var loginResult = await _logInManager.LoginAsync(usernameOrEmailAddress, password, tenancyName);
@@ -157,19 +172,46 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
             }
         }
 
+        /// <summary>
+        /// 自定义登录获取结果
+        /// </summary>
+        /// <param name="userName">账号、身份证、手机号</param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        private async Task<AbpLoginResult<Tenant, User>> GetCustomLoginResultAsync(string userName, string password)
+        {
+            var loginResult = await _logInManager.LoginCustomAsync(userName, password);
+
+            switch (loginResult.Result)
+            {
+                case AbpLoginResultType.Success:
+                    return loginResult;
+                default:
+                    throw _abpLoginResultTypeHelper.CreateExceptionForFailedLoginAttempt(loginResult.Result, userName, null);
+            }
+        }
+
+        /// <summary>
+        /// 是否已启用宿主注册
+        /// </summary>
+        /// <returns></returns>
         private bool IsSelfRegistrationEnabled()
         {
             if (!AbpSession.TenantId.HasValue)
             {
-                return false; // No registration enabled for host users!
+                return false; //未启用宿主用户注册
             }
-
             return true;
         }
         #endregion
 
         #region External Login
 
+        /// <summary>
+        /// 外部登录
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [UnitOfWork]
         public async Task<JsonResult> ExternalLogin([FromBody] ExternalAuthenticateModel model)
@@ -243,13 +285,16 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
             return Url.Action("Index", "Home");
         }
 
+        /// <summary>
+        /// 获取租户名称
+        /// </summary>
+        /// <returns></returns>
         private string GetTenancyNameOrNull()
         {
             if (!AbpSession.TenantId.HasValue)
             {
                 return null;
             }
-
             return _tenantCache.GetOrNull(AbpSession.TenantId.Value)?.TenancyName;
         }
 

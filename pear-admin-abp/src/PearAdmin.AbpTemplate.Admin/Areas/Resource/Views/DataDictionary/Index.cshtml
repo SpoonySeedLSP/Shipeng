@@ -117,6 +117,7 @@
                 });
 			});
 
+            //绑定字典项列表数据
             table.render({
 				elem: '#dataDictionaryItem-table',
 				url: '@Url.Action("GetDataDictionaryItemList", "DataDictionary", new { area= "Resource" })',
@@ -147,6 +148,11 @@
 						    field: 'name',
 						    align: 'center'
 					    },
+                        {
+						    title: '描述',
+						    field: 'describe',
+						    align: 'center'
+					    },
 					    {
 						    title: '操作',
 						    toolbar: '#dataDictionaryItem-bar',
@@ -163,6 +169,7 @@
 				}, 'filter', 'print', 'exports']
             });
 
+            //字典项列表操作列
             table.on('tool(dataDictionaryItem-table)', function (obj) {
                 var data = obj.data;
 		        if (obj.event === 'remove') {

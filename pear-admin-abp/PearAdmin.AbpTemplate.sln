@@ -41,6 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PearAdmin.AbpTemplate.Exter
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{65C5CBAF-8C7B-4A17-A618-0F64028E43E3}"
 	ProjectSection(SolutionItems) = preProject
+		框架说明.md = 框架说明.md
 		说明.docx = 说明.docx
 	EndProjectSection
 EndProject

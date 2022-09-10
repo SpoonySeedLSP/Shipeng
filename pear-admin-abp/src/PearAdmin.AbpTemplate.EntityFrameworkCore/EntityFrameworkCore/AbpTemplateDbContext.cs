@@ -15,6 +15,10 @@ namespace PearAdmin.AbpTemplate.EntityFrameworkCore
         public virtual DbSet<Resource.DataDictionaries.DataDictionaryItem> DataDictionaryItem { get; set; }
         public virtual DbSet<TaskCenter.DailyTasks.DailyTask> DailyTask { get; set; }
 
+        #region 企业信息
+        public virtual DbSet<Business.Enterprise.EnterpriseEntity> EnterpriseEntity { get; set; }
+        #endregion
+
         public AbpTemplateDbContext(DbContextOptions<AbpTemplateDbContext> options)
             : base(options)
         {
@@ -28,6 +32,16 @@ namespace PearAdmin.AbpTemplate.EntityFrameworkCore
             new FriendshipEntityTypeConfiguration().Configure(modelBuilder.Entity<Social.Friendships.Friendship>());
             new ChatMessageEntityTypeConfiguration().Configure(modelBuilder.Entity<Social.Chat.ChatMessage>());
             new BinaryObjectEntityTypeConfiguration().Configure(modelBuilder.Entity<BinaryObjects.BinaryObject>());
+
+            #region 企业信息
+            new EnterpriseTypeConfiguration().Configure(modelBuilder.Entity<Business.Enterprise.EnterpriseEntity>());
+            #endregion
+
+            #region 文件管理/档案管理
+            new FileManageTypeConfiguration().Configure(modelBuilder.Entity<Business.FileManage.FileManageEntity>());
+            new FileArticleContentTypeConfiguration().Configure(modelBuilder.Entity<Business.FileManage.FileArticleContentEntity>());
+            new FileListsTypeConfiguration().Configure(modelBuilder.Entity<Business.FileManage.FileListsEntity>());
+            #endregion
 
             base.OnModelCreating(modelBuilder);
         }

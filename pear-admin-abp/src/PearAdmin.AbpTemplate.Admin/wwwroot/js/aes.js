@@ -1,0 +1,32 @@
+const key = CryptoJS.enc.Utf8.parse("4036154144115150");  //十六位十六进制数作为密钥
+const iv = CryptoJS.enc.Utf8.parse('4036154144115150');   //十六位十六进制数作为密钥偏移量
+//解密方法
+function Decrypt(word) {
+    var decrypted = CryptoJS.AES.decrypt(word, key, {
+        iv: iv,
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7,
+    });
+    return decrypted.toString(CryptoJS.enc.Utf8);
+    //let encryptedHexStr = CryptoJS.enc.Hex.parse(word);
+    //let srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
+    //let decrypt = CryptoJS.AES.decrypt(srcs, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+    //let decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
+    //return decryptedStr.toString();
+}
+
+//加密方法
+function Encrypt(data) {
+    if (typeof data === 'object') {
+        data = JSON.stringify(data);
+    }
+    var encrypted = CryptoJS.AES.encrypt(data, key, {
+        iv: iv,
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7,
+    });
+    return encrypted.toString(); //返回的是base64格式的密文
+    //let srcs = CryptoJS.enc.Utf8.parse(word);
+    //let encrypted = CryptoJS.AES.encrypt(srcs, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+    //return encrypted.ciphertext.toString().toUpperCase();
+}

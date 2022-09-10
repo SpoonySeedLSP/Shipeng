@@ -15,7 +15,6 @@ using Abp.Extensions;
 using System;
 using PearAdmin.AbpTemplate.Core.Authorization;
 using Abp.Timing;
-using System.Security.Claims;
 using Abp.UI;
 
 namespace PearAdmin.AbpTemplate.Authorization
@@ -59,6 +58,62 @@ namespace PearAdmin.AbpTemplate.Authorization
             _tenantRepository = tenantRepository;
             _userManager = userManager;
             _userStore = userStore;
+        }
+
+        /// <summary>
+        /// 自定义登录
+        /// </summary>
+        /// <param name="account">账号、手机号、身份证号</param>
+        /// <param name="password">明文密码</param>
+        /// <returns></returns>
+        [UnitOfWork]
+        public virtual async Task<AbpLoginResult<Tenant, User>> LoginCustomAsync(string account, string password)
+        {
+            var result = await LoginCustomAsyncInternal(account, password);
+
+            //保存用户尝试登录的记录
+            await SaveLoginAttemptAsync(result, null, account);
+            return result;
+        }
+
+        protected virtual async Task<AbpLoginResult<Tenant, User>> LoginCustomAsyncInternal(string account, string password)
+        {
+            if (account.IsNullOrEmpty() || password.IsNullOrEmpty())
+            {
+                throw new ArgumentException("帐号或密码为空");
+            }
+
+            //不启用租户，获取默认租户
+            Tenant tenant = await GetDefaultTenantAsync();
+
+            int? tenantId = tenant?.Id;
+            using (UnitOfWorkManager.Current.SetTenantId(tenantId))
+            {
+                //根据用户名获取用户信息
+                var user = await _userStore.FindByAccountAsync(account);
+                if (user == null)
+                {
+                    return new AbpLoginResult<Tenant, User>(AbpLoginResultType.UnknownExternalLogin, tenant);
+                }
+
+                //验证用户的密码是否正确
+                var verificationResult = _userManager.PasswordHasher.VerifyHashedPassword(user, user.Password, password);
+                if (verificationResult != PasswordVerificationResult.Success)
+                {
+                    if (await TryLockOutAsync(tenantId, user.Id))
+                    {
+                        return new AbpLoginResult<Tenant, User>(AbpLoginResultType.LockedOut, tenant, user);
+                    }
+
+                    return new AbpLoginResult<Tenant, User>(AbpLoginResultType.InvalidPassword, tenant, user);
+                }
+
+                //重置用户登录失败次数
+                await _userManager.ResetAccessFailedCountAsync(user);
+
+                //生成登录结果
+                return await CreateLoginResultAsync(user, tenant);
+            }
         }
 
         #region 通过手机异步登录

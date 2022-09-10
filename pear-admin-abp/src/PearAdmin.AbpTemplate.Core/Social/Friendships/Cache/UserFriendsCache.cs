@@ -11,6 +11,9 @@ using PearAdmin.AbpTemplate.Social.Chat;
 
 namespace PearAdmin.AbpTemplate.Social.Friendships.Cache
 {
+    /// <summary>
+    /// 用户朋友缓存
+    /// </summary>
     public class UserFriendsCache : IUserFriendsCache, ISingletonDependency
     {
         private readonly ICacheManager _cacheManager;

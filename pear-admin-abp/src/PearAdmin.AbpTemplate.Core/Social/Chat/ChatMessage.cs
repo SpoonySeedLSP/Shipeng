@@ -6,6 +6,9 @@ using Abp.Timing;
 
 namespace PearAdmin.AbpTemplate.Social.Chat
 {
+    /// <summary>
+    /// 聊天信息
+    /// </summary>
     public class ChatMessage : AggregateRoot<long>, IHasCreationTime, IMayHaveTenant
     {
         public const int MaxMessageLength = 4 * 1024; //4KB

@@ -1586,12 +1586,283 @@ namespace PearAdmin.AbpTemplate.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Common_BinaryObject", (string)null);
+                });
+
+            modelBuilder.Entity("PearAdmin.AbpTemplate.Business.Enterprise.EnterpriseEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("BusinessTerm")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyInformation")
+                        .HasMaxLength(98304)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyProfile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContributedCapital")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreditCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EachDistrict")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EnterpriseType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("HostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Industry")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LegalRepresentative")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QualificationTaxpayer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegisterDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RegisteredCapital")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegisteredCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegistrationAuthority")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegistrationStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ScopeBusiness")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TaxpayerIdentificationNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Business_Enterprise", (string)null);
+                });
+
+            modelBuilder.Entity("PearAdmin.AbpTemplate.Business.FileManage.FileArticleContentEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("ArticleContent")
+                        .HasMaxLength(245760)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ClassifyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("EnterpriseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("FileManageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("HostId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Business_FileArticleContent", (string)null);
+                });
+
+            modelBuilder.Entity("PearAdmin.AbpTemplate.Business.FileManage.FileListsEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<byte[]>("Bytes")
+                        .HasMaxLength(245760)
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<long>("ClassifyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DirectoryPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("EnterpriseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("FileManageId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FinalyFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("HostId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StorageFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Business_FileLists", (string)null);
+                });
+
+            modelBuilder.Entity("PearAdmin.AbpTemplate.Business.FileManage.FileManageEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("ClassifyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Describe")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<long>("EnterpriseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("FilePublicType")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HostId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("OrganizationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Viewed")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Business_FileManage", (string)null);
                 });
 
             modelBuilder.Entity("PearAdmin.AbpTemplate.MultiTenancy.Tenant", b =>
@@ -1672,6 +1943,16 @@ namespace PearAdmin.AbpTemplate.EntityFrameworkCore.Migrations
                         .HasColumnType("nvarchar(5)");
 
                     b.Property<int>("DataDictionaryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Describe")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<long>("EnterpriseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int?>("HostId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")

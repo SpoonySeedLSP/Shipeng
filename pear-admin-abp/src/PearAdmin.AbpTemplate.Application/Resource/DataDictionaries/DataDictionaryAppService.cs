@@ -25,6 +25,10 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
         #endregion
 
         #region 数据字典
+        /// <summary>
+        /// 获取数据字典集合
+        /// </summary>
+        /// <returns></returns>
         public ListResultDto<DataDictionaryDto> GetAllDataDictionary()
         {
             var dataDictionaryTypes = Shared.Enumeration.GetAll<DataDictionaryType>();
@@ -41,6 +45,11 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
             return new ListResultDto<DataDictionaryDto>(dataDictionaryDtos);
         }
 
+        /// <summary>
+        /// 根据字典类型名称获取数据字典集合
+        /// </summary>
+        /// <param name="input">根据字典类型名称获取数据字典详细信息</param>
+        /// <returns></returns>
         public async Task<ListResultDto<DataDictionaryDto>> GetDataDictionaryListByTypeNames(GetDataDictionaryListByTypeNamesInput input)
         {
             var dataDictionaryDtos = new List<DataDictionaryDto>();
@@ -69,6 +78,11 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
         #endregion
 
         #region 数据字典项
+        /// <summary>
+        /// 获取数据字典列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<ListResultDto<DataDictionaryItemDto>> GetAllDataDictionaryItem(GetAllDataDictionaryItemInput input)
         {
             var items = await _dataDictionaryItemRepository.GetAll()
@@ -82,6 +96,11 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
             }).ToList());
         }
 
+        /// <summary>
+        /// 获取数据字典项
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task<DataDictionaryItemDto> GetDataDictionaryItemForEdit(NullableIdDto<int> input)
         {
             var output = new DataDictionaryItemDto();
@@ -95,6 +114,11 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
             return output;
         }
 
+        /// <summary>
+        /// 根据字典类型和字典项名称获取字典项值
+        /// </summary>
+        /// <param name="input">根据字典类型或业务代码获取字典项展示值</param>
+        /// <returns></returns>
         public async Task<GetDataDictionaryItemNameOutput> GetDataDictionaryItemName(GetDataDictionaryItemNameInput input)
         {
             var dataDictionaryType = Shared.Enumeration.FromName<DataDictionaryType>(input.TypeName);
@@ -109,6 +133,12 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
             };
         }
 
+        /// <summary>
+        /// 创建数据字典项
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="UserFriendlyException"></exception>
         [AbpAuthorize(AppPermissionNames.Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Create)]
         public async Task CreateDataDictionaryItem(CreateDataDictionaryItemDto input)
         {
@@ -122,12 +152,18 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
                 throw new UserFriendlyException(L("该字典名称已存在，无法添加"));
             }
 
-            var dataDictionaryItem = DataDictionaryItem.Builder(AbpSession.TenantId.Value, input.DataDictionaryId)
-                .SetNameAndCode(input.Name, input.Code);
+            var dataDictionaryItem = DataDictionaryItem.Builder(1, AbpSession.TenantId.Value, input.DataDictionaryId)
+                .SetNameAndCode(input.Name, input.Code,input.Describe);
 
             await _dataDictionaryItemRepository.InsertAsync(dataDictionaryItem);
         }
 
+        /// <summary>
+        /// 更新数据字典项
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="UserFriendlyException"></exception>
         [AbpAuthorize(AppPermissionNames.Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Update)]
         public async Task UpdateDataDictionaryItem(UpdateDataDictionaryItemDto input)
         {
@@ -139,11 +175,16 @@ namespace PearAdmin.AbpTemplate.Resource.DataDictionaries
                 throw new UserFriendlyException(L("该字典名称已存在，无法更新"));
             }
 
-            dataDictionaryItem.SetNameAndCode(input.Name, input.Code);
+            dataDictionaryItem.SetNameAndCode(input.Name, input.Code,input.Describe);
 
             await _dataDictionaryItemRepository.UpdateAsync(dataDictionaryItem);
         }
 
+        /// <summary>
+        /// 删除数据字典项
+        /// </summary>
+        /// <param name="inputs"></param>
+        /// <returns></returns>
         [AbpAuthorize(AppPermissionNames.Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Delete)]
         public async Task DeleteDataDictionaryItem(List<EntityDto<int>> inputs)
         {

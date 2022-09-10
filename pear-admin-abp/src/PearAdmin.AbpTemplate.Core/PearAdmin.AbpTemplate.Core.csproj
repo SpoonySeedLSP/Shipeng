@@ -26,7 +26,4 @@
   <ItemGroup>
     <ProjectReference Include="..\..\tool\PearAdmin.AbpTemplate.Shared\PearAdmin.AbpTemplate.Shared.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\" />
-  </ItemGroup>
 </Project>

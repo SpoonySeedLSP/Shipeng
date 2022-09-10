@@ -1,5 +1,8 @@
 ﻿namespace PearAdmin.AbpTemplate.MiniProgram.Enums
 {
+    /// <summary>
+    /// 请求错误状态枚举
+    /// </summary>
     public enum RequestErrorCodeEnum
     {
         Busy = -1,

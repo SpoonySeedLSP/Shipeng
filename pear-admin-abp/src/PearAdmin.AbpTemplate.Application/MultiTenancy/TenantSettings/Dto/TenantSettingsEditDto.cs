@@ -2,15 +2,24 @@
 {
     public class TenantSettingsEditDto
     {
+        /// <summary>
+        /// 通用设置
+        /// </summary>
         public GeneralSettingsEditDto General { get; set; }
 
+        /// <summary>
+        /// 租户邮箱设置
+        /// </summary>
         public TenantEmailSettingsEditDto Email { get; set; }
 
+        /// <summary>
+        /// 公司设置
+        /// </summary>
         public CompanySettingsEditDto CompanySettings { get; set; }
 
         /// <summary>
-        /// This validation is done for single-tenant applications.
-        /// Because, these settings can only be set by tenant in a single-tenant application.
+        /// 这种验证是针对单租户应用程序进行的
+        /// 因为，在单租户应用程序中，这些设置只能由租户设置
         /// </summary>
         public void ValidateHostSettings()
         {

@@ -3,7 +3,7 @@
     public static class AppPermissionNames
     {
         #region GlobalPermission
-        public const string Pages = "Pages";
+        public const string Pages = "系统";
         #endregion
 
         #region SystemManagement
@@ -34,7 +34,7 @@
 
         public const string Pages_SystemManagement_AuditLogs = "审计日志";
 
-        public const string Pages_SystemManagement_Editions = "版本";
+        public const string Pages_SystemManagement_Editions = "版本管理";
         public const string Pages_SystemManagement_Editions_Create = "添加版本";
         public const string Pages_SystemManagement_Editions_Update = "修改版本";
         public const string Pages_SystemManagement_Editions_Delete = "删除版本";
@@ -43,25 +43,25 @@
         public const string Pages_SystemManagement_Tenants_ChangeTenantEdition = "修改租户版本";
 
         public const string Pages_SystemManagement_TenantSettings = "租户设置";
-        public const string Pages_SystemManagement_HostSettings = "主机设置";
+        public const string Pages_SystemManagement_HostSettings = "宿主设置";
 
-        public const string Pages_SystemManagement_Maintenance = "Pages.SystemManagement.Maintenance";
-        public const string Pages_SystemManagement_Maintenance_Logs = "Pages.SystemManagement.Maintenance.Logs";
-        public const string Pages_SystemManagement_Maintenance_Logs_DownLoad = "Pages.SystemManagement.Maintenance.Logs.DownLoad";
-        public const string Pages_SystemManagement_Maintenance_Logs_Refresh = "Pages.SystemManagement.Maintenance.Logs.Refresh";
+        public const string Pages_SystemManagement_Maintenance = "系统维护";
+        public const string Pages_SystemManagement_Maintenance_Logs = "系统维护日志";
+        public const string Pages_SystemManagement_Maintenance_Logs_DownLoad = "系统维护日志下载";
+        public const string Pages_SystemManagement_Maintenance_Logs_Refresh = "系统维护日志刷新";
 
         public const string Pages_SystemManagement_HangfireDashboard = "Pages.SystemManagement.HangfireDashboard";
-        public const string Pages_SystemManagement_LogDashboard = "Pages.SystemManagement.LogDashboard";
+        public const string Pages_SystemManagement_LogDashboard = "日志仪表板";
         #endregion
 
         #region ResourceManagement
-        public const string Pages_ResourceManagement = "Pages.ResourceManagement";
+        public const string Pages_ResourceManagement = "资源管理";
 
-        public const string Pages_ResourceManagement_DataDictionary = "Pages.ResourceManagement.DataDictionary";
-        public const string Pages_ResourceManagement_DataDictionary_DataDictionaryItem = "Pages.ResourceManagement.DataDictionary.DataDictionaryItem";
-        public const string Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Create = "Pages.ResourceManagement.DataDictionary.DataDictionaryItem.Create";
-        public const string Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Update = "Pages.ResourceManagement.DataDictionary.DataDictionaryItem.Update";
-        public const string Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Delete = "Pages.ResourceManagement.DataDictionary.DataDictionaryItem.Delete";
+        public const string Pages_ResourceManagement_DataDictionary = "数据字典";
+        public const string Pages_ResourceManagement_DataDictionary_DataDictionaryItem = "字典项";
+        public const string Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Create = "添加字典项";
+        public const string Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Update = "修改字典项";
+        public const string Pages_ResourceManagement_DataDictionary_DataDictionaryItem_Delete = "删除字典项";
         #endregion
 
         #region TaskCenter

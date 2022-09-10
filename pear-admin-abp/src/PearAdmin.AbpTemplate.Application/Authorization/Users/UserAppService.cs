@@ -149,6 +149,20 @@ namespace PearAdmin.AbpTemplate.Authorization.Users
         }
 
         /// <summary>
+        /// 根据用户id集合获取用户信息数据
+        /// </summary>
+        /// <param name="userIds">用户id集合</param>
+        /// <returns></returns>
+        public async Task<List<UserDto>> GetUserListByIdsAsync(List<long> userIds)
+        {
+            var query = UserManager.Users.WhereIf(userIds != null && userIds.Count > 0, r => userIds.Contains(r.Id));
+            if (query == null || query.Count() <= 0) return null;
+            var items = await query.ToListAsync();
+            var userDtos = ObjectMapper.Map<List<UserDto>>(items);
+            return userDtos;
+        }
+
+        /// <summary>
         /// 添加用户信息
         /// </summary>
         /// <param name="input"></param>

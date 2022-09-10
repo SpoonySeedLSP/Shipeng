@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PearAdmin.AbpTemplate.EntityFrameworkCore.Seed.Common
 {
+    /// <summary>
+    /// 默认设置的创造者
+    /// </summary>
     public class DefaultSettingsCreator
     {
         private readonly AbpTemplateDbContext _context;

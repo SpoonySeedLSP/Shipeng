@@ -37,6 +37,19 @@ namespace PearAdmin.AbpTemplate.Authorization.Users
             _unitOfWorkManager = unitOfWorkManager;
         }
 
+        /// <summary>
+        /// 根据账号获取用户
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public virtual async Task<User> FindByAccountAsync(string account)
+        {
+            account = account.ToLower();
+            return await _userRepository.FirstOrDefaultAsync(
+                user => user.UserName.ToLower() == account
+            );
+        }
+
         #region 通过手机号查询用户方法
         /// <summary>
         /// 通过手机号查询用户
