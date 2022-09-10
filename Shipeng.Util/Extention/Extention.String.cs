@@ -229,13 +229,13 @@ namespace Shipeng.Util
             return jsonStr == null ? null : JsonConvert.DeserializeObject<DataTable>(jsonStr);
         }
 
-        public static bool IsEmpty(this string v)
-        {
-            if (v == null || v == "" || v.Equals(""))
-                return true;
-            else
-                return false;
-        }
+        //public static bool IsEmpty(this string v)
+        //{
+        //    if (v == null || v == "" || v.Equals(""))
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         public static string ToStr(this object v)
         {
@@ -252,10 +252,10 @@ namespace Shipeng.Util
             return (v == null || v.ToString() == "") ? 0 : Convert.ToInt32(v.ToString());
         }
 
-        public static decimal ToDecimal(this object v)
-        {
-            return (v == null || v.ToString() == "") ? 0 : Convert.ToDecimal(v.ToString());
-        }
+        //public static decimal ToDecimal(this object v)
+        //{
+        //    return (v == null || v.ToString() == "") ? 0 : Convert.ToDecimal(v.ToString());
+        //}
 
         public static List<string> ReplaceSQLChar(this List<string> list)
         {

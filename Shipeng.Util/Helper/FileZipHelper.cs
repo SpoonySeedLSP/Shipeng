@@ -321,7 +321,7 @@ namespace Shipeng.Util
                     if (streams.ContainsKey(newFileName)) newFileName = newFileName.Split('.')[0] + "(1)" + newFileName.Split('.')[1];
                     streams.Add(newFileName, FileHelper.FileToStream(path));
                 }
-                Stream zipStream = PackageManyZip(streams);
+                Stream zipStream = FileZipHelper.PackageManyZip(streams);
                 FileHelper.StreamToFile(zipStream, zipPath);//将Stream写入文件
                 return true;
             }

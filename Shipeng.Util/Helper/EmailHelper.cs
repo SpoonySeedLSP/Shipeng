@@ -92,7 +92,7 @@ namespace Shipeng.Util
                         });
                     }
                     message.Body = multipart;
-                    using SmtpClient client = new SmtpClient();
+                    using MailKit.Net.Smtp.SmtpClient client = new MailKit.Net.Smtp.SmtpClient();
                     client.Connect(SmtpHost, SmtpPort, false);
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
                     client.Authenticate(SendAccountName, AuthenticatePassword);
@@ -258,7 +258,7 @@ namespace Shipeng.Util
                 //取得Web根目录和内容根目录的物理路径
                 string webRootPath = string.Empty;
                 //实例化一个Smtp客户端
-                SmtpClient smtp = new SmtpClient();
+                System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();
                 //将发件人的邮件地址和客户端授权码带入以验证发件人身份
                 smtp.Credentials = new NetworkCredential(mails.fromPerson, mails.code);
                 //指定SMTP邮件服务器
