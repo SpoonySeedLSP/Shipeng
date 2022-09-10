@@ -5,6 +5,7 @@ namespace Shipeng.Util
 {
     /// <summary>
     /// 文件操作帮助类
+    /// Author:李仕鹏
     /// </summary>
     public class FileHelper
     {
@@ -155,7 +156,7 @@ namespace Shipeng.Util
 
 
 
-        #region
+        #region 文件相关辅助方法
         public static string MapPath(string path)
         {
             try
@@ -567,6 +568,64 @@ namespace Shipeng.Util
         }
         #endregion
 
+        #region 直接删除指定目录下的所有文件及文件夹(保留目录)
+        /// <summary>
+        /// 直接删除指定目录下的所有文件及文件夹(保留目录)
+        /// </summary>
+        /// <param name="file"></param>
+        public static void DeleteDir(string file)
+        {
+            try
+            {
+                //去除文件夹和子文件的只读属性
+                //去除文件夹的只读属性
+                DirectoryInfo fileInfo = new DirectoryInfo(file);
+                fileInfo.Attributes = FileAttributes.Normal & FileAttributes.Directory;
+                //去除文件的只读属性
+                File.SetAttributes(file, FileAttributes.Normal);
+                //判断文件夹是否还存在
+                if (Directory.Exists(file))
+                {
+                    foreach (string f in Directory.GetFileSystemEntries(file))
+                    {
+                        if (File.Exists(f))
+                        {
+                            //如果有子文件删除文件
+                            File.Delete(f);
+                        }
+                        else
+                        {
+                            //循环递归删除子文件夹
+                            DeleteDir(f);
+                        }
+                    }
+                    //删除空文件夹
+                    Directory.Delete(file);
+                }
+            }
+            catch (Exception ex) // 异常处理
+            {
+                Console.WriteLine(ex.Message.ToString());// 异常信息
+            }
+        }
+        #endregion
+
+        #region 删除文件夹下的所有文件
+        /// <summary>
+        /// 删除文件夹下的所有文件
+        /// </summary>
+        /// <param name="dirRoot"></param>
+        public static void DeleteDirAllFile(string dirRoot)
+        {
+            DirectoryInfo aDirectoryInfo = new DirectoryInfo(Path.GetDirectoryName(dirRoot));
+            FileInfo[] files = aDirectoryInfo.GetFiles("*.*", SearchOption.AllDirectories);
+            foreach (FileInfo f in files)
+            {
+                File.Delete(f.FullName);
+            }
+        }
+        #endregion
+
         #region  剪切  粘贴
         /// <summary>
         /// 剪切文件
@@ -733,6 +792,47 @@ namespace Shipeng.Util
                 m_strSize = (FactSize / 1024.00 / 1024.00 / 1024.00).ToString("F2") + " GB";
             return m_strSize;
         }
+
+        /// <summary>
+        /// 根据文件信息获取文件大小并以B，KB，GB，TB方式表示
+        /// </summary>
+        /// <param name="File">文件(FileInfo类型)</param>
+        /// <returns></returns>
+        public static string GetFileSizeByFileInfo(FileInfo File)
+        {
+            string Result = "";
+            long FileSize = File.Length;
+            if (FileSize >= 1024 * 1024 * 1024)
+            {
+                if (FileSize / 1024 * 1024 * 1024 * 1024 >= 1024) Result = string.Format("{0:############0.00} TB", (double)FileSize / 1024 * 1024 * 1024 * 1024);
+                else Result = string.Format("{0:####0.00} GB", (double)FileSize / (1024 * 1024 * 1024));
+            }
+            else if (FileSize >= 1024 * 1024) Result = string.Format("{0:####0.00} MB", (double)FileSize / (1024 * 1024));
+            else if (FileSize >= 1024) Result = string.Format("{0:####0.00} KB", (double)FileSize / 1024);
+            else Result = string.Format("{0:####0.00} Bytes", FileSize);
+            return Result;
+        }
+
+        /// <summary>
+        /// 根据文件地址获取文件大小并以B，KB，GB，TB方式表示
+        /// </summary>
+        /// <param name="FilePath">文件的具体路径</param>
+        /// <returns></returns>
+        public static string GetFileSizeByFilePath(string FilePath)
+        {
+            string Result = "";
+            FileInfo File = new FileInfo(FilePath);
+            long FileSize = File.Length;
+            if (FileSize >= 1024 * 1024 * 1024)
+            {
+                if (FileSize / 1024 * 1024 * 1024 * 1024 >= 1024) Result = string.Format("{0:########0.00} TB", (double)FileSize / 1024 * 1024 * 1024 * 1024);
+                else Result = string.Format("{0:####0.00} GB", (double)FileSize / (1024 * 1024 * 1024));
+            }
+            else if (FileSize >= 1024 * 1024) Result = string.Format("{0:####0.00} MB", (double)FileSize / (1024 * 1024));
+            else if (FileSize >= 1024) Result = string.Format("{0:####0.00} KB", (double)FileSize / 1024);
+            else Result = string.Format("{0:####0.00} Bytes", FileSize);
+            return Result;
+        }
         #endregion
 
         #region 将文件读取到字符串中
@@ -797,7 +897,158 @@ namespace Shipeng.Util
             string[] tempFileds = s.Trim().Split(separtor); return tempFileds;
         }
         #endregion
+
+        #region 文件转换成文件流
+        /// <summary>
+        /// 文件转换成文件流
+        /// </summary>
+        /// <param name="filePath">文件名</param>
+        /// <returns>文件流</returns>
+        public static Stream FileToStream(string filePath)
+        {
+            //打开文件
+            FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            // 读取文件Byte[]
+            byte[] bytes = new byte[fileStream.Length];
+            fileStream.Read(bytes, 0, bytes.Length);
+            fileStream.Close();
+            Stream stream = new MemoryStream(bytes);//byte[]转换为Stream
+            return stream;
+        }
         #endregion
+
+        #region 将byte数组转换为文件并保存到指定地址
+        /// <summary>
+        /// 将byte数组转换为文件并保存到指定地址
+        /// </summary>
+        /// <param name="buff">byte数组</param>
+        /// <param name="savepath">保存地址</param>
+        public static void BytesToFile(byte[] buff, string savepath)
+        {
+            if (File.Exists(savepath)) File.Delete(savepath);
+            FileStream fs = new FileStream(savepath, FileMode.CreateNew);
+            BinaryWriter bw = new BinaryWriter(fs);
+            bw.Write(buff, 0, buff.Length);
+            bw.Close();
+            fs.Close();
+        }
+        #endregion
+
+        #region 将文件转换为byte数组
+        /// <summary>
+        /// 将文件转换为byte数组
+        /// </summary>
+        /// <param name="path">文件地址</param>
+        /// <returns>转换后的byte数组</returns>
+        public static byte[] FileToBytes(string path)
+        {
+            if (!File.Exists(path)) return new byte[0];
+            FileInfo fi = new FileInfo(path);
+            byte[] buff = new byte[fi.Length];
+            FileStream fs = fi.OpenRead();
+            fs.Read(buff, 0, Convert.ToInt32(fs.Length));
+            fs.Close();
+            return buff;
+        }
+        #endregion
+
+        #region 将Stream转成byte[] 
+        /// <summary>
+        ///  将Stream转成byte[] 
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static byte[] StreamToBytes(Stream stream)
+
+        {
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+            //设置当前流的位置为流的开始 
+            stream.Seek(0, SeekOrigin.Begin);
+            return bytes;
+        }
+        #endregion
+
+        #region 将byte[]转成Stream
+        /// <summary>
+        ///将byte[]转成Stream 
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static Stream BytesToStream(byte[] bytes)
+        {
+            Stream stream = new MemoryStream(bytes);
+            return stream;
+        }
+        #endregion
+
+        #region 将流转换为字符串
+        /// <summary>
+        ///将流转换为字符串
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static string StreamToString(Stream stream)
+        {
+            stream.Position = 0;
+            StreamReader reader = new StreamReader(stream);
+            return reader.ReadToEnd();
+        }
+        #endregion
+
+        #region 将字符串转换为流
+        /// <summary>
+        /// 将字符串转换为流
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static Stream StringToStream(string str)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(str);
+            writer.Flush();
+            return stream;
+        }
+        #endregion
+
+        #region 将byte[]转成String
+        /// <summary>
+        /// 将byte[]转成String
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static string BytesToString(byte[] bytes)
+        {
+            UTF8Encoding encoding = new UTF8Encoding();
+            string str = encoding.GetString(bytes);
+            return str;
+        }
+        #endregion
+
+        #region 将Stream写入文件 
+        /// <summary>
+        ///将Stream写入文件 
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="fileName"></param>
+        public static void StreamToFile(Stream stream, string fileName)
+        {
+            // 把Stream转换成byte[] 
+            byte[] bytes = new byte[stream.Length];
+            stream.Read(bytes, 0, bytes.Length);
+            //设置当前流的位置为流的开始 
+            stream.Seek(0, SeekOrigin.Begin);
+            //把byte[]写入文件 
+            FileStream fs = new FileStream(fileName, FileMode.Create);
+            BinaryWriter bw = new BinaryWriter(fs);
+            bw.Write(bytes);
+            bw.Close();
+            fs.Close();
+        }
+        #endregion
+
+        #endregion 文件相关辅助方法
 
 
     }

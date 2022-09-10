@@ -1,10 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild><!--在构建时生成包-->
+		<Version>3.0.1</Version>
+		<Authors>李仕鹏</Authors>
+		<Product>Shipeng.Util</Product>
+		<PackageReleaseNotes>https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
+		<Copyright>lishipeng</Copyright><!--版权-->
+		<Description>LiShiPeng通用辅助工具，包含几乎所有常用工具类，如需详细了解请访问https://gitee.com/lsp5201314/shipeng-s</Description><!--描述-->
+		<ReleaseNotes>通用工具类</ReleaseNotes><!--发布说明-->
+	</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Aspose.Cells" Version="22.8.0" />
@@ -14,8 +22,10 @@
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
     <PackageReference Include="CSRedisCore" Version="3.8.3" />
     <PackageReference Include="DotNettySocket" Version="1.2.0" />
+    <PackageReference Include="DotNetZip" Version="1.16.0" />
     <PackageReference Include="EFCore.Sharding.PostgreSql" Version="6.0.7" />
     <PackageReference Include="EFCore.Sharding.SqlServer" Version="6.0.7" />
+    <PackageReference Include="EPPlus" Version="6.0.7" />
     <PackageReference Include="IdHelper.Zookeeper" Version="1.5.1" />
     <PackageReference Include="JPushSDK" Version="1.0.0" />
     <PackageReference Include="MailKit" Version="3.3.0" />
@@ -40,6 +50,7 @@
     <PackageReference Include="Quartz" Version="3.4.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
     <PackageReference Include="Serenity.Web" Version="3.14.5" />
+    <PackageReference Include="SharpCompress" Version="0.32.2" />
     <PackageReference Include="SqlSugarCore" Version="5.1.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />

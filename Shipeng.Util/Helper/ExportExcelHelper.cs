@@ -6,6 +6,10 @@ using System.ComponentModel;
 
 namespace Shipeng.Util
 {
+    /// <summary>
+    /// 基于NPOI的导出Excel帮助类
+    /// Author:李仕鹏
+    /// </summary>
     public static class ExportExcelHelper
     {
         /// <summary>
@@ -188,7 +192,12 @@ namespace Shipeng.Util
             return url;
         }
 
-        //获取实体类里面所有的名称、值、DESCRIPTION值
+        /// <summary>
+        /// 获取实体类里面所有的名称、值、DESCRIPTION值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public static List<ExportField> GetProperties<T>(T t)
         {
             string tStr = string.Empty;

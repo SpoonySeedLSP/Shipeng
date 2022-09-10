@@ -229,6 +229,99 @@ namespace Shipeng.Util
             return jsonStr == null ? null : JsonConvert.DeserializeObject<DataTable>(jsonStr);
         }
 
+        public static bool IsEmpty(this string v)
+        {
+            if (v == null || v == "" || v.Equals(""))
+                return true;
+            else
+                return false;
+        }
+
+        public static string ToStr(this object v)
+        {
+            return (v == null) ? "" : v.ToString();
+        }
+
+        public static string ToStr(this object v, string defaultValue)
+        {
+            return (v == null) ? defaultValue : v.ToString();
+        }
+
+        public static int ToInt(this object v)
+        {
+            return (v == null || v.ToString() == "") ? 0 : Convert.ToInt32(v.ToString());
+        }
+
+        public static decimal ToDecimal(this object v)
+        {
+            return (v == null || v.ToString() == "") ? 0 : Convert.ToDecimal(v.ToString());
+        }
+
+        public static List<string> ReplaceSQLChar(this List<string> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = list[i].ReplaceSQLChar();
+            }
+            return list;
+        }
+
+        public static string ReplaceSQLChar(this string str)
+        {
+            str = ((str == null) ? "" : str.ToString());
+            //str = str.Replace(" ", "");
+            str = str.Replace("\\s", "");
+            str = str.Replace("\n", "");
+            str = str.Replace("\b", "");
+            str = str.Replace("\f", "");
+            str = str.Replace("\r", "");
+            str = str.Replace("\t", "");
+            str = str.Replace("'", "");
+            str = str.Replace("\"", "");
+            str = str.Replace("?", "");
+            str = str.Replace("<", "");
+            str = str.Replace(">", "");
+            str = str.Replace("(", "");
+            str = str.Replace(")", "");
+            str = str.Replace("@", "");
+            str = str.Replace("*", "");
+            str = str.Replace("&", "");
+            str = str.Replace("#", "");
+            str = str.Replace("%", "");
+            str = str.Replace("$", "");
+            str = Regex.Replace(str, "script", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "select", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "from", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "table", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "insert", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "update", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "delete", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "drop", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "into", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "group", "", RegexOptions.IgnoreCase);
+            //str = Regex.Replace(str, "order", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "by", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "distinct", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "count", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "truncate", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "mid", "", RegexOptions.IgnoreCase);
+            //str = Regex.Replace(str, "char", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "xp_cmdshell", "", RegexOptions.IgnoreCase);
+            //str = Regex.Replace(str, "exec master", "", RegexOptions.IgnoreCase);
+            //str = Regex.Replace(str, "net localgroup administrators", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "where", "", RegexOptions.IgnoreCase);
+            //str = Regex.Replace(str, "and", "", RegexOptions.IgnoreCase);
+            //str = Regex.Replace(str, "net user", "", RegexOptions.IgnoreCase);
+            //str = Regex.Replace(str, "net", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "script", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "chr", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "master", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "truncate", "", RegexOptions.IgnoreCase);
+            //			str = Regex.Replace(str, "declare", "", RegexOptions.IgnoreCase);
+            //str = Regex.Replace(str, "limit", "", RegexOptions.IgnoreCase);
+            return str;
+        }
+
         /// <summary>
         /// 转换为日期格式
         /// </summary>
