@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Abp.AspNetCore;
+using Abp.AspNetCore.Configuration;
 using Abp.AspNetCore.SignalR;
 using Abp.Configuration.Startup;
 using Abp.Dependency;
@@ -64,6 +65,10 @@ namespace PearAdmin.AbpTemplate.Admin
 
             // 后台任务使用Hangfire
             Configuration.BackgroundJobs.UseHangfire();
+
+            //abp默认是不使用mvc的时间格式，所以直接在AddMvc修改DateFormatString是不会生效的，需要先启用mvc时间格式
+            Configuration.Modules.AbpAspNetCore().UseMvcDateTimeFormatForAppServices = true;
+
         }
 
         public override void Initialize()

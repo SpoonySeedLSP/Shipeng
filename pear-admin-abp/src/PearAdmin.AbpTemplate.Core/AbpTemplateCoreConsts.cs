@@ -22,6 +22,8 @@ namespace PearAdmin.AbpTemplate
         public const string TablePrefix_TaskCenter = "Center";
         public const string TablePrefix_Social = "Social";
         public const string TablePrefix_Common = "Common";
+        //业务表前缀
+        public const string DbTablePrefix = "Business";
 
         /// <summary>
         /// SimpleStringCipher解密/加密操作的默认密码短语

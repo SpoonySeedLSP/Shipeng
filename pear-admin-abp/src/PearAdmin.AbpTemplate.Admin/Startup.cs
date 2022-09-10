@@ -10,6 +10,7 @@ using Hangfire.MemoryStorage;
 using LogDashboard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -38,20 +39,40 @@ namespace PearAdmin.AbpTemplate.Admin
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            #region MVC
-            services.AddControllersWithViews(options =>
+            services.Configure<FormOptions>(options =>
             {
+                //限制为256MB
+                options.MultipartBodyLengthLimit = 268435456;
+            });
+
+            #region MVC
+            services.AddControllersWithViews(options =>//添加带视图的控制器
+            {
+                options.Filters.Add(typeof(AbpAuthorizationFilter));//权限过滤器
+                options.Filters.Add(typeof(AbpExceptionFilter));//异常拦截过滤器
+                //自动验证防伪令牌属性特性
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                //Abp自动验证防伪令牌特性
                 options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
             })
-                .AddRazorRuntimeCompilation()
+                .AddRazorRuntimeCompilation()//添加Razor运行时编译
                 .AddNewtonsoftJson(options =>
                 {
+                    //忽略循环引用
+                    //options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    //不使用驼峰样式的key  不更改元数据的key的大小写
+                    //options.SerializerSettings.ContractResolver = new DefaultContractResolver(); //NullToEmptyStringResolver();
+                    //定义时间格式
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                     options.SerializerSettings.ContractResolver = new AbpMvcContractResolver(IocManager.Instance)
                     {
                         NamingStrategy = new CamelCaseNamingStrategy()
                     };
                 });
+            services.Configure<MvcNewtonsoftJsonOptions>(options =>
+            {
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";//对类型为DateTime的生效
+            });
             #endregion
 
             #region Identity
@@ -86,13 +107,6 @@ namespace PearAdmin.AbpTemplate.Admin
             services.AddLogDashboard(options =>
             {
                 options.AddAuthorizationFilter(new AbpLogDashboardAuthorizationFilter(AppPermissionNames.Pages_SystemManagement_HangfireDashboard));
-            });
-            #endregion
-
-            #region Filter
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(AbpAuthorizationFilter));//权限过滤器
             });
             #endregion
 

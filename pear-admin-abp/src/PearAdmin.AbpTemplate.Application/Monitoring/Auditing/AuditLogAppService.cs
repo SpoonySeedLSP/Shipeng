@@ -93,6 +93,8 @@ namespace PearAdmin.AbpTemplate.Auditing
                 {
                     var auditLogListDto = ObjectMapper.Map<AuditLogListDto>(result.AuditLog);
                     auditLogListDto.UserName = result.User?.UserName;
+                    auditLogListDto.Name= result.User?.Name;
+                    auditLogListDto.PhoneNumber = result.User?.PhoneNumber;
                     auditLogListDto.ServiceName = _namespaceStripper.StripNameSpace(auditLogListDto.ServiceName);
                     return auditLogListDto;
                 }).ToList();
@@ -103,10 +105,12 @@ namespace PearAdmin.AbpTemplate.Auditing
             var query = from auditLog in _auditLogRepository.GetAll()
                         join user in _userRepository.GetAll() on auditLog.UserId equals user.Id into userJoin
                         from joinedUser in userJoin.DefaultIfEmpty()
-                        where auditLog.ExecutionTime >= input.StartDate && auditLog.ExecutionTime <= input.EndDate
+                        //where auditLog.ExecutionTime >= input.StartDate && auditLog.ExecutionTime <= input.EndDate
                         select new AuditLogAndUser { AuditLog = auditLog, User = joinedUser };
 
             query = query
+                .WhereIf(input.StartDate!=null,item=>item.AuditLog.ExecutionTime>= input.StartDate)
+                .WhereIf(input.EndDate != null, item => item.AuditLog.ExecutionTime <= input.EndDate)
                 .WhereIf(!input.UserName.IsNullOrWhiteSpace(), item => item.User.UserName.Contains(input.UserName))
                 .WhereIf(!input.ServiceName.IsNullOrWhiteSpace(), item => item.AuditLog.ServiceName.Contains(input.ServiceName))
                 .WhereIf(!input.MethodName.IsNullOrWhiteSpace(), item => item.AuditLog.MethodName.Contains(input.MethodName))

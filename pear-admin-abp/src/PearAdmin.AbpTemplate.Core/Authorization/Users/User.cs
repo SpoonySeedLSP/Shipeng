@@ -51,6 +51,6 @@ namespace PearAdmin.AbpTemplate.Authorization.Users
         /// <summary>
         /// 最后登录时间
         /// </summary>
-        public DateTime LastLoginTime { get; set; }
+        public DateTime? LastLoginTime { get; set; }
     }
 }

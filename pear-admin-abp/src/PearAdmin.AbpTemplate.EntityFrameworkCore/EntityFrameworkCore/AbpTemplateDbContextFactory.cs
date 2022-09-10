@@ -16,8 +16,12 @@ namespace PearAdmin.AbpTemplate.EntityFrameworkCore
         public AbpTemplateDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<AbpTemplateDbContext>();
-            var configuration = AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder(), Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), addUserSecrets: true);
-            AbpTemplateDbContextConfigurer.Configure(builder, configuration.GetConnectionString(AbpTemplateCoreConsts.ConnectionStringName));
+            //获取配置文件信息
+            var configuration = AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder(),
+                Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), addUserSecrets: true);
+            //通过连接字符串切换对应的数据库，ConnectionStringName默认为Default
+            AbpTemplateDbContextConfigurer.Configure(builder, configuration
+                .GetConnectionString(AbpTemplateCoreConsts.ConnectionStringName));
 
             return new AbpTemplateDbContext(builder.Options);
         }

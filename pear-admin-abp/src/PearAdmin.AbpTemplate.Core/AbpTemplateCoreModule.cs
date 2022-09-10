@@ -69,6 +69,8 @@ namespace PearAdmin.AbpTemplate
             IocManager.RegisterIfNot<IChatCommunicator, NullChatCommunicator>();
             IocManager.Resolve<ChatUserStateWatcher>().Initialize();
             IocManager.Resolve<AppTimes>().StartupTime = Clock.Now;
+            //使用IocManager注入IAbpTemplateSqlExecuter
+            IocManager.Resolve<IAbpTemplateSqlExecuter>();
         }
 
         public override void Shutdown()

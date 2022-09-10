@@ -2,8 +2,8 @@
 @using PearAdmin.AbpTemplate.Authorization
 @{
     ViewBag.CurrentPageName = AbpTemplatePageName.AuditLogs;
-    var startDate = DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd");
-    var endDate = DateTime.Now.AddDays(+1).ToString("yyyy-MM-dd");
+    var startDate = DateTime.Now.AddDays(-6).ToString("yyyy-MM-dd HH:mm:ss");
+    var endDate = DateTime.Now.AddDays(+1).ToString("yyyy-MM-dd HH:mm:ss");
 }
 
 <div class="layui-card">
@@ -16,11 +16,11 @@
                 </div>
                 <label class="layui-form-label">开始日期</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="startDate" id="startDate" lay-verify="date" placeholder="请选择开始日期" autocomplete="off" class="layui-input">
+                    <input type="text" name="startDate" id="startDate" lay-verify="datetime" placeholder="请选择开始日期" autocomplete="off" class="layui-input">
                 </div>
                 <label class="layui-form-label">截止日期</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="endDate" id="endDate" lay-verify="date" placeholder="请选择截止日期" autocomplete="off" class="layui-input">
+                    <input type="text" name="endDate" id="endDate" lay-verify="datetime" placeholder="请选择截止日期" autocomplete="off" class="layui-input">
                 </div>
                 <button class="pear-btn pear-btn-md pear-btn-primary" lay-submit lay-filter="auditlog-query">
                     <i class="layui-icon layui-icon-search"></i>
@@ -44,9 +44,20 @@
 <script type="text/html" id="auditlog-executionTime">
     {{layui.util.toDateString(d.executionTime, 'yyyy-MM-dd HH:mm:ss')}}
 </script>
+<script type="text/html" id="auditlog-serviceName">
+    {{
+        var int=document.querySelector('.int');
+        var string=int.value;
+    }}
+</script>
 
 @section scripts{
-    <script type="text/javascript">
+    <script type="text/javascript">      
+       function getServiceName(d) {
+           return d.serviceName.split('Controller')[0];
+        }
+
+
         layui.use(['abp', 'laydate', 'form', 'table'], function () {
             var $ = layui.$;
             var abp = layui.abp;
@@ -56,13 +67,31 @@
 
             //开始日期
             laydate.render({
-                elem: '#startDate',
+                elem: '#startDate',//需显示日期的元素选择器
+                type:'datetime',
+                //event: 'click', //触发事件
+                format: 'yyyy-MM-dd HH:mm:ss', //日期格式
+                istime: true, //是否开启时间选择
                 value: '@startDate'
+                //isclear: true, //是否显示清空
+                //istoday: true, //是否显示今天
+                //issure: true, //是否显示确认
+                //festival: true //是否显示节日
+                //min: '1900-01-01 00:00:00', //最小日期
+                //max: '2099-12-31 23:59:59', //最大日期
+                //start: '2014-6-15 23:00:00',  //开始日期
+                //fixed: false, //是否固定在可视区域
+                //zIndex: 99999999, //css z-index
+                //choose: function(dates){ //选择好日期的回调
+                
             });
 
             //截止日期
             laydate.render({
                 elem: '#endDate',
+                type:'datetime',
+                format: 'yyyy-MM-dd HH:mm:ss', //日期格式
+                istime: true, //是否开启时间选择
                 value: '@endDate'
             });
             form.render();
@@ -99,12 +128,18 @@
                 },
 		        cols: [
 		            [
-		                {title: 'ID', field: 'id', align:'center', width:100},
-		                {title: '控制器', field: 'serviceName', align:'center', width:250},
-		                {title: '方法', field: 'methodName', align:'center', width:200},
-		                {title: '参数', field: 'parameters', align:'center'},
+                        {type: 'numbers', title: '序号', width: 40, fixed: 'left'},//序号列
+                        {title: '访问人', field: 'name', align:'center',width:100},
+                        {title: '登录账号', field: 'userName', align:'center',width:100},
+                        {title: '联系电话', field: 'phoneNumber', align:'center',width:100},
+                        {title: '客户端Ip地址', field: 'clientIpAddress', align:'center',width:100},
+		                {title: '控制器', field: 'serviceName', align:'center', width:120,templet:function (d) { return getServiceName(d) }},
+		                {title: '方法', field: 'methodName', align:'center', width:120},
+		                {title: '参数', field: 'parameters', align:'center',width:200},
 					    {title: '执行时间', field: 'executionTime', align:'center',width:200, templet:"#auditlog-executionTime"},
 					    {title: '执行耗时', field: 'executionDuration', align:'center',width:100},
+                        {title: '异常消息', field: 'exceptionMessage', align:'center',width:200},
+                        {title: '异常', field: 'exception', align:'center',width:250}
 		            ]
 		        ],
 		        skin: 'line',

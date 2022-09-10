@@ -37,6 +37,7 @@ namespace PearAdmin.AbpTemplate.Admin.Controllers
         public async Task<JsonResult> GetAuditLogList(GetPagedAuditLogViewModel viewModel)
         {
             var input = PagedViewModelMapToPagedInputDto<GetPagedAuditLogViewModel, GetPagedAuditLogsInput>(viewModel);
+            input.Normalize();
             var pagedAuditLogList = await _auditLogAppService.GetAuditLogList(input);
 
             return Json(new ResponseParamPagedViewModel<AuditLogListDto>(pagedAuditLogList.TotalCount, pagedAuditLogList.Items));
