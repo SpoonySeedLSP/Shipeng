@@ -64,7 +64,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
     <PackageReference Include="Quartz" Version="3.4.0" />
     <PackageReference Include="Quartz.Serialization.Json" Version="3.4.0" />
-    <PackageReference Include="SqlSugarCore" Version="5.1.2.3" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.2.7" />
     <PackageReference Include="System.DirectoryServices.Protocols" Version="6.0.1" />
   </ItemGroup>
 

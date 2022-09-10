@@ -247,10 +247,10 @@ namespace Shipeng.Util
             return (v == null) ? defaultValue : v.ToString();
         }
 
-        public static int ToInt(this object v)
-        {
-            return (v == null || v.ToString() == "") ? 0 : Convert.ToInt32(v.ToString());
-        }
+        //public static int ToInt(this object v)
+        //{
+        //    return (v == null || v.ToString() == "") ? 0 : Convert.ToInt32(v.ToString());
+        //}
 
         //public static decimal ToDecimal(this object v)
         //{
