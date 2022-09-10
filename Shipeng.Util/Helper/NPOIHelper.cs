@@ -352,7 +352,7 @@ namespace Shipeng.Util.Helper
             byte[] buffer = new byte[1024 * 2];
             using (MemoryStream ms = new MemoryStream())
             {
-                workbook.Write(ms);
+                workbook.Write(ms,true);
                 buffer = ms.GetBuffer();
                 ms.Close();
             }
@@ -452,7 +452,7 @@ namespace Shipeng.Util.Helper
             byte[] buffer = new byte[1024 * 1000];
             using (MemoryStream ms = new MemoryStream())
             {
-                workbook.Write(ms);
+                workbook.Write(ms,true);
                 buffer = ms.GetBuffer();
                 ms.Close();
             }
@@ -914,7 +914,7 @@ namespace Shipeng.Util.Helper
                 readfile.Close();
 
                 FileStream writefile = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write);
-                hssfworkbook.Write(writefile);
+                hssfworkbook.Write(writefile,true);
                 writefile.Close();
             }
             catch (Exception)
@@ -964,7 +964,7 @@ namespace Shipeng.Util.Helper
             {
                 //readfile.Close();
                 FileStream writefile = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write);
-                hssfworkbook.Write(writefile);
+                hssfworkbook.Write(writefile,true);
                 writefile.Close();
             }
             catch (Exception)

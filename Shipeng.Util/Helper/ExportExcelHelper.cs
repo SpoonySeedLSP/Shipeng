@@ -316,7 +316,7 @@ namespace Shipeng.Util
             byte[] buffer = new byte[1024 * 1000];
             using (MemoryStream ms = new())
             {
-                workbook.Write(ms);
+                workbook.Write(ms,true);
                 buffer = ms.GetBuffer();
                 ms.Close();
             }
