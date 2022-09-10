@@ -5,19 +5,19 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild><!--在构建时生成包-->
-		<Version>3.1.1</Version>
+		<Version>3.1.2</Version>
 		<Authors>李仕鹏</Authors>
 		<Product>Shipeng.Util</Product>
-		<PackageReleaseNotes>升级包 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
+		<PackageReleaseNotes>AutoMapper为了兼容abp框架改用Abp.AutoMapper升级包 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
 		<Copyright>lishipeng</Copyright><!--版权-->
 		<Description>LiShiPeng通用辅助工具，包含几乎所有常用工具类，如需详细了解请访问https://gitee.com/lsp5201314/shipeng-s</Description><!--描述-->
 		<ReleaseNotes>通用工具类</ReleaseNotes><!--发布说明-->
 	</PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Abp.AutoMapper" Version="7.3.0" />
     <PackageReference Include="Aspose.Cells" Version="22.9.0" />
     <PackageReference Include="Autofac" Version="6.4.0" />
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Caching.CSRedis" Version="3.8.668" />
     <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
     <PackageReference Include="CSRedisCore" Version="3.8.668" />
