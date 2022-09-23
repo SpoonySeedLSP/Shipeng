@@ -1,5 +1,13 @@
-﻿namespace Shipeng.Util
+﻿using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Reflection;
+
+namespace Shipeng.Util
 {
+    /// <summary>
+    /// 枚举工具类
+    /// Author:李仕鹏
+    /// </summary>
     public static class EnumHelper
     {
         /// <summary>
@@ -24,10 +32,69 @@
         }
 
         /// <summary>
+        /// 根据枚举类型得到其所有的 值 与 枚举定义Description属性 的集合  
+        /// </summary>
+        /// <param name="enumType">枚举类型</param>
+        /// <returns></returns>
+        public static NameValueCollection GetNVCFromEnumValue(Type enumType)
+        {
+            try
+            {
+                NameValueCollection nvc = new NameValueCollection();
+                Type typeDescription = typeof(DescriptionAttribute);
+                FieldInfo[] fields = enumType.GetFields();
+                string strText = string.Empty;
+                string strValue = string.Empty;
+                foreach (FieldInfo field in fields)
+                {
+                    if (field.FieldType.IsEnum)
+                    {
+                        strValue = ((int)enumType.InvokeMember(field.Name, BindingFlags.GetField, null, null, null)).ToString();
+                        object[] arr = field.GetCustomAttributes(typeDescription, true);
+                        if (arr.Length > 0)
+                        {
+                            DescriptionAttribute aa = (DescriptionAttribute)arr[0];
+                            strText = aa.Description;
+                        }
+                        else
+                        {
+                            strText = "";
+                        }
+                        nvc.Add(strValue, strText);
+                    }
+                }
+                return nvc;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"根据枚举类型得到其所有的值与枚举定义Description属性的集合发生异常：{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 根据枚举值得到属性Description中的描述, 如果没有定义此属性则返回空串 
+        /// </summary>
+        /// <param name="value">枚举值</param>
+        /// <param name="enumType">枚举类型</param>
+        /// <returns></returns>
+        public static string GetEnumDescriptionString(int value, Type enumType)
+        {
+            try
+            {
+                NameValueCollection nvc = GetNVCFromEnumValue(enumType);
+                return nvc[value.ToString()];
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"根据枚举值得到属性Description中的描述发生异常：{ex.Message}");
+            }
+        }       
+
+        /// <summary>
         /// 多选枚举转为对应文本,逗号隔开
         /// </summary>
-        /// <param name="values"> 多个值 </param>
-        /// <param name="enumType"> 枚举类型 </param>
+        /// <param name="values">多个值</param>
+        /// <param name="enumType">枚举类型</param>
         /// <returns> </returns>
         public static string ToMultipleText(List<int> values, Type enumType)
         {
@@ -164,5 +231,80 @@
             }
             return list;
         }
+
+        /// <summary>
+        /// 获取枚举项列表
+        /// </summary>
+        /// <typeparam name="TEnum">枚举类型</typeparam>
+        /// <param name="enumObj">枚举项</param>
+        /// <param name="markCurrentAsSelected">是否选中当前枚举项</param>
+        /// <param name="valuesToExclude">不包含的枚举项</param>
+        /// <returns>通用枚举列表</returns>
+        public static IList<EnumNode> ToSelectList<TEnum>(this TEnum enumObj,
+           bool markCurrentAsSelected = true, int[] valuesToExclude = null) where TEnum : struct
+        {
+            IList<EnumNode> values = new List<EnumNode>();
+            if (!typeof(TEnum).IsEnum) throw new ArgumentException("枚举类型是必需的", "enumObj");
+            var enums = from TEnum enumValue in System.Enum.GetValues(typeof(TEnum))
+                        where valuesToExclude == null || !valuesToExclude.Contains(Convert.ToInt32(enumValue))
+                        select enumValue;
+            foreach (var enumValue in enums)
+            {
+                var value = new EnumNode
+                {
+                    Id = Convert.ToInt32(enumValue),
+                    Value = enumValue.ToString(),
+                    Name = enumValue.ToString()
+                };
+                FieldInfo field = typeof(TEnum).GetField(enumValue.ToString());
+                if (field != null)
+                {
+                    var attrs = field.GetCustomAttributes();
+                    foreach (var attr in attrs)
+                    {
+                        var propertyName = attr.GetType().GetProperty("Name");
+                        if (propertyName != null)
+                        {
+                            value.Name = propertyName.GetValue(attr).ToString();
+                        }
+                    }
+                }
+                if (markCurrentAsSelected && Convert.ToInt32(enumObj) == value.Id)
+                {
+                    value.Selected = true;
+                }
+                values.Add(value);
+            }
+            return values;
+        }
+
     }
+
+
+    /// <summary>
+    /// 枚举通用类
+    /// </summary>
+    public class EnumNode
+    {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// 文本值
+        /// </summary>
+        public string Value { get; set; }
+
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 是否选中
+        /// </summary>
+        public bool Selected { get; set; }
+    }
+
 }

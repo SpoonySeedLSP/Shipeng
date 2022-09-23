@@ -6,6 +6,7 @@ namespace Shipeng.Util
 {
     /// <summary>
     /// 拓展类
+    /// Author:李仕鹏
     /// </summary>
     public static partial class Extention
     {

@@ -8,7 +8,7 @@
 		<Version>3.1.3</Version>
 		<Authors>李仕鹏</Authors>
 		<Product>Shipeng.Util</Product>
-		<PackageReleaseNotes>增加.net minio 帮助类MinioHelper https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
+		<PackageReleaseNotes>增加Memory缓存帮助类、Mongo db的数据库帮助类、.NET Core Redis帮助类五大类型实现 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
 		<Copyright>lishipeng</Copyright><!--版权-->
 		<Description>LiShiPeng通用辅助工具，包含几乎所有常用工具类，如需详细了解请访问https://gitee.com/lsp5201314/shipeng-s</Description><!--描述-->
 		<ReleaseNotes>通用工具类</ReleaseNotes><!--发布说明-->
@@ -41,6 +41,9 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="7.0.0-preview.7.22375.6" />
     <PackageReference Include="Minio" Version="4.0.5" />
     <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.22" />
+    <PackageReference Include="mongocsharpdriver" Version="2.17.1" />
+    <PackageReference Include="MongoDB.Bson" Version="2.17.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.17.1" />
     <PackageReference Include="MySqlConnector" Version="2.1.13" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
     <PackageReference Include="NodaTime" Version="3.1.2" />
@@ -52,6 +55,7 @@
     <PackageReference Include="Quartz" Version="3.4.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
     <PackageReference Include="Serenity.Web" Version="3.14.5" />
+    <PackageReference Include="ServiceStack.Redis" Version="6.3.0" />
     <PackageReference Include="SharpCompress" Version="0.32.2" />
     <PackageReference Include="SqlSugar.IOC" Version="1.9.0" />
     <PackageReference Include="SqlSugarCore" Version="5.1.2.7" />

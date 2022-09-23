@@ -6,7 +6,8 @@ using System.Text.RegularExpressions;
 namespace Shipeng.Util
 {
     /// <summary>
-    /// 缓存帮助类
+    /// Memory缓存帮助类
+    /// Author:李仕鹏
     /// </summary>
     public class MemoryCacheHelper
     {

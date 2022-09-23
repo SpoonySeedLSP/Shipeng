@@ -2,6 +2,11 @@ namespace Shipeng.Util
 {
     public abstract class BaseHelper : RedisHelper<BaseHelper> { }
     public abstract class HandleLogHelper : RedisHelper<HandleLogHelper> { }
+
+    /// <summary>
+    /// 缓存工具类
+    /// Author:李仕鹏
+    /// </summary>
     public class CacheHelper
     {
         private static string cacheProvider = GlobalContext.SystemConfig.CacheProvider;
