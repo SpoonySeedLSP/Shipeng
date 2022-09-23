@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild><!--在构建时生成包-->
-		<Version>3.1.3</Version>
+		<Version>3.1.4</Version>
 		<Authors>李仕鹏</Authors>
 		<Product>Shipeng.Util</Product>
 		<PackageReleaseNotes>增加Memory缓存帮助类、Mongo db的数据库帮助类、.NET Core Redis帮助类五大类型实现 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
