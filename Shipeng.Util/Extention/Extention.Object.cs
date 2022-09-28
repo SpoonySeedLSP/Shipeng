@@ -2,8 +2,10 @@
 using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml.Serialization;
 
 namespace Shipeng.Util
 {
@@ -11,6 +13,47 @@ namespace Shipeng.Util
     {
         private static BindingFlags _bindingFlags { get; }
             = BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static;
+
+        /// <summary>
+        /// 可转换类型字典
+        /// </summary>
+        private static readonly Dictionary<Type, Func<object, object>> ConvertDictionary = new Dictionary<Type, Func<object, object>>();
+
+        /// <summary>
+        /// 对象是否为空或者空字符串
+        /// </summary>
+        /// <param name="inputObj"></param>
+        /// <returns></returns>
+        public static bool IsNullOrEmptyString(this object inputObj)
+        {
+            switch (inputObj)
+            {
+                case null:
+                    return true;
+                case string inputStr:
+                    return string.IsNullOrEmpty(inputStr);
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// 对象是否为空或者空或者空格字符串
+        /// </summary>
+        /// <param name="inputObj"></param>
+        /// <returns></returns>
+        public static bool IsNullOrWhiteSpaceString(this object inputObj)
+        {
+            switch (inputObj)
+            {
+                case null:
+                    return true;
+                case string inputStr:
+                    return string.IsNullOrWhiteSpace(inputStr);
+                default:
+                    return false;
+            }
+        }
 
         /// <summary>
         /// 判断是否为Null或者空
@@ -44,6 +87,36 @@ namespace Shipeng.Util
             {
                 return string.IsNullOrWhiteSpace(obj.ToString());
             }
+        }
+
+        /// <summary>
+        /// 属性是否包含
+        /// </summary>
+        /// <param name="leftModel"></param>
+        /// <param name="rightModel"></param>
+        /// <param name="maps"></param>
+        /// <returns></returns>
+        public static bool PropertyContain(this object leftModel, object rightModel, Dictionary<string, Func<bool>> maps = null)
+        {
+            Type aType = leftModel.GetType();
+            Type bType = rightModel.GetType();
+            foreach (PropertyInfo aProperty in aType.GetProperties())
+            {
+                if (maps != null && maps.ContainsKey(aProperty.Name))
+                {
+                    bool mapResult = maps[aProperty.Name].Invoke();
+                    if (!mapResult) return false;
+                }
+                else
+                {
+                    PropertyInfo bProperty = bType.GetProperty(aProperty.Name);
+                    if (bProperty == null || aProperty.PropertyType != bProperty.PropertyType) return false;
+                    object aValue = aProperty.GetValue(leftModel);
+                    object bValue = bProperty.GetValue(rightModel);
+                    if (aValue != bValue) return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -130,6 +203,17 @@ namespace Shipeng.Util
                 return true;
             }
             return Regex.IsMatch(obj.ToString(), @"^[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}( [0-9]{1,2}:[0-9]{1,2}(:[0-9]{1,2})?)?$");
+        }
+
+        /// <summary>
+        /// 判断是否提供到特定类型的转换
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="targetType"></param>
+        /// <returns></returns>
+        public static bool CanConvertTo(this object obj, Type targetType)
+        {
+            return ConvertDictionary.ContainsKey(targetType);
         }
 
         /// <summary>
@@ -435,6 +519,123 @@ namespace Shipeng.Util
                 obj
             };
             return list;
+        }
+
+        /// <summary>
+        /// 转换到特定类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T ConvertTo<T>(this object obj)
+        {
+            return (T)ConvertTo(obj, typeof(T));
+        }
+     
+        /// <summary>
+        /// 转换到特定类型
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="targetType"></param>
+        /// <returns></returns>
+        public static object ConvertTo(this object obj, Type targetType)
+        {
+            if (obj == null) return !targetType.IsValueType ? (object)null : throw new ArgumentNullException(nameof(obj), "不能将null转换为" + targetType.Name);
+            if (obj.GetType() == targetType || targetType.IsInstanceOfType(obj)) return obj;
+            if (ConvertDictionary.ContainsKey(targetType)) return ConvertDictionary[targetType](obj);
+            try
+            {
+                return Convert.ChangeType(obj, targetType);
+            }
+            catch
+            {
+                throw new ShipengConvertException("未实现到" + targetType.Name + "的转换");
+            }
+        }
+
+        /// <summary>
+        /// 克隆对象(Json序列化)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputObj">输入对象</param>
+        /// <returns></returns>
+        public static T CloneByJson<T>(this T inputObj)
+        {
+            string jsonStr = inputObj.ToJson();
+            return jsonStr.JsonToObject<T>();
+        }
+
+        /// <summary>
+        /// 克隆对象(XML序列化)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputObj">输入对象</param>
+        /// <returns>克隆的对象</returns>
+        public static T CloneByXml<T>(this T inputObj)
+        {
+            Type tType = inputObj.GetType();
+            Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
+            if (attr == null) throw new ShipengConvertException("未标识为可序列化");
+            object resM;
+            using (var ms = new MemoryStream())
+            {
+                var xml = new XmlSerializer(typeof(T));
+                xml.Serialize(ms, inputObj);
+                ms.Seek(0, SeekOrigin.Begin);
+                resM = xml.Deserialize(ms);
+                ms.Close();
+            }
+            return (T)resM;
+        }
+        /// <summary>
+        /// 克隆对象(反射)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputObj">输入对象</param>
+        /// <returns>克隆的对象</returns>
+        public static T CloneByReflex<T>(this T inputObj)
+        {
+            Type tType = inputObj.GetType();
+            var resM = (T)Activator.CreateInstance(tType);
+            PropertyInfo[] pis = tType.GetProperties();
+            foreach (PropertyInfo pi in pis)
+            {
+                object piValue = pi.GetValue(inputObj);
+                if (piValue == null) continue;
+                pi.SetValue(resM, piValue is ValueType ? piValue : Clone(piValue));
+            }
+            return resM;
+        }
+        /// <summary>
+        /// 克隆对象(二进制序列化)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputObj">输入对象</param>
+        /// <returns>克隆的对象</returns>
+        public static T CloneBySerializable<T>(this T inputObj)
+        {
+            Type tType = inputObj.GetType();
+            Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
+            if (attr == null) throw new ShipengConvertException("未标识为可序列化");
+            using (var stream = new MemoryStream())
+            {
+                var bf2 = new BinaryFormatter();
+                bf2.Serialize(stream, inputObj);
+                stream.Position = 0;
+                return (T)bf2.Deserialize(stream);
+            }
+        }
+        /// <summary>
+        /// 克隆对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputObj">输入对象</param>
+        /// <returns>克隆的对象</returns>
+        public static T Clone<T>(this T inputObj)
+        {
+            Type tType = inputObj.GetType();
+            Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
+            return attr != null ? CloneBySerializable(inputObj) : CloneByReflex(inputObj);
         }
 
     }

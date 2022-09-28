@@ -5,10 +5,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild><!--在构建时生成包-->
-		<Version>3.1.4</Version>
+		<Version>3.1.5</Version>
 		<Authors>李仕鹏</Authors>
 		<Product>Shipeng.Util</Product>
-		<PackageReleaseNotes>增加Memory缓存帮助类、Mongo db的数据库帮助类、.NET Core Redis帮助类五大类型实现 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
+		<PackageReleaseNotes>完善工具类 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
 		<Copyright>lishipeng</Copyright><!--版权-->
 		<Description>LiShiPeng通用辅助工具，包含几乎所有常用工具类，如需详细了解请访问https://gitee.com/lsp5201314/shipeng-s</Description><!--描述-->
 		<ReleaseNotes>通用工具类</ReleaseNotes><!--发布说明-->
@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Abp.AutoMapper" Version="7.3.0" />
+    <PackageReference Include="AspectCore.Abstractions" Version="2.2.0" />
     <PackageReference Include="Aspose.Cells" Version="22.9.0" />
     <PackageReference Include="Autofac" Version="6.4.0" />
     <PackageReference Include="Caching.CSRedis" Version="3.8.668" />
