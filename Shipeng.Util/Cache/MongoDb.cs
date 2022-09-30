@@ -8,10 +8,11 @@ namespace Shipeng.Util.Cache
     /// </summary>
     public class MongoDb
     {
-        public MongoDb(string host, string timeOut)
+        public MongoDb(string host,int port, string timeOut)
         {
             CONNECT_TIME_OUT = timeOut;
             MONGO_CONN_HOST = host;
+            MONGO_CONN_PORT = port;
         }
 
         /// <summary>  

@@ -22,9 +22,15 @@ namespace Shipeng.Util.Cache
         /// </summary>  
         private readonly string OBJECTID_KEY = "_id";
 
-        public MongoDbHelper(string host, string timeOut)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="host">数据库所在主机</param>
+        /// <param name="timeOut">连接超时设置 秒</param>
+        /// <param name="port">数据库所在主机的端口</param>
+        public MongoDbHelper(string host, string timeOut,int port= 27017)
         {
-            _db = new MongoDb(host, timeOut).GetDataBase();
+            _db = new MongoDb(host, port, timeOut).GetDataBase();
         }
 
         public MongoDbHelper(MongoDatabase db)
