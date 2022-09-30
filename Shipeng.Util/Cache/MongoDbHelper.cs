@@ -26,11 +26,12 @@ namespace Shipeng.Util.Cache
         /// 
         /// </summary>
         /// <param name="host">数据库所在主机</param>
-        /// <param name="timeOut">连接超时设置 秒</param>
-        /// <param name="port">数据库所在主机的端口</param>
-        public MongoDbHelper(string host, string timeOut,int port= 27017)
+        /// <param name="port">数据库所在主机的端口,默认27017</param>
+        /// <param name="db">连接对应的数据库名称--MongoDB需要指定连接的数据库</param>
+        /// <param name="timeOut">连接超时设置 秒</param>        
+        public MongoDbHelper(string host, int port= 27017, string db="mongdb",string timeOut="6000")
         {
-            _db = new MongoDb(host, port, timeOut).GetDataBase();
+            _db = new MongoDb(host, port,db, timeOut).GetDataBase();
         }
 
         public MongoDbHelper(MongoDatabase db)

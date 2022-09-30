@@ -8,11 +8,12 @@ namespace Shipeng.Util.Cache
     /// </summary>
     public class MongoDb
     {
-        public MongoDb(string host,int port, string timeOut)
+        public MongoDb(string host,int port,string db, string timeOut)
         {
             CONNECT_TIME_OUT = timeOut;
             MONGO_CONN_HOST = host;
             MONGO_CONN_PORT = port;
+            DB_NAME = db;
         }
 
         /// <summary>  
@@ -33,7 +34,7 @@ namespace Shipeng.Util.Cache
         /// <summary>  
         /// 数据库的名称  
         /// </summary>  
-        private readonly string DB_NAME = "Mdemo";
+        private readonly string DB_NAME = "mongdb";
 
         /// <summary>  
         /// 得到数据库实例  
