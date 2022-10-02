@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild><!--在构建时生成包-->
-		<Version>3.1.8</Version>
+		<Version>3.1.9</Version>
 		<Authors>李仕鹏</Authors>
 		<Product>Shipeng.Util</Product>
 		<PackageReleaseNotes>完善mongodb https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
