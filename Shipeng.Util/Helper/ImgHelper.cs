@@ -1694,6 +1694,181 @@ namespace Shipeng.Util
             bitmap.Save(thumbnailPath, ImageFormat.Jpeg);
         }
 
+        /// <summary> 
+        /// 生成缩略图:背景颜色可以设置
+        /// </summary> 
+        /// <param name="originalImagePath">源图路径（物理路径）</param> 
+        /// <param name="thumbnailPath">缩略图路径（物理路径）</param> 
+        /// <param name="width">缩略图宽度</param>
+        /// <param name="height">缩略图高度</param>
+        /// <param name="byColor">空白背景填充颜色</param>
+        public static void GenerateMakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height, string byColor)
+        {
+            //获取原始图片  
+            Image originalImage = Image.FromFile(originalImagePath);
+            //缩略图画布宽高  
+            int towidth = width;
+            int toheight = height;
+            //原始图片写入画布坐标和宽高(用来设置裁减溢出部分)  
+            int x = 0;
+            int y = 0;
+            int ow = originalImage.Width;
+            int oh = originalImage.Height;
+            //原始图片画布,设置写入缩略图画布坐标和宽高(用来原始图片整体宽高缩放)  
+            int bg_x = 0;
+            int bg_y = 0;
+            int bg_w = towidth;
+            int bg_h = toheight;
+            //倍数变量  
+            double multiple = 0;
+            //获取宽长的或是高长与缩略图的倍数  
+            if (originalImage.Width >= originalImage.Height)
+            {
+                multiple = originalImage.Width / width;
+            }
+            else
+            {
+                multiple = originalImage.Height / height;
+            }
+            //上传的图片的宽和高小等于缩略图  
+            if (ow <= width && oh <= height)
+            {
+                //缩略图按原始宽高  
+                bg_w = originalImage.Width;
+                bg_h = originalImage.Height;
+                //空白部分用背景色填充  
+                bg_x = Convert.ToInt32((towidth - ow) / 2);
+                bg_y = Convert.ToInt32((toheight - oh) / 2);
+            }
+            //上传的图片的宽和高大于缩略图  
+            else
+            {
+                //宽高按比例缩放  
+                bg_w = Convert.ToInt32(originalImage.Width / multiple);
+                bg_h = Convert.ToInt32(originalImage.Height / multiple);
+                //空白部分用背景色填充  
+                bg_y = Convert.ToInt32((height - bg_h) / 2);
+                bg_x = Convert.ToInt32((width - bg_w) / 2);
+            }
+            //新建一个bmp图片,并设置缩略图大小.  
+            Image bitmap = new Bitmap(towidth, toheight);
+            //新建一个画板  
+            Graphics g = Graphics.FromImage(bitmap);
+            //设置高质量插值法  
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            //设置高质量,低速度呈现平滑程度  
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            //清空画布并设置背景色  
+            g.Clear(ColorTranslator.FromHtml(byColor));
+            //在指定位置并且按指定大小绘制原图片的指定部分  
+            //第一个System.Drawing.Rectangle是原图片的画布坐标和宽高,第二个是原图片写在画布上的坐标和宽高,最后一个参数是指定数值单位为像素  
+            g.DrawImage(originalImage, new Rectangle(bg_x, bg_y, bg_w, bg_h), new Rectangle(x, y, ow, oh), System.Drawing.GraphicsUnit.Pixel);
+            try
+            {
+                //获取图片类型  
+                string fileExtension = Path.GetExtension(originalImagePath).ToLower();
+                //按原图片类型保存缩略图片,不按原格式图片会出现模糊,锯齿等问题.  
+                switch (fileExtension)
+                {
+                    case ".gif": bitmap.Save(thumbnailPath, ImageFormat.Gif); break;
+                    case ".jpg": bitmap.Save(thumbnailPath, ImageFormat.Jpeg); break;
+                    case ".bmp": bitmap.Save(thumbnailPath, ImageFormat.Bmp); break;
+                    case ".png": bitmap.Save(thumbnailPath, ImageFormat.Png); break;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                originalImage.Dispose();
+                bitmap.Dispose();
+                g.Dispose();
+            }
+        }
+
+        /// <summary> 
+        /// 生成缩略图：无填充背景
+        /// </summary> 
+        /// <param name="originalImagePath">源图路径（物理路径）</param> 
+        /// <param name="thumbnailPath">缩略图路径（物理路径）</param> 
+        /// <param name="width">缩略图宽度</param> 
+        /// <param name="height">缩略图高度</param>    
+        public static void GenerateMakeThumbnail(string originalImagePath, string thumbnailPath, int width, int height)
+        {
+            //获取原始图片
+            Image originalImage = Image.FromFile(originalImagePath);
+            //缩略图画布宽高
+            int towidth = width;//缩略图宽度
+            int toheight = height;//缩略图高度
+                                  //原始图片写入画布坐标和宽高(用来设置裁减溢出部分)
+            int x = 0;
+            int y = 0;
+            int ow = originalImage.Width;//原图宽度
+            int oh = originalImage.Height;//原图高度
+
+            //先判断宽，宽大于指定宽度的话将宽设置为指定宽度，高度等比例缩放。
+            if (originalImage.Width > width)
+            {
+                towidth = width;
+                toheight = originalImage.Height * towidth / originalImage.Width;
+            }
+            else
+            {
+                towidth = originalImage.Width;
+                toheight = originalImage.Height;
+            }
+            //再判断高，高大于指定高度的话将高设置为指定高度，宽度等比例缩放。
+            if (toheight > height)
+            {
+                toheight = height;
+                towidth = originalImage.Width * toheight / originalImage.Height;
+            }
+
+            //新建一个bmp图片 
+            Image bitmap = new Bitmap(towidth, toheight);
+
+            //新建一个画板 
+            Graphics g = Graphics.FromImage(bitmap);
+
+            //设置高质量插值法 
+            g.InterpolationMode = InterpolationMode.High;
+
+            //设置高质量,低速度呈现平滑程度 
+            g.SmoothingMode = SmoothingMode.HighQuality;
+
+            //清空画布并以透明背景色填充 
+            g.Clear(Color.Transparent);
+
+            //在指定位置并且按指定大小绘制原图片的指定部分
+            g.DrawImage(originalImage, new Rectangle(0, 0, towidth, toheight),
+                new Rectangle(x, y, ow, oh), GraphicsUnit.Pixel);
+
+            try
+            {
+                //获取图片类型
+                string fileExtension = System.IO.Path.GetExtension(originalImagePath).ToLower();
+                //按原图片类型保存缩略图片,不按原格式图片会出现模糊,锯齿等问题.
+                switch (fileExtension)
+                {
+                    case ".gif": bitmap.Save(thumbnailPath, ImageFormat.Gif); break;
+                    case ".jpg": bitmap.Save(thumbnailPath, ImageFormat.Jpeg); break;
+                    case ".bmp": bitmap.Save(thumbnailPath, ImageFormat.Bmp); break;
+                    case ".png": bitmap.Save(thumbnailPath, ImageFormat.Png); break;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                originalImage.Dispose();
+                bitmap.Dispose();
+                g.Dispose();
+            }
+        }
         #endregion
 
         #region 浮雕处理
