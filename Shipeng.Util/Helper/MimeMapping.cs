@@ -32,6 +32,7 @@ namespace Shipeng.Util
         static MimeMapping()
         {
             _mimeMappingTable = new Hashtable(190, StringComparer.CurrentCultureIgnoreCase);
+            AddMimeMapping(".mp4", "audio/mp4");
             AddMimeMapping(".323", "text/h323");
             AddMimeMapping(".asx", "video/x-ms-asf");
             AddMimeMapping(".acx", "application/internet-property-stream");
