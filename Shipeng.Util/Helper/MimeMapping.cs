@@ -67,6 +67,8 @@ namespace Shipeng.Util
             AddMimeMapping(".dll", "application/x-msdownload");
             AddMimeMapping(".dot", "application/msword");
             AddMimeMapping(".doc", "application/msword");
+            AddMimeMapping(".docm", "application/vnd.ms-word.document.macroEnabled.12");
+            AddMimeMapping(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
             AddMimeMapping(".dvi", "application/x-dvi");
             AddMimeMapping(".dir", "application/x-director");
             AddMimeMapping(".dxr", "application/x-director");
@@ -217,11 +219,14 @@ namespace Shipeng.Util
             AddMimeMapping(".xlm", "application/vnd.ms-excel");
             AddMimeMapping(".xaf", "x-world/x-vrml");
             AddMimeMapping(".xla", "application/vnd.ms-excel");
+            AddMimeMapping(".xlsb", "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
             AddMimeMapping(".xls", "application/vnd.ms-excel");
+            AddMimeMapping(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             AddMimeMapping(".xof", "x-world/x-vrml");
             AddMimeMapping(".xlt", "application/vnd.ms-excel");
             AddMimeMapping(".xlc", "application/vnd.ms-excel");
             AddMimeMapping(".xsl", "text/xml");
+            AddMimeMapping(".xslt", "text/xml");
             AddMimeMapping(".xbm", "image/x-xbitmap");
             AddMimeMapping(".xlw", "application/vnd.ms-excel");
             AddMimeMapping(".xpm", "image/x-xpixmap");

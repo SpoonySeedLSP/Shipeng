@@ -145,5 +145,97 @@ namespace Shipeng.Util
                 return cells.ExportDataTableAsString(0, 0, cells.MaxDataRow + 1, cells.MaxDataColumn + 1, exportColumnName);
             }
         }
+
+        /// <summary>
+        /// word转pdf
+        /// </summary>
+        /// <param name="wordPath">word文件路径</param>
+        /// <param name="pdfPath">pdf文件存储路径</param>
+        public static void WordToPdf(string wordPath, string pdfPath)
+        {
+            try
+            {
+                //打开word文件
+                Aspose.Words.Document doc = new Aspose.Words.Document(wordPath);
+                //验证参数
+                if (doc == null) { throw new Exception("Word文件无效"); }
+                doc.Save(pdfPath, Aspose.Words.SaveFormat.Pdf);//还可以改成其它格式
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+            }
+        }
+
+        //给生成的PDF添加水印
+        //public static void SetWatermark(string filePath, string text)
+        //{
+
+        //PdfReader pdfReader = null;
+        //PdfStamper pdfStamper = null;
+        //string tempPath = Path.GetDirectoryName(filePath) + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_temp.pdf";
+        //try
+        //{
+        //pdfReader = new PdfReader(filePath);
+        //int total = pdfReader.NumberOfPages + 1;
+
+        //using (var fs = new FileStream(tempPath, FileMode.Create))
+        //{
+        //    pdfStamper = new PdfStamper(pdfReader, fs);
+        //    var psize = pdfReader.GetPageSize(1);
+        //    float width = psize.Width;
+        //    float height = psize.Height;
+        //    PdfContentByte content;
+        //    BaseFont font = BaseFont.CreateFont(@"C:\WINDOWS\Fonts\SIMFANG.TTF", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        //    PdfGState gs = new PdfGState();
+        //    int waterMarkNameLenth = text.Length;
+
+        //    for (int i = 1; i < total; i++)
+        //    {
+        //        var fontLength = 12;
+        //        content = pdfStamper.GetOverContent(i);//在内容上方加水印
+        //                                               // content = pdfStamper.GetUnderContent(i);//在内容下方加水印
+        //                                               // 透明度
+        //                                               // gs.FillOpacity = 0.3f;
+
+        //        content.SetGState(gs);
+        //        //content.SetGrayFill(0.3f);
+        //        //开始写入文本
+        //        content.BeginText();
+        //        content.SetColorFill(BaseColor.Gray);
+        //        content.SetFontAndSize(font, fontLength);
+        //        //content.SetTextMatrix(120, 120);
+        //        var Margin = 100;//调整水印的间距
+        //        var TextSize = new Size(text.Length * fontLength + Margin, text.Length * fontLength + Margin);
+        //        var RenderVeiwSize = new Size();
+        //        RenderVeiwSize.Width = (int)(width / TextSize.Width) + (width % TextSize.Width != 0 ? 1 : 0);
+        //        RenderVeiwSize.Height = (int)(height / TextSize.Height) + (height % TextSize.Height != 0 ? 1 : 0);
+
+        //        for (int h = 0; h < RenderVeiwSize.Height; h++)
+        //        {
+        //            for (int w = 0; w < RenderVeiwSize.Width; w++)
+        //            {
+        //                content.ShowTextAligned(Element.ALIGN_CENTER, text, TextSize.Width * w + TextSize.Width / 2, height - TextSize.Height * h - TextSize.Height / 2, 45);
+        //            }
+        //        }
+
+        //        content.EndText();
+        //    }
+        //    if (pdfStamper != null)
+        //        pdfStamper.Close();
+
+        //    if (pdfReader != null)
+        //        pdfReader.Close();
+
+        //    System.IO.File.Copy(tempPath, filePath, true);
+        //}
+        //System.IO.File.Delete(tempPath);
+        //}
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //}
+
     }
 }
