@@ -1,6 +1,7 @@
 ﻿using Aspose.Cells;
 using System.Data;
 using System.Text;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace Shipeng.Util
 {
@@ -9,6 +10,28 @@ namespace Shipeng.Util
     /// </summary>
     public class AsposeOfficeHelper
     {
+        public const string Key =
+            "PExpY2Vuc2U+DQogIDxEYXRhPg0KICAgIDxMaWNlbnNlZFRvPkFzcG9zZSBTY290bGFuZCB" +
+            "UZWFtPC9MaWNlbnNlZFRvPg0KICAgIDxFbWFpbFRvPmJpbGx5Lmx1bmRpZUBhc3Bvc2UuY2" +
+            "9tPC9FbWFpbFRvPg0KICAgIDxMaWNlbnNlVHlwZT5EZXZlbG9wZXIgT0VNPC9MaWNlbnNlV" +
+            "HlwZT4NCiAgICA8TGljZW5zZU5vdGU+TGltaXRlZCB0byAxIGRldmVsb3BlciwgdW5saW1p" +
+            "dGVkIHBoeXNpY2FsIGxvY2F0aW9uczwvTGljZW5zZU5vdGU+DQogICAgPE9yZGVySUQ+MTQ" +
+            "wNDA4MDUyMzI0PC9PcmRlcklEPg0KICAgIDxVc2VySUQ+OTQyMzY8L1VzZXJJRD4NCiAgIC" +
+            "A8T0VNPlRoaXMgaXMgYSByZWRpc3RyaWJ1dGFibGUgbGljZW5zZTwvT0VNPg0KICAgIDxQc" +
+            "m9kdWN0cz4NCiAgICAgIDxQcm9kdWN0PkFzcG9zZS5Ub3RhbCBmb3IgLk5FVDwvUHJvZHVj" +
+            "dD4NCiAgICA8L1Byb2R1Y3RzPg0KICAgIDxFZGl0aW9uVHlwZT5FbnRlcnByaXNlPC9FZGl" +
+            "0aW9uVHlwZT4NCiAgICA8U2VyaWFsTnVtYmVyPjlhNTk1NDdjLTQxZjAtNDI4Yi1iYTcyLT" +
+            "djNDM2OGYxNTFkNzwvU2VyaWFsTnVtYmVyPg0KICAgIDxTdWJzY3JpcHRpb25FeHBpcnk+M" +
+            "jAxNTEyMzE8L1N1YnNjcmlwdGlvbkV4cGlyeT4NCiAgICA8TGljZW5zZVZlcnNpb24+My4w" +
+            "PC9MaWNlbnNlVmVyc2lvbj4NCiAgICA8TGljZW5zZUluc3RydWN0aW9ucz5odHRwOi8vd3d" +
+            "3LmFzcG9zZS5jb20vY29ycG9yYXRlL3B1cmNoYXNlL2xpY2Vuc2UtaW5zdHJ1Y3Rpb25zLm" +
+            "FzcHg8L0xpY2Vuc2VJbnN0cnVjdGlvbnM+DQogIDwvRGF0YT4NCiAgPFNpZ25hdHVyZT5GT" +
+            "zNQSHNibGdEdDhGNTlzTVQxbDFhbXlpOXFrMlY2RThkUWtJUDdMZFRKU3hEaWJORUZ1MXpP" +
+            "aW5RYnFGZkt2L3J1dHR2Y3hvUk9rYzF0VWUwRHRPNmNQMVpmNkowVmVtZ1NZOGkvTFpFQ1R" +
+            "Hc3pScUpWUVJaME1vVm5CaHVQQUprNWVsaTdmaFZjRjhoV2QzRTRYUTNMemZtSkN1YWoyTk" +
+            "V0ZVJpNUhyZmc9PC9TaWduYXR1cmU+DQo8L0xpY2Vuc2U+";
+        public static Stream LStream = new MemoryStream(Convert.FromBase64String(Key));
+
         static AsposeOfficeHelper()
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -146,8 +169,341 @@ namespace Shipeng.Util
             }
         }
 
+        
+
         /// <summary>
-        /// word转pdf
+        /// (Microsoft.Office.Interop.Word)Word转换成PDF(单个文件转换推荐使用)
+        /// </summary>
+        /// <param name="inputPath">载入完整路径</param>
+        /// <param name="outputPath">保存完整路径</param>
+        /// <param name="startPage">初始页码（默认为第一页[0]）</param>
+        /// <param name="endPage">结束页码（默认为最后一页）</param>
+        public static bool OfficeWordToPdf(string inputPath, string outputPath, int startPage = 0, int endPage = 0)
+        {
+            bool b = true;
+
+            #region 初始化
+            //初始化一个application
+            Word.Application wordApplication = new Word.Application();
+            //初始化一个document
+            Word.Document wordDocument = null;
+            #endregion
+
+            #region 参数设置（所谓的参数都是根据这个方法来的:ExportAsFixedFormat）
+            //word路径
+            object wordPath = Path.GetFullPath(inputPath);
+
+            //输出路径
+            string pdfPath = Path.GetFullPath(outputPath);
+
+            //导出格式为PDF
+            Word.WdExportFormat wdExportFormat = Word.WdExportFormat.wdExportFormatPDF;
+
+            //导出大文件
+            Word.WdExportOptimizeFor wdExportOptimizeFor = Word.WdExportOptimizeFor.wdExportOptimizeForPrint;
+
+            //导出整个文档
+            Word.WdExportRange wdExportRange = Word.WdExportRange.wdExportAllDocument;
+
+            //开始页码
+            int startIndex = startPage;
+
+            //结束页码
+            int endIndex = endPage;
+
+            //导出不带标记的文档（这个可以改）
+            Word.WdExportItem wdExportItem = Word.WdExportItem.wdExportDocumentContent;
+
+            //包含word属性
+            bool includeDocProps = true;
+
+            //导出书签
+            Word.WdExportCreateBookmarks paramCreateBookmarks = Word.WdExportCreateBookmarks.wdExportCreateWordBookmarks;
+
+            //默认值
+            object paramMissing = Type.Missing;
+
+            #endregion
+
+            #region 转换
+            try
+            {
+                //打开word
+                wordDocument = wordApplication.Documents.Open(ref wordPath, ref paramMissing,
+                    ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, 
+                    ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing,
+                    ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, 
+                    ref paramMissing, ref paramMissing);
+                //转换成指定格式
+                if (wordDocument != null)
+                {
+                    wordDocument.ExportAsFixedFormat(pdfPath, wdExportFormat, false, wdExportOptimizeFor, 
+                        wdExportRange, startIndex, endIndex, wdExportItem, includeDocProps, true,
+                        paramCreateBookmarks, true, true, false, ref paramMissing);
+                }
+            }
+            catch (Exception ex)
+            {
+                b = false;
+            }
+            finally
+            {
+                //关闭
+                if (wordDocument != null)
+                {
+                    wordDocument.Close(ref paramMissing, ref paramMissing, ref paramMissing);
+                    wordDocument = null;
+                }
+
+                //退出
+                if (wordApplication != null)
+                {
+                    wordApplication.Quit(ref paramMissing, ref paramMissing, ref paramMissing);
+                    wordApplication = null;
+                }
+            }
+            return b;
+            #endregion
+        }
+
+        /// <summary>
+        /// (Microsoft.Office.Interop.Word)Word将word转pdf
+        /// </summary>
+        /// <param name="wordPath">word文件路径</param>
+        /// <param name="pdfPath">pdf文件存储路径</param>
+        public static bool OfficeWordToPdf(object wordPath, string pdfPath)
+        {
+            bool result = false;
+            Word.WdExportFormat wdExportFormatPDF = Word.WdExportFormat.wdExportFormatPDF;
+            object missing = Type.Missing;
+            Word.ApplicationClass applicationClass = null;
+            Word.Document document = null;
+            try
+            {
+                applicationClass = new Word.ApplicationClass();
+                document = applicationClass.Documents.Open(ref wordPath, ref missing,
+                    ref missing, ref missing, ref missing, ref missing, ref missing, 
+                    ref missing, ref missing, ref missing, ref missing, ref missing,
+                    ref missing, ref missing, ref missing, ref missing);
+                if (document != null)
+                {
+                    document.ExportAsFixedFormat(pdfPath, wdExportFormatPDF, false,
+                        Word.WdExportOptimizeFor.wdExportOptimizeForPrint,
+                        Word.WdExportRange.wdExportAllDocument, 0, 0, 
+                        Word.WdExportItem.wdExportDocumentContent, true, true, 
+                        Word.WdExportCreateBookmarks.wdExportCreateWordBookmarks,
+                        true, true, false, ref missing);
+                }
+                result = true;
+            }
+            catch
+            {
+                result = false;
+            }
+            finally
+            {
+                if (document != null)
+                {
+                    document.Close(ref missing, ref missing, ref missing);
+                    document = null;
+                }
+                if (applicationClass != null)
+                {
+                    applicationClass.Quit(ref missing, ref missing, ref missing);
+                    applicationClass = null;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// (Microsoft.Office.Interop.Word)Word转换成PDF(批量文件转换推荐使用)
+        /// </summary>
+        /// <param name="inputPath">文件完整路径</param>
+        /// <param name="outputPath">保存路径</param>
+        public static int OfficeWordToPdfs(string[] inputPaths, string outputPath)
+        {
+            int count = 0;
+
+            #region 初始化
+            //初始化一个application
+            Word.Application wordApplication = new Word.Application();
+            //初始化一个document
+            Word.Document wordDocument = null;
+            #endregion
+
+            //默认值
+            object paramMissing = Type.Missing;
+
+            for (int i = 0; i < inputPaths.Length; i++)
+            {
+                #region 参数设置（所谓的参数都是根据这个方法来的:ExportAsFixedFormat）
+                //word路径
+                object wordPath = Path.GetFullPath(inputPaths[i]);
+
+                //获取文件名
+                string outputName = Path.GetFileNameWithoutExtension(inputPaths[i]);
+
+                //输出路径
+                string pdfPath = Path.GetFullPath(outputPath + @"\" + outputName + ".pdf");
+
+                //导出格式为PDF
+                Word.WdExportFormat wdExportFormat = Word.WdExportFormat.wdExportFormatPDF;
+
+                //导出大文件
+                Word.WdExportOptimizeFor wdExportOptimizeFor = Word.WdExportOptimizeFor.wdExportOptimizeForPrint;
+
+                //导出整个文档
+                Word.WdExportRange wdExportRange = Word.WdExportRange.wdExportAllDocument;
+
+                //开始页码
+                int startIndex = 0;
+
+                //结束页码
+                int endIndex = 0;
+
+                //导出不带标记的文档（这个可以改）
+                Word.WdExportItem wdExportItem = Word.WdExportItem.wdExportDocumentContent;
+
+                //包含word属性
+                bool includeDocProps = true;
+
+                //导出书签
+                Word.WdExportCreateBookmarks paramCreateBookmarks = Word.WdExportCreateBookmarks.wdExportCreateWordBookmarks;
+
+                #endregion
+
+                #region 转换
+                try
+                {
+                    //打开word
+                    wordDocument = wordApplication.Documents.Open(ref wordPath, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing);
+                    //转换成指定格式
+                    if (wordDocument != null)
+                    {
+                        wordDocument.ExportAsFixedFormat(pdfPath, wdExportFormat, false, wdExportOptimizeFor, wdExportRange, startIndex, endIndex, wdExportItem, includeDocProps, true, paramCreateBookmarks, true, true, false, ref paramMissing);
+                    }
+                    count++;
+                }
+                catch (Exception ex)
+                {
+                }
+                finally
+                {
+                    //关闭
+                    if (wordDocument != null)
+                    {
+                        wordDocument.Close(ref paramMissing, ref paramMissing, ref paramMissing);
+                        wordDocument = null;
+                    }
+                }
+            }
+
+            //退出
+            if (wordApplication != null)
+            {
+                wordApplication.Quit(ref paramMissing, ref paramMissing, ref paramMissing);
+                wordApplication = null;
+            }
+            return count;
+            #endregion
+        }
+
+        /// <summary>
+        ///  (Microsoft.Office.Interop.Word)Word转换成PDF（带日记）
+        /// </summary>
+        /// <param name="inputPath">载入完整路径</param>
+        /// <param name="outputPath">保存完整路径</param>
+        /// <param name="log">转换日记</param>
+        /// <param name="startPage">初始页码（默认为第一页[0]）</param>
+        /// <param name="endPage">结束页码（默认为最后一页）</param>
+        public static void OfficeWordToPpfCreateLog(string inputPath, string outputPath, out string log, int startPage = 0, int endPage = 0)
+        {
+            log = "success";
+
+            #region 初始化
+            //初始化一个application
+            Word.Application wordApplication = new Word.Application();
+            //初始化一个document
+            Word.Document wordDocument = null;
+            #endregion
+
+            #region 参数设置~~我去累死宝宝了~~
+            //word路径
+            object wordPath = Path.GetFullPath(inputPath);
+
+            //输出路径
+            string pdfPath = Path.GetFullPath(outputPath);
+
+            //导出格式为PDF
+            Word.WdExportFormat wdExportFormat = Word.WdExportFormat.wdExportFormatPDF;
+
+            //导出大文件
+            Word.WdExportOptimizeFor wdExportOptimizeFor = Word.WdExportOptimizeFor.wdExportOptimizeForPrint;
+
+            //导出整个文档
+            Word.WdExportRange wdExportRange = Word.WdExportRange.wdExportAllDocument;
+
+            //开始页码
+            int startIndex = startPage;
+
+            //结束页码
+            int endIndex = endPage;
+
+            //导出不带标记的文档（这个可以改）
+            Word.WdExportItem wdExportItem = Word.WdExportItem.wdExportDocumentContent;
+
+            //包含word属性
+            bool includeDocProps = true;
+
+            //导出书签
+            Word.WdExportCreateBookmarks paramCreateBookmarks = Word.WdExportCreateBookmarks.wdExportCreateWordBookmarks;
+
+            //默认值
+            object paramMissing = Type.Missing;
+
+            #endregion
+
+            #region 转换
+            try
+            {
+                //打开word
+                wordDocument = wordApplication.Documents.Open(ref wordPath, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing, ref paramMissing);
+                //转换成指定格式
+                if (wordDocument != null)
+                {
+                    wordDocument.ExportAsFixedFormat(pdfPath, wdExportFormat, false, wdExportOptimizeFor, wdExportRange, startIndex, endIndex, wdExportItem, includeDocProps, true, paramCreateBookmarks, true, true, false, ref paramMissing);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex != null) { log = ex.ToString(); }
+            }
+            finally
+            {
+                //关闭
+                if (wordDocument != null)
+                {
+                    wordDocument.Close(ref paramMissing, ref paramMissing, ref paramMissing);
+                    wordDocument = null;
+                }
+
+                //退出
+                if (wordApplication != null)
+                {
+                    wordApplication.Quit(ref paramMissing, ref paramMissing, ref paramMissing);
+                    wordApplication = null;
+                }
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+            #endregion
+        }
+
+        /// <summary>
+        /// (Aspose.Words)word转pdf
         /// </summary>
         /// <param name="wordPath">word文件路径</param>
         /// <param name="pdfPath">pdf文件存储路径</param>
@@ -155,6 +511,8 @@ namespace Shipeng.Util
         {
             try
             {
+                // 组件授权
+                //new Aspose.Words.License().SetLicense(LStream);
                 //打开word文件
                 Aspose.Words.Document doc = new Aspose.Words.Document(wordPath);
                 //验证参数
@@ -164,6 +522,62 @@ namespace Shipeng.Util
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// (FreeSpire)word转pdf
+        /// </summary>
+        /// <param name="wordPath">word文件路径</param>
+        /// <param name="pdfPath">pdf文件存储路径</param>
+        public static void FreeSpireWordToPdf(string wordPath, string pdfPath)
+        {
+            try
+            {
+                //创建Document类的对象
+                var doc = new Spire.Doc.Document();
+                //加载word文档
+                doc.LoadFromFile(wordPath);
+                //将word文档转为Wpdf文档并保存，可选择格式
+                doc.SaveToFile(pdfPath, Spire.Doc.FileFormat.PDF);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+            }
+        }
+
+        /// <summary>
+        /// (ce.office.extension)Word转Html
+        /// </summary>
+        /// <param name="wordPath">word文件路径</param>
+        public static string WordToHtml(string wordPath)
+        {           
+            try
+            {
+                return ce.office.extension.WordHelper.ToHtml(wordPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+                return "";
+            }
+        }
+
+        /// <summary>
+        /// (ce.office.extension)Excel转Html
+        /// </summary>
+        /// <param name="wordPath">word文件路径</param>
+        public static string ExcelToHtml(string wordPath)
+        {
+            try
+            {
+                return ce.office.extension.ExcelHelper.ToHtml(wordPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+                return "";
             }
         }
 
