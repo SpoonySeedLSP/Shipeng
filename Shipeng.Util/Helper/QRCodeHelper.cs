@@ -1,5 +1,8 @@
 ﻿using QRCoder;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Drawing;
+using ZXing;
 
 namespace Shipeng.Util
 {
@@ -8,6 +11,45 @@ namespace Shipeng.Util
     /// </summary>
     public class QRCodeHelper
     {
+        /// <summary>
+        /// 生成二维码
+        /// 引用ZXing生成二维码/条形码
+        /// 首先当然是要先注入 ZXing的包了, ZXing.Net 这个包在linux 是不受支持的, 所以这边注入的包:ZXing.Net.Bingdings.imagesSharp.V2
+        /// </summary>
+        /// <param name="value">内容</param>
+        /// <param name="barcodeFormat">生成的类型 CODE_39/ CODE_93/ CODE_128/ QR_CODE   ....</param>
+        /// <param name="pathUrl">保存路径</param>
+        /// <param name="fileName">文件名字</param>
+        /// <param name="width">二维码宽，默认500</param>
+        /// <param name="height">二维码高，默认500</param>
+        public static void GenerateCode(string value, string barcodeFormat, string pathUrl, string fileName, int width = 500, int height = 500)
+        {
+            var barcodeFormatType = (BarcodeFormat)System.Enum.Parse(typeof(BarcodeFormat), barcodeFormat);
+            var writer = new ZXing.ImageSharp.BarcodeWriter<Rgba32>
+            {
+
+                Format = barcodeFormatType,
+                Options = new ZXing.QrCode.QrCodeEncodingOptions
+                {
+                    DisableECI = true,
+                    CharacterSet = "UTF-8",
+                    Width = width,
+                    Height = height,
+                    Margin = 1
+                }
+            };
+            var image = writer.WriteAsImageSharp<Rgba32>(value);
+            var ms = new MemoryStream();
+            image.Save(ms, new PngEncoder());
+            pathUrl = pathUrl + "/";
+            using (var fileStream = File.Create(pathUrl + fileName))
+            {
+                ms.Seek(0, SeekOrigin.Begin);
+                ms.CopyTo(fileStream);
+            }
+
+        }
+
         #region 生成二维码
 
         /// <summary>

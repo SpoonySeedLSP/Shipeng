@@ -206,6 +206,54 @@ namespace Shipeng.Util
         }
 
         /// <summary>
+        /// 获取旬的天数
+        /// 每个月分为上旬、中旬、下旬，每个月的上旬、中旬天数都是固定的，为10天，但是下旬的天数是不固定的
+        /// 有两种情况：
+        /// 1.平年的时候，下旬可能为8天、10天、11天
+        /// 2.闰年的时候，下旬可能为9天、10天、11天
+        /// </summary>
+        /// <param name="dt">日期</param>
+        /// <returns></returns>
+        public static int GetXunDays(this DateTime dt)
+        {
+            return dt.Day <= 10 ? 10 : (dt.Day <= 20 ? 10 : DateTime.DaysInMonth(dt.Year, dt.Month) - 20);
+        }
+
+        /// <summary>
+        /// 获取季的天数
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static int GetSeasonDays(this DateTime dt)
+        {
+            switch (dt.Month)
+            {
+                //春季
+                case 1:
+                    return 31 + DateTime.DaysInMonth(dt.Year, dt.AddMonths(1).Month) + 31;
+                case 2:
+                    return DateTime.DaysInMonth(dt.Year, dt.Month) + DateTime.DaysInMonth(dt.Year, dt.AddMonths(-1).Month) + 31;
+                case 3:
+                    return 31 + DateTime.DaysInMonth(dt.Year, dt.AddMonths(-1).Month) + 31;
+                //夏季
+                case 4:
+                case 5:
+                case 6:
+                    return 30 + 31 + 30;
+                //秋季
+                case 7:
+                case 8:
+                case 9:
+                    return 31 + 31 + 30;
+                case 10:
+                case 11:
+                case 12:
+                    return 31 + 30 + 31;
+            }
+            return -1;
+        }
+
+        /// <summary>
         /// 返回本年有多少天
         /// </summary>
         /// <param name="_"></param>
