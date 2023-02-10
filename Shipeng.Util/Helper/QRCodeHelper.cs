@@ -87,7 +87,7 @@ namespace Shipeng.Util
             QRCodeEncoder qrCodeEncoder = new QRCodeEncoder();
             qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
             //大小，值越大生成的二维码图片像素越高
-            qrCodeEncoder.QRCodeScale = 5;
+            qrCodeEncoder.QRCodeScale = 10;
             //版本,设置为0主要是防止编码的字符串太长时发生错误
             qrCodeEncoder.QRCodeVersion = 0;
             //生成二维码 Bitmap
@@ -112,7 +112,7 @@ namespace Shipeng.Util
                 //画背景(二维码)图片，指定开始坐标为 x:0,y:0，指定背景图片宽高。
                 g.DrawImage(backgroundImg, 0, 0, backgroundImg.Width, backgroundImg.Height);
                 //logo 图片，重新设置图片宽高
-                logoImg = ResizeImage(logoImg, 30, 30, 0);
+                logoImg = ResizeImage(logoImg, 50, 50, 0);
                 //logo四周刷一层红色边框
                 //g.FillRectangle(System.Drawing.Brushes.Red, backgroundImg.Width / 2 - img.Width / 2 - 1, backgroundImg.Width / 2 - img.Width / 2 - 1, 32, 32);
                 //画logo图片，设置坐标位置，让其居于正中央。
@@ -155,7 +155,7 @@ namespace Shipeng.Util
             gfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             gfx.FillRectangle(Brushes.White, new Rectangle(0, 0, 400, 100));
             gfx.DrawImageUnscaled(bmp, 0, 40);
-            FontFamily fm = new FontFamily("YaHei");
+            FontFamily fm = new FontFamily("Microsoft YaHei");
             Font font = new Font(fm, 24, FontStyle.Regular, GraphicsUnit.Pixel);
             SolidBrush sb = new SolidBrush(Color.Black);
             gfx.DrawString(txt, font, sb, new PointF(x, y));
