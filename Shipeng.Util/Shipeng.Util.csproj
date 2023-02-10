@@ -5,10 +5,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild><!--在构建时生成包-->
-		<Version>3.2.5</Version>
+		<Version>3.2.6</Version>
 		<Authors>李仕鹏</Authors>
 		<Product>Shipeng.Util</Product>
-		<PackageReleaseNotes>增加ZXing生成二维码/条形码 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
+		<PackageReleaseNotes>增加ThoughtWorks.QRCode.Core生成带标题，中间有logo图标的二维码 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
 		<Copyright>lishipeng</Copyright><!--版权-->
 		<Description>LiShiPeng通用辅助工具，包含几乎所有常用工具类，如需详细了解请访问https://gitee.com/lsp5201314/shipeng-s</Description><!--描述-->
 		<ReleaseNotes>通用工具类</ReleaseNotes><!--发布说明-->
@@ -70,6 +70,7 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.23" />
     <PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
+    <PackageReference Include="ThoughtWorks.QRCodeCore" Version="1.0.0" />
     <PackageReference Include="ToolGood.Words" Version="3.1.0" />
     <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
     <PackageReference Include="ZXing.Net.Bindings.ImageSharp.V2" Version="0.16.14" />

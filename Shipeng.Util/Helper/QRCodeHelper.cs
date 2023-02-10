@@ -2,6 +2,8 @@
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using ThoughtWorks.QRCode.Codec;
 using ZXing;
 
 namespace Shipeng.Util
@@ -49,6 +51,120 @@ namespace Shipeng.Util
             }
 
         }
+
+        #region ThoughtWorks.QRCode.Core
+        /// <summary>
+        /// 生成二维码：带标题，中间有logo图标的二维码
+        /// </summary>
+        /// <param name="context">用于生成二维码的数据</param>
+        /// <param name="title">二维码标题</param>
+        /// <param name="qrCodeImgPath">二维码存储路径</param>
+        /// <param name="logoImgPath">log路径</param>
+        /// <returns></returns>
+        public static string BuildQRCode(string context,string title,string qrCodeImgPath, string logoImgPath)
+        {
+            using (Image qrCodeImg = GenerateQRCode(context, title))//生成的二维码
+            {
+                //生成二维码中间logo的图片
+                using (Image logoImg = Image.FromFile(logoImgPath))
+                {
+                    //组合二维码和logo，形成带logo的二维码，并保存
+                    CombinImage(qrCodeImg, logoImg).Save(qrCodeImgPath);
+                    return qrCodeImgPath;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 生成二维码：根据传进去的数据 生成二维码
+        /// </summary>
+        /// <param name="data">用于生成二维码的数据</param>
+        /// <param name="title">二维码标题</param>
+        /// <returns></returns>
+        public static Image GenerateQRCode(string data,string title)
+        {
+            //创建编码器，设置编码格式。Byte格式的编码，只要能转成Byte的数据，都可以进行编码，比如中文。NUMERIC 只能编码数字。
+            QRCodeEncoder qrCodeEncoder = new QRCodeEncoder();
+            qrCodeEncoder.QRCodeEncodeMode = QRCodeEncoder.ENCODE_MODE.BYTE;
+            //大小，值越大生成的二维码图片像素越高
+            qrCodeEncoder.QRCodeScale = 5;
+            //版本,设置为0主要是防止编码的字符串太长时发生错误
+            qrCodeEncoder.QRCodeVersion = 0;
+            //生成二维码 Bitmap
+            qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.L;//错误效验、错误更正(有4个等级)
+            qrCodeEncoder.QRCodeBackgroundColor = Color.White;//背景色
+            qrCodeEncoder.QRCodeForegroundColor = Color.Black;//前景色
+            var pbImg = qrCodeEncoder.Encode(data, System.Text.Encoding.UTF8);
+            //增加标题
+            pbImg = KiSetText(pbImg, title, 10, 10);
+            return pbImg;
+        }
+
+        /// <summary>
+        /// 给二维码中间添加图片(logo)：将二维码作为背景图片，把小的logo图片放入背景图片的正中央。  
+        /// </summary>
+        /// <param name="backgroundImg">背景图片(此处为二维码)</param>
+        /// <param name="logoImg">logo 图片</param>
+        public static Image CombinImage(Image backgroundImg, Image logoImg)
+        {
+            using (Graphics g = Graphics.FromImage(backgroundImg))
+            {
+                //画背景(二维码)图片，指定开始坐标为 x:0,y:0，指定背景图片宽高。
+                g.DrawImage(backgroundImg, 0, 0, backgroundImg.Width, backgroundImg.Height);
+                //logo 图片，重新设置图片宽高
+                logoImg = ResizeImage(logoImg, 30, 30, 0);
+                //logo四周刷一层红色边框
+                //g.FillRectangle(System.Drawing.Brushes.Red, backgroundImg.Width / 2 - img.Width / 2 - 1, backgroundImg.Width / 2 - img.Width / 2 - 1, 32, 32);
+                //画logo图片，设置坐标位置，让其居于正中央。
+                g.DrawImage(logoImg, backgroundImg.Width / 2 - logoImg.Width / 2, backgroundImg.Width / 2 - logoImg.Width / 2, logoImg.Width, logoImg.Height);
+                return backgroundImg;
+            }
+        }
+
+        /// <summary>
+        /// 重新设置图片的宽高
+        /// </summary>
+        /// <param name="bmp">原始Bitmap</param>
+        /// <param name="newW">新的宽度</param>
+        /// <param name="newH">新的高度</param>
+        /// <param name="Mode">保留着，暂时未用</param>
+        /// <returns>重新设置宽高后的图片</returns>
+        public static Image ResizeImage(Image bmp, int newW, int newH, int Mode)
+        {
+            Image b = new Bitmap(newW, newH);
+            using (Graphics g = Graphics.FromImage(b))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(bmp, new Rectangle(0, 0, newW, newH), new Rectangle(0, 0, bmp.Width, bmp.Height), GraphicsUnit.Pixel);
+                return b;
+            }
+        }
+
+        /// <summary>
+        /// 增加标题
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="txt">标题</param>
+        /// <param name="x">点的水平位置</param>
+        /// <param name="y">点的垂直位置</param>
+        /// <returns></returns>
+        public static Bitmap KiSetText(Bitmap bmp, string txt, int x=0, int y=10)
+        {
+            Bitmap resizeImage = new Bitmap(bmp.Width, bmp.Height + 40);
+            Graphics gfx = Graphics.FromImage(resizeImage);
+            gfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            gfx.FillRectangle(Brushes.White, new Rectangle(0, 0, 400, 100));
+            gfx.DrawImageUnscaled(bmp, 0, 40);
+            FontFamily fm = new FontFamily("YaHei");
+            Font font = new Font(fm, 24, FontStyle.Regular, GraphicsUnit.Pixel);
+            SolidBrush sb = new SolidBrush(Color.Black);
+            gfx.DrawString(txt, font, sb, new PointF(x, y));
+            gfx.Dispose();
+            return resizeImage;
+        }
+        #endregion
+
+
 
         #region 生成二维码
 
