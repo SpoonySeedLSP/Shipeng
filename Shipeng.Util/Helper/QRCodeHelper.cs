@@ -1,10 +1,15 @@
 ﻿using QRCoder;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
-using System.Drawing;
-using System.Drawing.Drawing2D;
+using System.DrawingCore.Drawing2D;
+using System.DrawingCore;
+using System.DrawingCore.Imaging;
 using ThoughtWorks.QRCode.Codec;
 using ZXing;
+using ZXing.Common;
+using ZXing.QrCode;
+using ZXing.QrCode.Internal;
+using ZXing.ZKWeb;
 
 namespace Shipeng.Util
 {
@@ -13,6 +18,7 @@ namespace Shipeng.Util
     /// </summary>
     public class QRCodeHelper
     {
+        #region ZXing.Net
         /// <summary>
         /// 生成二维码
         /// 引用ZXing生成二维码/条形码
@@ -52,6 +58,290 @@ namespace Shipeng.Util
 
         }
 
+        /// <summary>
+        ///  生成条形码
+        /// </summary>
+        /// <param name="message">条码信息</param>
+        /// <param name="gifFileName">生成条码图片文件名</param>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        public static void CreateBarCode(string message, string gifFileName, int width, int height)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return;
+            }
+            var w = new ZXing.OneD.CodaBarWriter();
+            BitMatrix b = w.encode(message, BarcodeFormat.CODE_128, width, height);
+            var zzb = new ZXing.ZKWeb.BarcodeWriter();
+            zzb.Options = new EncodingOptions()
+            {
+                Margin = 3,
+                PureBarcode = false
+            };
+            string dir = Path.GetDirectoryName(gifFileName);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            Bitmap b2 = zzb.Write(b);
+            b2.Save(gifFileName, ImageFormat.Gif);
+            b2.Dispose();
+        }
+
+        /// <summary>
+        /// 生成二维码返回byte数组
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        public static byte[] CreateCodeBytes(string message, int width = 600, int height = 600)
+        {
+            int heig = width;
+            if (width > height)
+            {
+                heig = height;
+                width = height;
+            }
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return null;
+            }
+            var w = new QRCodeWriter();
+            BitMatrix b = w.encode(message, BarcodeFormat.QR_CODE, width, heig);
+            var zzb = new BarcodeWriter();
+            zzb.Options = new EncodingOptions()
+            {
+                Margin = 0,
+            };
+            Bitmap b2 = zzb.Write(b);
+            byte[] bytes = BitmapToArray(b2);
+            return bytes;
+        }
+   
+        /// <summary>
+        /// 将Bitmap  写为byte[]的方法
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <returns></returns>
+        public static byte[] BitmapToArray(Bitmap bmp)
+        {
+            byte[] byteArray = null;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                bmp.Save(stream, ImageFormat.Png);
+                byteArray = stream.GetBuffer();
+            }
+            return byteArray;
+        }
+
+        /// <summary>
+        /// 生成带Logo的二维码
+        /// </summary>
+        /// <param name="text">内容</param>
+        /// <param name="logoPath">Logo 图片</param>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        public static Bitmap GenerateQrCode(string text,string logoPath, int width, int height)
+        {
+            Bitmap logo = new Bitmap(logoPath);
+
+            //构造二维码写码器
+            MultiFormatWriter writer = new MultiFormatWriter();
+            Dictionary<EncodeHintType, object> hint = new Dictionary<EncodeHintType, object>();
+            hint.Add(EncodeHintType.CHARACTER_SET, "UTF-8");
+            hint.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+            //hint.Add(EncodeHintType.MARGIN, 2);//旧版本不起作用，需要手动去除白边
+
+            //生成二维码 
+            BitMatrix bm = writer.encode(text, BarcodeFormat.QR_CODE, width + 30, height + 30, hint);
+            bm = deleteWhite(bm);
+            BarcodeWriter barcodeWriter = new BarcodeWriter();
+            Bitmap map = barcodeWriter.Write(bm);
+
+            //获取二维码实际尺寸（去掉二维码两边空白后的实际尺寸）
+            int[] rectangle = bm.getEnclosingRectangle();
+
+            //计算插入图片的大小和位置
+            int middleW = Math.Min((int)(rectangle[2] / 3), logo.Width);
+            int middleH = Math.Min((int)(rectangle[3] / 3), logo.Height);
+            int middleL = (map.Width - middleW) / 2;
+            int middleT = (map.Height - middleH) / 2;
+
+            Bitmap bmpimg = new Bitmap(map.Width, map.Height, PixelFormat.Format32bppArgb);
+
+            using (Graphics g = Graphics.FromImage(bmpimg))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.DrawImage(map, 0, 0, width, height);
+
+                //白底将二维码插入图片
+                g.FillRectangle(Brushes.White, middleL, middleT, middleW, middleH);
+                g.DrawImage(logo, middleL, middleT, middleW, middleH);
+
+            }
+            return bmpimg;
+        }
+
+        /// <summary>
+        /// 删除默认对应的空白
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        private static BitMatrix deleteWhite(BitMatrix matrix)
+        {
+
+            int[] rec = matrix.getEnclosingRectangle();
+            int resWidth = rec[2] + 1;
+            int resHeight = rec[3] + 1;
+
+            BitMatrix resMatrix = new BitMatrix(resWidth, resHeight);
+            resMatrix.clear();
+
+            for (int i = 0; i < resWidth; i++)
+            {
+
+                for (int j = 0; j < resHeight; j++)
+                {
+
+                    if (matrix[i + rec[0], j + rec[1]])
+                        resMatrix[i, j] = true;
+                }
+
+            }
+            return resMatrix;
+        }
+
+        /// <summary>
+        /// 识别二维码/条形码
+        /// 读取失败，返回空字符串
+        /// </summary>
+        /// <param name="filename">指定二维码图片位置</param>
+        static string ReadCode(string filename)
+        {
+            BarcodeReader reader = new BarcodeReader();
+            reader.Options.CharacterSet = "UTF-8";
+            Bitmap map = new Bitmap(filename);
+            Result result = reader.Decode(map);
+            return result == null ? "" : result.Text;
+        }
+
+        /// <summary>
+        /// 生成带下方文字的二维码
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="desc"></param>
+        /// <returns></returns>
+        public static Bitmap GenerateQrCode(string text, int w, int h, string desc = "")
+        {
+            BarcodeWriter writer = new BarcodeWriter();
+            writer.Format = BarcodeFormat.QR_CODE;
+            QrCodeEncodingOptions options = new QrCodeEncodingOptions()
+            {
+                DisableECI = true,//设置内容编码
+                CharacterSet = "UTF-8",  //设置二维码的宽度和高度
+                Width = w,
+                Height = h,
+                Margin = 1//设置二维码的边距,单位不是固定像素
+            };
+
+            writer.Options = options;
+            Bitmap map = writer.Write(text);
+            if (!string.IsNullOrWhiteSpace(desc))
+            {
+                return AddText(desc, map, w, h);
+            }
+            return map;
+        }
+
+        /// <summary>
+        /// 生成带logo，带下方文字的二维码
+        /// </summary>
+        /// <param name="text">内容</param>
+        /// <param name="qrCodeImgPath">二维码保存路径</param>
+        /// <param name="w">二维码宽，默认500</param>
+        /// <param name="h">二维码高，默认500</param>
+        /// <param name="logoUrl">log图片路径</param>
+        /// <param name="desc">下方的文字</param>
+        /// <returns></returns>
+        public static void GenerateQrCodeWithLogo(string text, string qrCodeImgPath, int w=500, int h=500, string logoUrl="", string desc = "")
+        {
+            Bitmap logo = new Bitmap(logoUrl);
+            //构造二维码写码器
+            MultiFormatWriter writer = new MultiFormatWriter();
+            Dictionary<EncodeHintType, object> hint = new Dictionary<EncodeHintType, object>();
+            hint.Add(EncodeHintType.CHARACTER_SET, "UTF-8");
+            hint.Add(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
+            hint.Add(EncodeHintType.MARGIN, 1);
+
+            //生成二维码
+            BitMatrix bm = writer.encode(text, BarcodeFormat.QR_CODE, w, h, hint);
+            BarcodeWriter barcodeWriter = new BarcodeWriter();
+            Bitmap map = barcodeWriter.Write(bm);
+
+            //获取二维码实际尺寸（去掉二维码两边空白后的实际尺寸）
+            int[] rectangle = bm.getEnclosingRectangle();
+
+            //计算插入图片的大小和位置
+            int middleW = Math.Min((int)(rectangle[2] / 3.5), logo.Width);
+            int middleH = Math.Min((int)(rectangle[3] / 3.5), logo.Height);
+            int middleL = (map.Width - middleW) / 2;
+            int middleT = (map.Height - middleH) / 2;
+
+            // //将img转换成bmp格式，否则后面无法创建Graphics对象
+            Bitmap bmpimg = new Bitmap(map.Width, map.Height, PixelFormat.Format32bppArgb);
+            using (Graphics g = Graphics.FromImage(bmpimg))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.DrawImage(map, 0, 0, w, h);
+                //白底将二维码插入图片
+                g.FillRectangle(Brushes.White, middleL, middleT, middleW, middleH);
+                g.DrawImage(logo, middleL, middleT, middleW, middleH);
+            }
+
+            if (!string.IsNullOrWhiteSpace(desc))
+            {
+                bmpimg = AddText(desc, bmpimg, w, h);
+            }
+            //保存成图片
+            bmpimg.Save(qrCodeImgPath, ImageFormat.Jpeg);
+        }
+
+        /// <summary>
+        /// 添加二维码底部描述
+        /// </summary>
+        /// <param name="desc">描述信息</param>
+        /// <param name="qrBitMap"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        private static Bitmap AddText(string desc, Bitmap qrBitMap, int width, int height)
+        {
+            var txtHeight = 30;  // 默认一行文字
+            Font font = new Font("GB2312", 11, FontStyle.Regular);//设置字体，大小
+            SolidBrush sbrush = new SolidBrush(Color.Black); // 设置颜色
+            var newMap = new Bitmap(width, height + txtHeight);
+            Graphics g = Graphics.FromImage(newMap);
+            g.Clear(Color.White);
+            var format = StringFormat.GenericDefault;
+            format.LineAlignment = StringAlignment.Center;
+            format.Alignment = StringAlignment.Center;
+            g.DrawString(desc, font, sbrush, new RectangleF(0, height, width, txtHeight), format);
+
+            // 合并位图
+            g.DrawImage(qrBitMap, new Rectangle(0, 0, width, height));
+            g.Dispose();
+            return newMap;
+        }
+        #endregion
+
         #region ThoughtWorks.QRCode.Core
         /// <summary>
         /// 生成二维码：带标题，中间有logo图标的二维码
@@ -63,10 +353,10 @@ namespace Shipeng.Util
         /// <returns></returns>
         public static string BuildQRCode(string context,string title,string qrCodeImgPath, string logoImgPath)
         {
-            using (Image qrCodeImg = GenerateQRCode(context, title))//生成的二维码
+            using (System.Drawing.Image qrCodeImg = GenerateQRCode(context, title))//生成的二维码
             {
                 //生成二维码中间logo的图片
-                using (Image logoImg = Image.FromFile(logoImgPath))
+                using (System.Drawing.Image logoImg = System.Drawing.Image.FromFile(logoImgPath))
                 {
                     //组合二维码和logo，形成带logo的二维码，并保存
                     CombinImage(qrCodeImg, logoImg).Save(qrCodeImgPath);
@@ -81,7 +371,7 @@ namespace Shipeng.Util
         /// <param name="data">用于生成二维码的数据</param>
         /// <param name="title">二维码标题</param>
         /// <returns></returns>
-        public static Image GenerateQRCode(string data,string title)
+        public static System.Drawing.Image GenerateQRCode(string data,string title)
         {
             //创建编码器，设置编码格式。Byte格式的编码，只要能转成Byte的数据，都可以进行编码，比如中文。NUMERIC 只能编码数字。
             QRCodeEncoder qrCodeEncoder = new QRCodeEncoder();
@@ -92,8 +382,8 @@ namespace Shipeng.Util
             qrCodeEncoder.QRCodeVersion = 0;
             //生成二维码 Bitmap
             qrCodeEncoder.QRCodeErrorCorrect = QRCodeEncoder.ERROR_CORRECTION.L;//错误效验、错误更正(有4个等级)
-            qrCodeEncoder.QRCodeBackgroundColor = Color.White;//背景色
-            qrCodeEncoder.QRCodeForegroundColor = Color.Black;//前景色
+            qrCodeEncoder.QRCodeBackgroundColor = System.Drawing.Color.White;//背景色
+            qrCodeEncoder.QRCodeForegroundColor = System.Drawing.Color.Black;//前景色
             var pbImg = qrCodeEncoder.Encode(data, System.Text.Encoding.UTF8);
             //增加标题
             pbImg = KiSetText(pbImg, title, 10, 10);
@@ -105,9 +395,9 @@ namespace Shipeng.Util
         /// </summary>
         /// <param name="backgroundImg">背景图片(此处为二维码)</param>
         /// <param name="logoImg">logo 图片</param>
-        public static Image CombinImage(Image backgroundImg, Image logoImg)
+        public static System.Drawing.Image CombinImage(System.Drawing.Image backgroundImg, System.Drawing.Image logoImg)
         {
-            using (Graphics g = Graphics.FromImage(backgroundImg))
+            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(backgroundImg))
             {
                 //画背景(二维码)图片，指定开始坐标为 x:0,y:0，指定背景图片宽高。
                 g.DrawImage(backgroundImg, 0, 0, backgroundImg.Width, backgroundImg.Height);
@@ -129,13 +419,13 @@ namespace Shipeng.Util
         /// <param name="newH">新的高度</param>
         /// <param name="Mode">保留着，暂时未用</param>
         /// <returns>重新设置宽高后的图片</returns>
-        public static Image ResizeImage(Image bmp, int newW, int newH, int Mode)
+        public static System.Drawing.Image ResizeImage(System.Drawing.Image bmp, int newW, int newH, int Mode)
         {
-            Image b = new Bitmap(newW, newH);
-            using (Graphics g = Graphics.FromImage(b))
+            System.Drawing.Image b = new System.Drawing.Bitmap(newW, newH);
+            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(b))
             {
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.DrawImage(bmp, new Rectangle(0, 0, newW, newH), new Rectangle(0, 0, bmp.Width, bmp.Height), GraphicsUnit.Pixel);
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.DrawImage(bmp, new System.Drawing.Rectangle(0, 0, newW, newH), new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), System.Drawing.GraphicsUnit.Pixel);
                 return b;
             }
         }
@@ -148,17 +438,17 @@ namespace Shipeng.Util
         /// <param name="x">点的水平位置</param>
         /// <param name="y">点的垂直位置</param>
         /// <returns></returns>
-        public static Bitmap KiSetText(Bitmap bmp, string txt, int x=0, int y=10)
+        public static System.Drawing.Bitmap KiSetText(System.Drawing.Bitmap bmp, string txt, int x=0, int y=10)
         {
-            Bitmap resizeImage = new Bitmap(bmp.Width, bmp.Height + 40);
-            Graphics gfx = Graphics.FromImage(resizeImage);
+            System.Drawing.Bitmap resizeImage = new System.Drawing.Bitmap(bmp.Width, bmp.Height + 40);
+            System.Drawing.Graphics gfx = System.Drawing.Graphics.FromImage(resizeImage);
             gfx.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-            gfx.FillRectangle(Brushes.White, new Rectangle(0, 0, 400, 100));
+            gfx.FillRectangle(System.Drawing.Brushes.White, new System.Drawing.Rectangle(0, 0, 400, 100));
             gfx.DrawImageUnscaled(bmp, 0, 40);
-            FontFamily fm = new FontFamily("Microsoft YaHei");
-            Font font = new Font(fm, 24, FontStyle.Regular, GraphicsUnit.Pixel);
-            SolidBrush sb = new SolidBrush(Color.Black);
-            gfx.DrawString(txt, font, sb, new PointF(x, y));
+            System.Drawing.FontFamily fm = new System.Drawing.FontFamily("Microsoft YaHei");
+            System.Drawing.Font font = new System.Drawing.Font(fm, 24, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            System.Drawing.SolidBrush sb = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+            gfx.DrawString(txt, font, sb, new System.Drawing.PointF(x, y));
             gfx.Dispose();
             return resizeImage;
         }

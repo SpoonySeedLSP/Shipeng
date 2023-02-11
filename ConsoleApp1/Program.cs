@@ -8,7 +8,8 @@ using Shipeng.Util;
 //string html = AsposeOfficeHelper.WordToHtml(wordPath);
 //AsposeOfficeHelper.FreeSpireWordToPdf(wordPath, pdfPath);
 
-string qrCodeImgPath = "D:\\ynmmnykj\\UplodFiles\\CodeFile\\2023\\code\\二维码.jpg";
-string logPath = "F:\\图片\\1.jpg";
-QRCodeHelper.BuildQRCode("https://www.tongkekj.com:8031/index.html?id=8888888","1234567890123456", qrCodeImgPath, logPath);
+string qrCodeImgPath = "D:\\ynmmnykj\\UplodFiles\\CodeFile\\2023\\code\\二维码02.jpg";
+string logPath = "F:\\图片\\刘新玉.png";
+//QRCodeHelper.Generate3("https://www.tongkekj.com:8808/authentication.html?id=394007797336900869");
+QRCodeHelper.GenerateQrCodeWithLogo("https://www.tongkekj.com:8808/authentication.html?id=394007797336900869", qrCodeImgPath, 500,500, logPath,"1234567890123456");
 Console.WriteLine("Hello, World!");
