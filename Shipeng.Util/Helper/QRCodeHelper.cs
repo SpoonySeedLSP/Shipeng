@@ -232,12 +232,13 @@ namespace Shipeng.Util
         /// <summary>
         /// 生成带下方文字的二维码
         /// </summary>
-        /// <param name="text"></param>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
-        /// <param name="desc"></param>
+        /// <param name="text">内容</param>
+        /// <param name="qrCodeImgPath">二维码保存路径</param>
+        /// <param name="w">二维码宽，默认500</param>
+        /// <param name="h">二维码高，默认500</param>
+        /// <param name="desc">下方的文字</param>
         /// <returns></returns>
-        public static Bitmap GenerateQrCode(string text, int w, int h, string desc = "")
+        public static void GenerateQrCode(string text, string qrCodeImgPath, int w=500, int h=500, string desc = "")
         {
             BarcodeWriter writer = new BarcodeWriter();
             writer.Format = BarcodeFormat.QR_CODE;
@@ -254,9 +255,10 @@ namespace Shipeng.Util
             Bitmap map = writer.Write(text);
             if (!string.IsNullOrWhiteSpace(desc))
             {
-                return AddText(desc, map, w, h);
+                map= AddText(desc, map, w, h);
             }
-            return map;
+            //保存成图片
+            map.Save(qrCodeImgPath, ImageFormat.Jpeg);
         }
 
         /// <summary>
