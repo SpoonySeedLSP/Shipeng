@@ -140,10 +140,11 @@ namespace Shipeng.Util
         /// 生成带Logo的二维码
         /// </summary>
         /// <param name="text">内容</param>
+        /// <param name="qrCodeImgPath">二维码保存路径</param>
         /// <param name="logoPath">Logo 图片</param>
         /// <param name="width">宽度</param>
         /// <param name="height">高度</param>
-        public static Bitmap GenerateQrCode(string text,string logoPath, int width, int height)
+        public static void GenerateQrCode(string text, string qrCodeImgPath, string logoPath, int width=500, int height=500)
         {
             Bitmap logo = new Bitmap(logoPath);
 
@@ -183,7 +184,8 @@ namespace Shipeng.Util
                 g.DrawImage(logo, middleL, middleT, middleW, middleH);
 
             }
-            return bmpimg;
+            //保存成图片
+            bmpimg.Save(qrCodeImgPath, ImageFormat.Jpeg);
         }
 
         /// <summary>
