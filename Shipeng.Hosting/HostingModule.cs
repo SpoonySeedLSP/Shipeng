@@ -102,7 +102,7 @@ namespace Shipeng.Hosting
                 options.Filters.Add<ShipengCoreActionFilter>();
             })
             .AddJsonOptions(opt => { });
-            Configure<AbpJsonOptions>(options => options.DefaultDateTimeFormat = "yyyy-MM-dd HH:mm:ss");
+            //Configure<AbpJsonOptions>(options => options.DefaultDateTimeFormat = "yyyy-MM-dd HH:mm:ss");
         }
 
         /// <summary>
