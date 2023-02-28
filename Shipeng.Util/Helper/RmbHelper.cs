@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Shipeng.Util
+﻿namespace Shipeng.Util
 {
     /// <summary> 
     /// RmbHelper将阿拉伯数字形式的人民币金额转换为中文大写
