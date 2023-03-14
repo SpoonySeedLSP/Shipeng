@@ -5,10 +5,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild><!--在构建时生成包-->
-		<Version>3.3.1</Version>
+		<Version>3.3.2</Version>
 		<Authors>李仕鹏</Authors>
 		<Product>Shipeng.Util</Product>
-		<PackageReleaseNotes>升级.net7.0 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
+		<PackageReleaseNotes>增加地图计算帮助类 https://gitee.com/lsp5201314/shipeng-s</PackageReleaseNotes><!--包版本说明-->
 		<Copyright>lishipeng</Copyright><!--版权-->
 		<Description>LiShiPeng通用辅助工具，包含几乎所有常用工具类，如需详细了解请访问https://gitee.com/lsp5201314/shipeng-s</Description><!--描述-->
 		<ReleaseNotes>通用工具类</ReleaseNotes><!--发布说明-->
