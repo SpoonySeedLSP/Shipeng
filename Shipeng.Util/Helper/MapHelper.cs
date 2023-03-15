@@ -32,9 +32,200 @@
     public class MapHelper
     {
         /// <summary>
-        /// 地球半径,单位 m
+        /// 地球的平均半径为6371千米,赤道半径6378千米,极半径6357千米,赤道周长约为 40091千米
         /// </summary>
-        private static double EARTH_RADIUS = 6378137.0;
+        private static double EARTH_RADIUS = 6378137.0;//地球半径,单位 m
+        private static double ChiDaoR = 6378.2;//赤道半径,单位 km
+
+        /// <summary>
+        /// 判断是否在误差范围内
+        /// </summary>
+        /// <param name="point">坐标点</param>
+        /// <param name="points">边界点集合</param>
+        /// <param name="limitDistance">极限距离 单位：m</param>
+        /// <returns></returns>
+        public static bool InLimitDistance(MapPoint point, List<MapPoint> points, double limitDistance)
+        {
+            List<double> distance = new List<double>();
+            var len = points.Count;
+            var maxIndex = len - 1;
+            for (int i = 0; i < len; i++)
+            {
+                //多边形中当前点
+                var currentPoint = points[i];
+                var nearPoint = maxIndex == i ? points[0] : points[i + 1];
+                double a, b, c;
+                a = GetDistance(point, currentPoint);//经纬坐标系中求两点的距离公式
+                b = GetDistance(point, nearPoint);//经纬坐标系中求两点的距离公式
+                c = GetDistance(currentPoint, nearPoint);//经纬坐标系中求两点的距离公式
+                if (b * b >= c * c + a * a)
+                {
+                    distance.Add(c);
+                    continue;
+
+                }
+                if (c * c >= b * b + a * a)
+                {
+                    distance.Add(b);
+                    continue;
+                }
+
+                double l = (a + b + c) / 2;//周长的一半
+                double s = Math.Sqrt(l * (l - a) * (l - b) * (l - c));//海伦公式求面积
+                distance.Add(2 * s / a);
+            }
+
+            if (!distance.Any())
+            {
+                return false;
+            }
+
+            var count = distance.Where(s => s < limitDistance).Count();
+            if (count > 0) return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 连点之间距离公式判断坐标是否在圆内,√[(x1-x2)²+(y1-y2)²]
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="f"></param>
+        /// <param name="r">半径（单位：公里或千米）</param>
+        /// <returns></returns>
+        public static bool InoutCircle(MapPoint p, MapPoint f, double r)
+        {
+            double distanceBetPoints;//两点之间距离
+            distanceBetPoints = Math.Pow(Math.Pow(p.x - f.x, 2) + Math.Pow(p.y - f.y, 2), 0.5);
+            return distanceBetPoints <= r;
+        }
+
+        /// <summary>
+        /// 判断点是否在多边形内.
+        /// ----------原理----------
+        /// 注意到如果从P作水平向左的射线的话，如果P在多边形内部，那么这条射线与多边形的交点必为奇数，
+        /// 如果P在多边形外部，则交点个数必为偶数(0也在内)。
+        /// 所以，我们可以顺序考虑多边形的每条边，求出交点的总个数。还有一些特殊情况要考虑。假如考虑边(P1,P2)，
+        /// 1)如果射线正好穿过P1或者P2,那么这个交点会被算作2次，处理办法是如果P的从坐标与P1,P2中较小的纵坐标相同，则直接忽略这种情况
+        /// 2)如果射线水平，则射线要么与其无交点，要么有无数个，这种情况也直接忽略。
+        /// 3)如果射线竖直，而P0的横坐标小于P1,P2的横坐标，则必然相交。
+        /// 4)再判断相交之前，先判断P是否在边(P1,P2)的上面，如果在，则直接得出结论：P再多边形内部。
+        /// </summary>
+        /// <param name="checkPoint">要判断的点</param>
+        /// <param name="polygonPoints">多边形的顶点</param>
+        /// <returns></returns>
+        public static bool IsInPolygon2(MapPoint checkPoint, List<MapPoint> polygonPoints)
+        {
+            int counter =0;
+            int i;
+            double xinters;
+            MapPoint p1, p2;
+            int pointCount = polygonPoints.Count;
+            p1 = polygonPoints[0];
+            for (i =0 ; i <= pointCount; i++)
+            {
+                p2 = polygonPoints[i % pointCount];
+                if (checkPoint.y > Math.Min(p1.y, p2.y)//校验点的Y大于线段端点的最小Y
+                    && checkPoint.y <= Math.Max(p1.y, p2.y))//校验点的Y小于线段端点的最大Y
+                {
+                    if (checkPoint.x <= Math.Max(p1.x, p2.x))//校验点的X小于等线段端点的最大X(使用校验点的左射线判断).
+                    {
+                        if (p1.y != p2.y)//线段不平行于X轴
+                        {
+                            xinters = (checkPoint.y - p1.y) * (p2.x - p1.x) / (p2.y - p1.y) + p1.x;
+                            if (p1.x == p2.x || checkPoint.x <= xinters)
+                            {
+                                counter++;
+                            }
+                        }
+                    }
+
+                }
+                p1 = p2;
+            }
+
+            if (counter % 2  != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// 判断当前位置是否在不规则形状里面
+        /// </summary>
+        /// <param name="nvert">不规则形状的定点数</param>
+        /// <param name="vertx">当前x坐标</param>
+        /// <param name="verty">当前y坐标</param>
+        /// <param name="testx">不规则形状x坐标集合</param>
+        /// <param name="testy">不规则形状y坐标集合</param>
+        /// <returns></returns>
+        public static bool PositionPnpoly(int nvert, List<double> vertx, List<double> verty, double testx, double testy)
+        {
+            int i, j, c = 0;
+            for (i =0 , j = nvert -- ; i < nvert; j = i++)
+            {
+                if (((verty[i] > testy) != (verty[j] > testy)) && (testx < (vertx[j] - vertx[i]) * (testy - verty[i]) / (verty[j] - verty[i]) + vertx[i]))
+                {
+                    c = +c; ;
+                }
+            }
+            if (c % 2  != 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// 判断点是否在多边形内.
+        /// ----------原理----------
+        /// 注意到如果从P作水平向左的射线的话，如果P在多边形内部，那么这条射线与多边形的交点必为奇数，
+        /// 如果P在多边形外部，则交点个数必为偶数(0也在内)。
+        /// </summary>
+        /// <param name="checkPoint">要判断的点</param>
+        /// <param name="polygonPoints">多边形的顶点</param>
+        /// <returns></returns>
+        public static bool IsInPolygon(MapPoint checkPoint, List<MapPoint> polygonPoints)
+        {
+            bool inside = false;
+            int pointCount = polygonPoints.Count;
+            MapPoint p1, p2;
+            //第一个点和最后一个点作为第一条线，之后是第一个点和第二个点作为第二条线，之后是第二个点与第三个点，第三个点与第四个点...
+            for (int i = 0, j = pointCount -- ; i < pointCount; j = i, i++)
+            {
+                p1 = polygonPoints[i];
+                p2 = polygonPoints[j];
+                if (checkPoint.y < p2.y)
+                {
+                    //p2在射线之上
+                    if (p1.y <= checkPoint.y)
+                    {//p1正好在射线中或者射线下方
+                        if ((checkPoint.y - p1.y) * (p2.x - p1.x) > (checkPoint.x - p1.x) * (p2.y - p1.y))//斜率判断,在P1和P2之间且在P1P2右侧
+                        {
+                            //射线与多边形交点为奇数时则在多边形之内，若为偶数个交点时则在多边形之外。
+                            //由于inside初始值为false，即交点数为零。所以当有第一个交点时，则必为奇数，则在内部，此时为inside=(!inside)
+                            //所以当有第二个交点时，则必为偶数，则在外部，此时为inside=(!inside)
+                            inside = (!inside);
+                        }
+                    }
+                }
+                else if (checkPoint.y < p1.y)
+                {
+                    //p2正好在射线中或者在射线下方，p1在射线上
+                    if ((checkPoint.y - p1.y) * (p2.x - p1.x) < (checkPoint.x - p1.x) * (p2.y - p1.y))//斜率判断,在P1和P2之间且在P1P2右侧
+                    {
+                        inside = (!inside);
+                    }
+                }
+            }
+            return inside;
+        }
 
         /// <summary>
         /// 判断点是否在多边形内或多边形上
@@ -264,6 +455,110 @@
         }
 
         /// <summary>
+        /// 以一个经纬度为中心计算出四个顶点
+        /// </summary>
+        /// <param name="distance">半径(米)</param>
+        /// <returns></returns>
+        public static MapPoint[] GetDegreeCoordinates(MapPoint point, double distance)
+        {
+            double dlng = 2 * Math.Asin(Math.Sin(distance / (2 * EARTH_RADIUS)) / Math.Cos(point.x));
+            dlng = ToAngle(dlng);//一定转换成角度数
+
+            double dlat = distance / EARTH_RADIUS;
+            dlat = ToAngle(dlat);//一定转换成角度数
+
+            return new MapPoint[] { new MapPoint(Math.Round(point.x + dlat,6), Math.Round(point.y - dlng,6)),//left-top
+                                  new MapPoint(Math.Round(point.x - dlat,6), Math.Round(point.y - dlng,6)),//left-bottom
+                                  new MapPoint(Math.Round(point.x + dlat,6), Math.Round(point.y + dlng,6)),//right-top
+                                  new MapPoint(Math.Round(point.x - dlat,6), Math.Round(point.y + dlng,6)) //right-bottom
+            };
+
+        }
+
+        #region 根据圆点经纬度和半径，给出圆周上各点经纬度
+        /// <summary>
+        /// 根据圆点经纬度和半径，给出圆周上各点经纬度
+        /// </summary>
+        /// <param name="pos">圆点经纬度</param>
+        /// <param name="r">半径（单位：公里或千米）</param>
+        /// <returns></returns>
+        public static List<MapPoint> GetCirclePoint(MapPoint pos, double r)
+        {
+            List<MapPoint> CirclePt = new List<MapPoint>();
+            double longitude = 0, latitude = 0;
+            //从0度开始，每隔5度计算一个点，一共360/5 = 72个点
+            for (double rangle = 0; rangle <= 360; rangle += 5)
+            {
+                ComputePosition(pos.x, pos.y, rangle, r, ref longitude, ref latitude);
+                MapPoint pt = new MapPoint(longitude, latitude);
+                CirclePt.Add(pt);
+            }
+            return CirclePt;
+        }
+
+        /// <summary>
+        /// 计算位置
+        /// </summary>
+        /// <param name="longitude1">经度1</param>
+        /// <param name="latitude1">纬度1</param>
+        /// <param name="rangle"></param>
+        /// <param name="r">半径（单位：公里或千米）</param>
+        /// <param name="longitude2">经度2</param>
+        /// <param name="latitude2">纬度2</param>
+        public static void ComputePosition(double longitude1, double latitude1, double rangle, double r, ref double longitude2, ref double latitude2)
+        {
+            double ddu, w, tempPa, Dd;
+            double g_HuDu = Math.PI / 180.0;
+            //将传入的公里值转换成海里值
+            r = r * 1.843;//在赤道区域,1海里大约是1.843公里,而在两极区域,1海里大约是1.862公里
+
+            rangle = rangle * g_HuDu;
+            ddu = r * Math.Cos(rangle);
+            w = r * Math.Sin(rangle);
+
+            //计算第二点纬度
+            tempPa = latitude1 + ddu / 60.0;
+            if (tempPa > 90)
+            {
+                tempPa = 90.0;
+            }
+            else if (tempPa < -90)
+            {
+                tempPa = -90.0;
+            }
+            latitude2 = tempPa;
+
+            //计算第二点经度
+            Dd = G_JCWD(60 * tempPa) - G_JCWD(60 * latitude1);//计算渐长纬度差
+            if (Math.Abs(ddu) <= 0.00001)
+            {
+                tempPa = longitude1 + (w / Math.Cos(latitude1 * g_HuDu)) / 60.0;
+            }
+            else
+            {
+                tempPa = (longitude1 + (w * Dd / ddu) / 60.0);
+            }
+            if (tempPa > 180)
+            {
+                tempPa = tempPa - 360.0;
+            }
+            else if (tempPa < -180.0)
+            {
+                tempPa = tempPa + 360.0;
+            }
+            longitude2 = tempPa;
+        }
+
+        private static double G_JCWD(double fi)
+        {
+            double JCWD;
+            JCWD = ChiDaoR * Math.Log10(Math.Tan(Math.PI / 4 + fi / (2 * 60) * Math.PI / 180));
+            return JCWD;
+        }
+
+        #endregion
+
+        /// <summary>
         /// 根据经纬度，计算两点间的距离
         /// </summary>
         /// <param name="longitude1">第一个点的经度</param>
@@ -292,14 +587,64 @@
         }
 
         /// <summary>
+        /// 计算两个经纬度之间的直接距离
+        /// 该公式为GOOGLE提供，误差小于0.2米
+        /// </summary>
+        /// <param name="point1">第一个经纬度</param>
+        /// <param name="point2">第二个经纬度</param>
+        /// <returns></returns>
+        public static double GetDistance(MapPoint point1, MapPoint point2)
+        {
+            double radLat1 = ToRadians(point1.x);
+            double radLat2 = ToRadians(point2.x);
+            double a = radLat1 - radLat2;
+            double b = ToRadians(point1.y) - ToRadians(point2.y);
+
+            double s = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin(a / 2), 2) +
+             Math.Cos(radLat1) * Math.Cos(radLat2) * Math.Pow(Math.Sin(b / 2), 2)));
+            s = s * EARTH_RADIUS;
+            s = Math.Round(s * 10000) / 10000;
+            return s;
+        }
+
+        /// <summary>
+        /// 计算两个经纬度之间的直接距离(google 算法)
+        /// </summary>
+        /// <param name="point1">第一个经纬度</param>
+        /// <param name="point2">第二个经纬度</param>
+        /// <returns></returns>
+        public static double GetDistanceGoogle(MapPoint point1, MapPoint point2)
+        {
+            double radLat1 = ToRadians(point1.x);
+            double radLng1 = ToRadians(point1.y);
+            double radLat2 = ToRadians(point2.x);
+            double radLng2 = ToRadians(point2.y);
+
+            double s = Math.Acos(Math.Cos(radLat1) * Math.Cos(radLat2) * Math.Cos(radLng1 - radLng2) + Math.Sin(radLat1) * Math.Sin(radLat2));
+            s = s * EARTH_RADIUS;
+            s = Math.Round(s * 10000) / 10000;
+            return s;
+        }
+
+
+        /// <summary>
         /// 角度转弧度
         /// </summary>
-        /// <param name="degrees"></param>
+        /// <param name="degrees">角度</param>
         /// <returns></returns>
         public static double ToRadians(double degrees)
         {
             double radians = (Math.PI / 180) * degrees;
             return (radians);
+        }
+
+        /// <summary>
+        /// 弧度转换为角度
+        /// </summary>
+        /// <param name="degrees">弧度</param>
+        public static double ToAngle(double degrees)
+        {
+            return degrees * (180 / Math.PI);
         }
 
     }
