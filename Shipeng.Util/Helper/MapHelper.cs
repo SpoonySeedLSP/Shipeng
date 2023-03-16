@@ -55,9 +55,9 @@
                 var currentPoint = points[i];
                 var nearPoint = maxIndex == i ? points[0] : points[i + 1];
                 double a, b, c;
-                a = GetDistance(point, currentPoint);//经纬坐标系中求两点的距离公式
-                b = GetDistance(point, nearPoint);//经纬坐标系中求两点的距离公式
-                c = GetDistance(currentPoint, nearPoint);//经纬坐标系中求两点的距离公式
+                a = GetDistanceGoogle(point, currentPoint);//经纬坐标系中求两点的距离公式
+                b = GetDistanceGoogle(point, nearPoint);//经纬坐标系中求两点的距离公式
+                c = GetDistanceGoogle(currentPoint, nearPoint);//经纬坐标系中求两点的距离公式
                 if (b * b >= c * c + a * a)
                 {
                     distance.Add(c);
@@ -87,6 +87,11 @@
 
         /// <summary>
         /// 连点之间距离公式判断坐标是否在圆内,√[(x1-x2)²+(y1-y2)²]
+        /// 点与圆的位置关系有三种：点在圆内、点在圆上、点在圆外
+        /// 假设圆的半径为r，点到圆心的距离为d，则有：d＜r点在圆内，d=r点在圆上，d＞r点在圆外
+        /// 当(x1-x2)²+(y1-y2)²＞r²时，则点P在圆外
+        /// 当(x1-x2)²+(y1-y2)²=r²时，则点P在圆上
+        /// 当(x1-x2)²+(y1-y2)²＜r²时，则点P在圆内
         /// </summary>
         /// <param name="p"></param>
         /// <param name="f"></param>
@@ -100,7 +105,7 @@
         }
 
         /// <summary>
-        /// 判断点是否在多边形内.
+        /// 判断点是否在多边形内
         /// ----------原理----------
         /// 注意到如果从P作水平向左的射线的话，如果P在多边形内部，那么这条射线与多边形的交点必为奇数，
         /// 如果P在多边形外部，则交点个数必为偶数(0也在内)。
@@ -588,7 +593,6 @@
 
         /// <summary>
         /// 计算两个经纬度之间的直接距离
-        /// 该公式为GOOGLE提供，误差小于0.2米
         /// </summary>
         /// <param name="point1">第一个经纬度</param>
         /// <param name="point2">第二个经纬度</param>
@@ -608,7 +612,7 @@
         }
 
         /// <summary>
-        /// 计算两个经纬度之间的直接距离(google 算法)
+        /// 计算两个经纬度之间的直接距离(google 算法)，误差小于0.2米
         /// </summary>
         /// <param name="point1">第一个经纬度</param>
         /// <param name="point2">第二个经纬度</param>
@@ -625,7 +629,6 @@
             s = Math.Round(s * 10000) / 10000;
             return s;
         }
-
 
         /// <summary>
         /// 角度转弧度
