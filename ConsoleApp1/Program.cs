@@ -37,10 +37,14 @@ var points = MapHelper.GetDegreeCoordinates(new MapPoint(102.676643, 25.075033),
 
 //Console.WriteLine("北京天安门坐标是否在圆内:" + MapHelper.InoutCircle(new MapPoint(102.70737, 25.04347), new MapPoint(116.38, 39.90), 1));
 
-double distance = 1000;
-Console.WriteLine($"花香四季:{MapHelper.GetDistanceGoogle(new MapPoint(102.676643, 25.075033), new MapPoint(102.70737, 25.04347)) <= distance}");
-Console.WriteLine($"清河居:{MapHelper.GetDistanceGoogle(new MapPoint(102.676643, 25.075033), new MapPoint(102.661309, 25.100046)) <= distance}");
-Console.WriteLine($"北京天安门:{MapHelper.GetDistanceGoogle(new MapPoint(102.676643, 25.075033), new MapPoint(116.38, 39.90)) <= distance}");
+Console.WriteLine($"花香四季---花香四季5栋:{MapHelper.GetDistance(102.70737, 25.04347, 102.676643, 25.075033)/1000}公里");
+Console.WriteLine($"清河居---花香四季5栋:{MapHelper.GetDistance(102.661309, 25.100046, 102.676643, 25.075033)/1000}公里");
+Console.WriteLine($"北京天安门---花香四季5栋:{MapHelper.GetDistance(116.38, 39.90, 102.676643, 25.075033)/1000}公里");
+
+//double distance = 1000;
+//Console.WriteLine($"花香四季:{MapHelper.InLimitDistance(new MapPoint(102.70737, 25.04347), points.ToList(), distance)}");
+//Console.WriteLine($"清河居:{MapHelper.InLimitDistance(new MapPoint(102.661309, 25.100046), points.ToList(), distance)}");
+//Console.WriteLine($"北京天安门:{MapHelper.InLimitDistance(new MapPoint(116.38, 39.90), points.ToList(), distance)}");
 
 double r = 1;
 //Console.WriteLine("花香四季坐标是否在圆内:" + MapHelper.InoutCircle(new MapPoint(102.676643, 25.075033), new MapPoint(102.70737, 25.04347), r));
