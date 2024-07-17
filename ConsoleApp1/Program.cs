@@ -37,9 +37,27 @@ var points = MapHelper.GetDegreeCoordinates(new MapPoint(102.676643, 25.075033),
 
 //Console.WriteLine("北京天安门坐标是否在圆内:" + MapHelper.InoutCircle(new MapPoint(102.70737, 25.04347), new MapPoint(116.38, 39.90), 1));
 
-Console.WriteLine($"花香四季---花香四季5栋:{MapHelper.GetDistance(102.70737, 25.04347, 102.676643, 25.075033)/1000}公里");
-Console.WriteLine($"清河居---花香四季5栋:{MapHelper.GetDistance(102.661309, 25.100046, 102.676643, 25.075033)/1000}公里");
-Console.WriteLine($"北京天安门---花香四季5栋:{MapHelper.GetDistance(116.38, 39.90, 102.676643, 25.075033)/1000}公里");
+//Console.WriteLine($"花香四季---花香四季5栋:{MapHelper.GetDistance(102.70737, 25.04347, 102.676643, 25.075033)/1000}公里");
+//Console.WriteLine($"清河居---花香四季5栋:{MapHelper.GetDistance(102.661309, 25.100046, 102.676643, 25.075033)/1000}公里");
+//Console.WriteLine($"北京天安门---花香四季5栋:{MapHelper.GetDistance(116.38, 39.90, 102.676643, 25.075033)/1000}公里");
+Console.WriteLine($"花香四季---花香四季5栋:{MapHelper.GetDistance(102.70737, 25.04347, 102.676643, 25.075033) / 1000}公里");
+Console.WriteLine($"清河居---花香四季5栋:{MapHelper.GetDistance(102.661309, 25.100046, 102.676643, 25.075033) / 1000}公里");
+Console.WriteLine($"北京天安门---花香四季5栋:{MapHelper.GetDistance(116.38, 39.90, 102.676643, 25.075033) / 1000}公里");
+
+Console.WriteLine("开始转换:");
+
+//昆明市五华区中产花香四季5栋   经度：102.68329，维度：25.08083
+//double[] a=LocationUtil.MapPointTxTurnBaiDu(25.04347, 102.70737);
+var a = new double[2] { 25.08083, 102.68329 };
+//double[] b = LocationUtil.MapPointTxTurnBaiDu(25.075033, 102.676643);
+double[] b = new double[2] { 25.08083, 102.68329 };
+Console.WriteLine($"花香四季---花香四季5栋:{MapHelper.GetDistanceGoogle(new MapPoint(a[1], a[0]), new MapPoint(b[1], b[0])) / 1000}公里");
+//a = LocationUtil.MapPointTxTurnBaiDu(25.100046, 102.661309);
+a = new double[2] { 25.100046, 102.661309 };
+Console.WriteLine($"清河居---花香四季5栋:{MapHelper.GetDistanceGoogle(new MapPoint(a[1],a[0]), new MapPoint(b[1], b[0])) / 1000}公里");
+//a = LocationUtil.MapPointTxTurnBaiDu(39.90, 116.38);
+a = new double[2] { 39.90, 116.38 };
+Console.WriteLine($"北京天安门---花香四季5栋:{MapHelper.GetDistanceGoogle(new MapPoint(a[1], a[0]), new MapPoint(b[1], b[0])) / 1000}公里");
 
 //double distance = 1000;
 //Console.WriteLine($"花香四季:{MapHelper.InLimitDistance(new MapPoint(102.70737, 25.04347), points.ToList(), distance)}");

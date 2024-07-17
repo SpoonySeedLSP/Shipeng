@@ -264,9 +264,11 @@ namespace Shipeng.Util
         /// </summary>
         /// <param name="list">待压缩的文件或目录集合</param>
         /// <param name="strZipName">压缩后的文件名</param>
-        /// <param name="IsDirStruct">是否按目录结构压缩</param>
+        /// <param name="isDirStruct">是否按目录结构压缩</param>
+        /// <param name="splitString">文件/目录名称分割字符串</param>
+        /// <param name="splitIndex">文件/目录名称按分割符截取的索引</param>
         /// <returns>成功：true/失败：false</returns>
-        public static bool CompressMulti(List<string> list, string strZipName, bool IsDirStruct)
+        public static bool CompressMulti(List<string> list, string strZipName, bool isDirStruct,string splitString = "",int? splitIndex = null)
         {
             try
             {
@@ -275,10 +277,14 @@ namespace Shipeng.Util
                     foreach (string path in list)
                     {
                         string fileName = Path.GetFileName(path);//取目录名称
+                        if(!string.IsNullOrWhiteSpace(splitString) && fileName.Contains(splitString) && splitIndex != null)
+                        {
+                            fileName = fileName.Split(splitString)[(int)splitIndex];
+                        }
                         //如果是目录
                         if (Directory.Exists(path))
                         {
-                            if (IsDirStruct)//按目录结构压缩
+                            if (isDirStruct)//按目录结构压缩
                             {
                                 zip.AddDirectory(path, fileName);
                             }
@@ -299,6 +305,33 @@ namespace Shipeng.Util
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// 多个文件压缩打包
+        /// </summary>
+        /// <param name="filePaths">待压缩的文件路径集合</param>
+        /// <param name="zipPath">压缩后的文件存储路径</param>
+        /// <param name="splitString">文件名称分割字符串</param>
+        /// <param name="splitIndex">文件名称按分割符截取的索引</param>
+        public static void CompressMulti(string[] filePaths, string zipPath, string splitString = "", int? splitIndex = null)
+        {
+            // 创建压缩文件
+            using (FileStream zipFileStream = new FileStream(zipPath, FileMode.Create))
+            {
+                using (ZipArchive zipArchive = new ZipArchive(zipFileStream, ZipArchiveMode.Create))
+                {
+                    foreach (string filePath in filePaths)
+                    {
+                        string fileName = Path.GetFileName(filePath);
+                        if (!string.IsNullOrWhiteSpace(splitString) && fileName.Contains(splitString) && splitIndex != null)
+                        {
+                            fileName = fileName.Split(splitString)[(int)splitIndex];
+                        }
+                        zipArchive.CreateEntryFromFile(filePath, fileName);
+                    }
+                }
             }
         }
 
