@@ -1,0 +1,230 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!--
+      中文：Shipeng.Foundation 面向 .NET 10，定位为可复用的基础能力库、工具库和基础设施集成库。
+      English: Shipeng.Foundation targets .NET 10 and is positioned as a reusable foundation, utility, and infrastructure integration library.
+    -->
+    <TargetFramework>net10.0</TargetFramework>
+
+    <!--
+      中文：启用 SDK 默认 using，减少样板代码；公开 API 仍保留历史命名空间以兼容旧项目。
+      English: Enables SDK implicit usings to reduce boilerplate while keeping legacy public namespaces for compatibility.
+    -->
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!--
+      中文：为了兼容历史代码，当前暂不强制启用可空引用类型分析；后续可按模块逐步开启。
+      English: Nullable analysis is disabled for legacy compatibility and can be enabled gradually by module in future releases.
+    -->
+    <Nullable>disable</Nullable>
+
+    <!--
+      中文：少量底层/第三方兼容场景需要 unsafe 支持；业务调用方不需要主动使用 unsafe。
+      English: A few low-level or third-party compatibility scenarios require unsafe support; normal callers do not need unsafe code.
+    -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!--
+      中文：项目构建时自动生成 NuGet 包，方便本地验证和内部发布。
+      English: Generates a NuGet package during build for local validation and internal publishing workflows.
+    -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <!--
+      中文：NuGet 包身份。项目原名为 Shipeng.Util，现统一为更适合基础库定位的 Shipeng.Foundation。
+      English: NuGet package identity. The project was formerly Shipeng.Util and is now aligned to Shipeng.Foundation.
+    -->
+    <PackageId>Shipeng.Foundation</PackageId>
+
+    <!--
+      中文：程序集名与包名保持一致，便于诊断、打包、发布和运行时识别。
+      English: Assembly name matches the package identity for diagnostics, packaging, publishing, and runtime discovery.
+    -->
+    <AssemblyName>Shipeng.Foundation</AssemblyName>
+
+    <!--
+      中文：默认根命名空间。注意：部分公开类型仍保留 Shipeng.Util 命名空间以保证兼容性。
+      English: Default root namespace. Some public types intentionally keep Shipeng.Util namespaces for compatibility.
+    -->
+    <RootNamespace>Shipeng.Foundation</RootNamespace>
+
+    <!--
+      中文：当前包版本。升级公开 API 或依赖范围时请同步更新 README 和发布说明。
+      English: Current package version. Update the README and release notes when public APIs or dependency scope changes.
+    -->
+    <Version>4.0.0</Version>
+
+    <!--
+      中文：包作者。发布到公开 NuGet 源前可补充组织、项目地址、许可证等信息。
+      English: Package author. Add organization, project URL, and license information before publishing to a public NuGet feed.
+    -->
+    <Authors>lishipeng</Authors>
+
+    <!--
+      中文：产品名称，显示在包管理器、程序集信息和部分诊断工具中。
+      English: Product name shown in package managers, assembly metadata, and some diagnostic tools.
+    -->
+    <Product>Shipeng.Foundation</Product>
+
+    <!--
+      中文：NuGet 标签用于提升搜索可发现性，覆盖工具库、基础设施、数据访问、缓存、消息、Office、二维码、认证、日志等核心能力。
+      English: NuGet tags improve discoverability and describe the main capability areas of the package.
+    -->
+    <PackageTags>shipeng;foundation;utility;helpers;infrastructure;dotnet;net10;aspnetcore;cache;redis;mongodb;sqlserver;sqlsugar;efcore;rabbitmq;minio;excel;word;qrcode;jwt;swagger;openapi;logging;serilog;mapster;automapper;payment;sms</PackageTags>
+
+    <!--
+      中文：包发布说明会显示在 NuGet 客户端/包详情页中，应同时说明升级内容、兼容策略和验证结果。
+      English: Package release notes are shown by NuGet clients and should describe upgrades, compatibility, and validation status.
+    -->
+    <PackageReleaseNotes>中文：4.0.0 升级到 net10.0，项目和 NuGet 包身份统一为 Shipeng.Foundation，同时保留 Shipeng.Util 公开命名空间以兼容历史项目；合并通用工具、数据访问、MongoDB、SqlSugar、EF Core、RabbitMQ、MinIO、Office、二维码、JWT、Swagger/OpenAPI、日志、映射、支付、短信等基础设施能力；新增 ID 字符串辅助类和 MongoDB + SQL Server 混合分页查询辅助类；更新依赖并完成编译、打包、过期包和漏洞包检查。 English: Version 4.0.0 targets net10.0, renames the project and NuGet identity to Shipeng.Foundation, keeps Shipeng.Util public namespaces for compatibility, merges reusable utilities and infrastructure helpers, adds ID string and MongoDB + SQL Server hybrid pagination helpers, updates dependencies, and verifies build, package generation, outdated package checks, and vulnerability checks.</PackageReleaseNotes>
+
+    <!--
+      中文：版权信息。公开发布前建议确认公司/个人版权主体是否需要调整。
+      English: Copyright metadata. Review the owner before public distribution.
+    -->
+    <Copyright>lishipeng</Copyright>
+
+    <!--
+      中文：NuGet 包详情页主描述，要求尽量完整但保持单段文本，便于包管理器展示。
+      English: Main NuGet package description. Keep it descriptive and readable as a single package metadata field.
+    -->
+    <Description>中文：Shipeng.Foundation 是面向 .NET 10 的基础能力库，提供通用工具、扩展方法、缓存、Redis、MongoDB、SQL、SqlSugar、EF Core、RabbitMQ、MinIO、Excel、Word、二维码、加解密、序列化、分页、树结构、JWT、Swagger/OpenAPI、日志、对象映射、支付、短信和 ASP.NET Core 基础设施集成能力；适合后台管理系统、业务中台、企业应用、微服务和通用 Web API 项目复用。English: Shipeng.Foundation is a .NET 10 foundation library that provides reusable utilities, extension methods, caching, Redis, MongoDB, SQL, SqlSugar, EF Core, RabbitMQ, MinIO, Excel, Word, QR code, cryptography, serialization, pagination, tree structures, JWT, Swagger/OpenAPI, logging, object mapping, payment, SMS, and ASP.NET Core infrastructure integrations for enterprise applications, admin systems, business platforms, microservices, and Web API projects.</Description>
+
+    <!--
+      中文：NuGet 包内 README。发布后 NuGet 页面会优先展示该文档。
+      English: README file packed into the NuGet package and shown by NuGet clients.
+    -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!--
+      中文：程序集发布说明，和 PackageReleaseNotes 保持一致但更偏本地程序集元数据。
+      English: Assembly release notes, aligned with PackageReleaseNotes for local metadata consumers.
+    -->
+    <ReleaseNotes>中文：4.0.0 升级到 net10.0，项目名改为 Shipeng.Foundation，保留 Shipeng.Util 命名空间兼容旧项目，补充基础设施模块、混合分页辅助类、ID 字符串辅助类，更新依赖并完成编译、打包和 NuGet 检查。 English: Version 4.0.0 targets net10.0, renames the project to Shipeng.Foundation, preserves Shipeng.Util namespaces for compatibility, adds infrastructure modules, hybrid pagination and ID string helpers, updates dependencies, and verifies build, packing, and NuGet checks.</ReleaseNotes>
+
+    <!--
+      中文：NPOI 依赖需要明确接受 OOXML 相关许可证标记，避免构建/打包时出现许可证确认问题。
+      English: Explicitly accepts the NPOI OOXML license flag to avoid build or packaging prompts.
+    -->
+    <AcceptNPOIOSMFLicense>true</AcceptNPOIOSMFLicense>
+
+    <!--
+      中文：集中管理已评估的兼容性警告。新增 NoWarn 前必须确认原因，并优先修复真实问题。
+      English: Centralized list of reviewed compatibility warnings. Prefer fixing real issues before adding new NoWarn entries.
+    -->
+    <NoWarn>$(NoWarn);CS8632;NU1510;NU1608</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Shipeng.Expand.Thirdparty\DingDing\**\*.cs" />
+    <None Include="Shipeng.Expand.Thirdparty\DingDing\**\*.cs" Pack="true" PackagePath="src\Shipeng.Expand.Thirdparty\DingDing\" />
+    <EmbeddedResource Include="Shipeng\SpecificationDocument\Assets\*.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Abp.AutoMapper" Version="10.4.0" />
+    <PackageReference Include="AspectCore.Abstractions" Version="2.4.0" />
+    <PackageReference Include="Aspose.Cells" Version="26.6.0" />
+    <PackageReference Include="Aspose.Words" Version="26.6.0" />
+    <PackageReference Include="Autofac" Version="9.3.0" />
+    <PackageReference Include="Caching.CSRedis" Version="3.8.807" />
+    <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
+    <PackageReference Include="ce.office.extension" Version="2.0.0" />
+    <PackageReference Include="CSRedisCore" Version="3.8.807" />
+    <PackageReference Include="DotNettySocket" Version="1.2.0" />
+    <PackageReference Include="DotNetZip.Original" Version="2025.2.15" />
+    <PackageReference Include="EFCore.Sharding.PostgreSql" Version="9.0.10" />
+    <PackageReference Include="EFCore.Sharding.SqlServer" Version="9.0.10" />
+    <PackageReference Include="EPPlus" Version="8.6.1" />
+    <PackageReference Include="FreeSpire.Office" Version="8.2.0" />
+    <PackageReference Include="IdHelper.Zookeeper" Version="1.5.1" />
+    <PackageReference Include="JPushSDK" Version="1.0.0" />
+    <PackageReference Include="MailKit" Version="4.17.0" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.3.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Html.Abstractions" Version="2.3.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.11" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.11" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
+    <PackageReference Include="Minio" Version="7.0.0" />
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.5.4" />
+    <PackageReference Include="MongoDB.Bson" Version="3.9.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.9.0" />
+    <PackageReference Include="MySqlConnector" Version="2.6.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="NodaTime" Version="3.3.2" />
+    <PackageReference Include="Npgsql" Version="10.0.3" />
+    <PackageReference Include="NPOI" Version="2.8.0" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.200" />
+    <PackageReference Include="PinYinConverterCore" Version="1.0.2" />
+    <PackageReference Include="QRCoder" Version="1.8.0" />
+    <PackageReference Include="Quartz" Version="3.18.2" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.2.1" />
+    <PackageReference Include="Serenity.Web" Version="3.14.5" />
+    <PackageReference Include="ServiceStack.Redis" Version="10.0.8" />
+    <PackageReference Include="SharpCompress" Version="0.49.1" />
+    <PackageReference Include="SqlSugar.IOC" Version="2.0.1" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.215" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.9" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.2" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="10.0.652802" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.9" NoWarn="NU1510" />
+    <PackageReference Include="ThoughtWorks.QRCodeCore" Version="1.0.0" />
+    <PackageReference Include="ToolGood.Words" Version="3.1.0.3" />
+    <PackageReference Include="ZKWeb.System.Drawing" Version="4.0.1" />
+    <PackageReference Include="ZXing.Net.Bindings.ImageSharp.V2" Version="0.16.18" />
+    <PackageReference Include="ZXing.Net.Bindings.ZKWeb.System.Drawing" Version="0.16.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
+    <PackageReference Include="AutoMapper.Collection" Version="13.0.0" />
+    <PackageReference Include="Azure.Identity" Version="1.21.0" />
+    <PackageReference Include="aliyun-net-sdk-core" Version="1.6.2" />
+    <PackageReference Include="Ben.Demystifier" Version="0.4.1" />
+    <PackageReference Include="log4net" Version="3.3.2" />
+    <PackageReference Include="Mapster" Version="10.0.9" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="10.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="6.0.36" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="10.0.9" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.19.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
+    <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.2.0" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="10.23.26200" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+    <PackageReference Include="Senparc.Weixin.Work" Version="3.31.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.50.3" />
+    <PackageReference Include="Snappier" Version="1.3.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.1" />
+    <PackageReference Include="TencentCloudSDK.Sms" Version="3.0.1435" />
+    <PackageReference Include="XmpCore" Version="6.1.10.1" />
+    <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
+  </ItemGroup>
+
+</Project>

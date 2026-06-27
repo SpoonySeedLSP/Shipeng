@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -11,18 +11,18 @@
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="LogDashboard" Version="1.4.8" />
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
 		<PackageReference Include="PwnedPasswords.Client" Version="1.2.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
-		<PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
-		<PackageReference Include="Volo.Abp.AspNetCore" Version="5.3.4" />
-		<PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="5.3.4" />
-		<PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="5.3.4" />
-		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="5.3.4" />
-		<PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="5.3.4" />
-		<PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="5.3.4" />
-		<PackageReference Include="Volo.Abp.Autofac" Version="5.3.4" />
-		<PackageReference Include="Volo.Abp.Swashbuckle" Version="5.3.4" />
+		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
+		<PackageReference Include="Volo.Abp.AspNetCore" Version="10.4.1" />
+		<PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="10.4.1" />
+		<PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="10.4.1" />
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="10.4.1" />
+		<PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="10.4.1" />
+		<PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="10.4.1" />
+		<PackageReference Include="Volo.Abp.Autofac" Version="10.4.1" />
+		<PackageReference Include="Volo.Abp.Swashbuckle" Version="10.4.1" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Shipeng.Application\Shipeng.Application.csproj" />

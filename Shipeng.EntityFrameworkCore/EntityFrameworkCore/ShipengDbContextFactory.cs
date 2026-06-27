@@ -19,7 +19,7 @@ namespace Shipeng.EntityFrameworkCore
             switch (EnableDb)
             {
                 case "MySql":
-                    builder.UseMySql(configuration.GetConnectionString(EnableDb), MySqlServerVersion.LatestSupportedServerVersion);
+                    builder.UseMySQL(configuration.GetConnectionString(EnableDb));
                     break;
                 case "PostgreSql":
                     builder.UseNpgsql(configuration.GetConnectionString(EnableDb));
