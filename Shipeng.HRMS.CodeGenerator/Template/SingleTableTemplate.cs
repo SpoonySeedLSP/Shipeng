@@ -109,7 +109,7 @@ namespace Shipeng.HRMS.CodeGenerator
                 sb.AppendLine("    public class " + baseConfigModel.FileConfig.EntityName + " : " + baseEntity);
             }
             sb.AppendLine("    {");
-            var list = dt.ToDataList<DbColumnInfo>();
+            var list = DataTableHelper.ToDataList<DbColumnInfo>(dt);
             foreach (var item in list)
             {
                 var datatype = TableMappingHelper.GetPropertyDatatype(item.DataType);

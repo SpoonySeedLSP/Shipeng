@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Shipeng.Domain.Configurations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -153,7 +153,7 @@ namespace Shipeng.Hosting.SwaggerExtensions
             public string Name { get; set; }
 
             /// <summary>
-            /// <see cref="Microsoft.OpenApi.Models.OpenApiInfo"/>
+            /// <see cref="Microsoft.OpenApi.OpenApiInfo"/>
             /// </summary>
             public OpenApiInfo OpenApiInfo { get; set; }
         }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.AdoJobStore.Common;
@@ -35,7 +35,7 @@ namespace Shipeng.HRMS.Service
                 var db = new SqlSugarClient(configList);
                 configList.ForEach(config =>
                 {
-                    string temp = config.ConfigId;
+                    string temp = config.ConfigId?.ToString();
                     db.GetConnection(temp).DefaultConfig();
                 });
                 return db;
