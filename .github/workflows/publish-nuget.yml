@@ -30,7 +30,11 @@ jobs:
         run: dotnet build "Shipeng.Foundation/Shipeng.Foundation.csproj" --configuration Release --no-restore -v:q -clp:ErrorsOnly
 
       - name: Pack
-        run: dotnet pack "Shipeng.Foundation/Shipeng.Foundation.csproj" --configuration Release --no-build --output artifacts -v:q -clp:ErrorsOnly
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\artifacts"
+          dotnet pack "Shipeng.Foundation/Shipeng.Foundation.csproj" --configuration Release --output "${{ github.workspace }}\artifacts" -v:minimal
+          Get-ChildItem "${{ github.workspace }}\artifacts" -Filter *.nupkg
 
       - name: NuGet login with Trusted Publishing
         uses: NuGet/login@v1
@@ -39,4 +43,13 @@ jobs:
           user: SpoonySeedLSP
 
       - name: Push package to nuget.org
-        run: dotnet nuget push "artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+        shell: pwsh
+        run: |
+          $packages = Get-ChildItem "${{ github.workspace }}\artifacts" -Filter *.nupkg
+          if (-not $packages) {
+            throw "No .nupkg files found in artifacts directory."
+          }
+
+          foreach ($package in $packages) {
+            dotnet nuget push $package.FullName --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }
