@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -25,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipeng.Hosting", "Shipeng.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Util", "Util", "{6F42835B-5611-4C51-B411-B3A70AF8C9A4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipeng.Util", "Shipeng.Util\Shipeng.Util.csproj", "{8D8C2350-60A6-4713-A823-A0E2F8E13C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipeng.Foundation", "Shipeng.Foundation\Shipeng.Foundation.csproj", "{8D8C2350-60A6-4713-A823-A0E2F8E13C8B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shipeng.DbMigrator", "Shipeng.DbMigrator\Shipeng.DbMigrator.csproj", "{675E6FDC-8CB6-4488-975E-E65DB7374A31}"
 EndProject

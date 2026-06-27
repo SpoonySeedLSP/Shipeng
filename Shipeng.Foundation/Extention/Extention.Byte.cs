@@ -1,0 +1,205 @@
+﻿using System.Runtime.Serialization;
+using System.Text;
+using System.Xml;
+
+namespace Shipeng.Util
+{
+    /// <summary>
+    /// 拓展类
+    /// </summary>
+    public static partial class Extention
+    {
+        public static Exception GetOriginalException(this Exception ex)
+        {
+            if (ex.InnerException == null) return ex;
+
+            return ex.InnerException.GetOriginalException();
+        }
+
+        /// <summary>
+        /// byte[]转string 注：默认使用UTF8编码
+        /// </summary>
+        /// <param name="bytes"> byte[]数组 </param>
+        /// <returns> </returns>
+        public static string ToString(this byte[] bytes)
+        {
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        /// <summary>
+        /// byte[]转string
+        /// </summary>
+        /// <param name="bytes"> byte[]数组 </param>
+        /// <param name="encoding"> 指定编码 </param>
+        /// <returns> </returns>
+        public static string ToString(this byte[] bytes, Encoding encoding)
+        {
+            return encoding.GetString(bytes);
+        }
+
+        /// <summary>
+        /// 将byte[]转为Base64字符串
+        /// </summary>
+        /// <param name="bytes"> 字节数组 </param>
+        /// <returns> </returns>
+        public static string ToBase64String(this byte[] bytes)
+        {
+            return Convert.ToBase64String(bytes);
+        }
+
+        /// <summary>
+        /// 转为二进制字符串
+        /// </summary>
+        /// <param name="aByte"> 字节 </param>
+        /// <returns> </returns>
+        public static string ToBinString(this byte aByte)
+        {
+            return new byte[] { aByte }.ToBinString();
+        }
+
+        /// <summary>
+        /// 转为二进制字符串 注:一个字节转为8位二进制
+        /// </summary>
+        /// <param name="bytes"> 字节数组 </param>
+        /// <returns> </returns>
+        public static string ToBinString(this byte[] bytes)
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (byte aByte in bytes)
+            {
+                builder.Append(Convert.ToString(aByte, 2).PadLeft(8, '0'));
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// Byte数组转为对应的16进制字符串
+        /// </summary>
+        /// <param name="bytes"> Byte数组 </param>
+        /// <returns> </returns>
+        public static string To0XString(this byte[] bytes)
+        {
+            StringBuilder resStr = new StringBuilder();
+            bytes.ToList().ForEach(aByte =>
+            {
+                resStr.Append(aByte.ToString("x2"));
+            });
+
+            return resStr.ToString();
+        }
+
+        /// <summary>
+        /// Byte数组转为对应的16进制字符串
+        /// </summary>
+        /// <param name="aByte"> 一个Byte </param>
+        /// <returns> </returns>
+        public static string To0XString(this byte aByte)
+        {
+            return new byte[] { aByte }.To0XString();
+        }
+
+        /// <summary>
+        /// 转为ASCII字符串（一个字节对应一个字符）
+        /// </summary>
+        /// <param name="bytes"> 字节数组 </param>
+        /// <returns> </returns>
+        public static string ToASCIIString(this byte[] bytes)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            bytes.ToList().ForEach(aByte =>
+            {
+                stringBuilder.Append((char)aByte);
+            });
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// 转为ASCII字符串（一个字节对应一个字符）
+        /// </summary>
+        /// <param name="aByte"> 字节数组 </param>
+        /// <returns> </returns>
+        public static string ToASCIIString(this byte aByte)
+        {
+            return new byte[] { aByte }.ToASCIIString();
+        }
+
+        /// <summary>
+        /// 获取异或值 注：每个字节异或
+        /// </summary>
+        /// <param name="bytes"> 字节数组 </param>
+        /// <returns> </returns>
+        public static byte GetXOR(this byte[] bytes)
+        {
+            int value = bytes[0];
+            for (int i = 1; i < bytes.Length; i++)
+            {
+                value = value ^ bytes[i];
+            }
+
+            return (byte)value;
+        }
+
+        /// <summary>
+        /// 将字节数组转为Int类型
+        /// </summary>
+        /// <param name="bytes"> 字节数组 </param>
+        /// <returns> </returns>
+        public static int ToInt(this byte[] bytes)
+        {
+            int num = 0;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                num += bytes[i] * ((int)Math.Pow(256, bytes.Length - i - 1));
+            }
+
+            return num;
+        }
+
+        /// <summary>
+        /// 将一个序列化后的byte[]数组还原
+        /// </summary>
+        /// <typeparam name="T"> 返回类型 </typeparam>
+        /// <param name="bytes"> 字节数组 </param>
+        /// <returns> </returns>
+        public static T ToObject<T>(this byte[] bytes)
+        {
+            if (bytes == null)
+            {
+                return default(T);
+            }
+
+            using MemoryStream memoryStream = new MemoryStream(bytes);
+            XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(memoryStream, new XmlDictionaryReaderQuotas());
+            DataContractSerializer ser = new DataContractSerializer(typeof(T));
+            T result = (T)ser.ReadObject(reader, true);
+            return result;
+        }
+
+        public static byte[] StreamToBytes(this Stream stream)
+        {
+            List<byte> bytes = new List<byte>();
+            int temp = stream.ReadByte();
+            while (temp != -1)
+            {
+                bytes.Add((byte)temp);
+                temp = stream.ReadByte();
+            }
+            return bytes.ToArray();
+        }
+
+        /// <summary>
+        /// 将 Stream 转成 byte[]
+        /// </summary>
+        public static byte[] ToStreamToBytes(this Stream stream)
+        {
+            byte[] bytes = new byte[stream.Length];
+            stream.ReadExactly(bytes, 0, bytes.Length);
+
+            // 设置当前流的位置为流的开始
+            stream.Seek(0, SeekOrigin.Begin);
+            return bytes;
+        }
+    }
+}

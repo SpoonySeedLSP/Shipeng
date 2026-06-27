@@ -75,7 +75,12 @@
         </member>
         <member name="P:Shipeng.Hosting.SwaggerExtensions.ShipengSwaggerExtensions.SwaggerApiInfo.OpenApiInfo">
             <summary>
-            <see cref="T:Microsoft.OpenApi.Models.OpenApiInfo"/>
+            <see cref="T:Microsoft.OpenApi.OpenApiInfo"/>
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
             </summary>
         </member>
     </members>
